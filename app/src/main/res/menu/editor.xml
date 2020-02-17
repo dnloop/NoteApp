@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_category"
+        android:icon="@drawable/ic_bookmark_black_24dp"
+        android:title="@string/item_category" />
+    <item
+        android:id="@+id/item_tag"
+        android:icon="@drawable/ic_tag"
+        android:title="@string/item_tag" />
+    <item
+        android:id="@+id/item_archive"
+        android:icon="@drawable/ic_archive_black_24dp"
+        android:title="@string/item_archive" />
+    <item
+        android:id="@+id/item_trash"
+        android:icon="@drawable/ic_delete_black_24dp"
+        android:title="@string/item" />
+</menu>

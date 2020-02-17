@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="io.github.dnloop.noteapp.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/content_main">
+        <action
+            android:id="@+id/action_nav_home_to_nav_category"
+            app:destination="@id/nav_category" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_share"
+            app:destination="@id/nav_share" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_content_note"
+            app:destination="@+id/nav_content_note" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_category"
+        android:name="io.github.dnloop.noteapp.ui.category.CategoryFragment"
+        android:label="@string/menu_category"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_nav_category_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="io.github.dnloop.noteapp.ui.share.ShareFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/fragment_share" />
+
+    <fragment
+        android:id="@+id/nav_content_note"
+        android:name="io.github.dnloop.noteapp.ui.note.ContentNoteFragment"
+        android:label="@string/content_note"
+        tools:layout="@layout/content_note">
+        <action
+            android:id="@+id/action_nav_content_note_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_archive"
+        android:name="io.github.dnloop.noteapp.archive.ArchiveFragment"
+        android:label="@string/menu_archive"
+        tools:layout="@layout/fragment_archive" />
+</navigation>

@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Note App</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">NoTA</string>
+    <string name="nav_header_subtitle">Note Taking App</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_category">Categories</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_add_note">Add Note</string>
+    <string name="menu_edit_note">Edit Note</string>
+    <string name="menu_archive">Archive</string>
+
+    <string name="content_note">Note</string>
+    <string name="text_title">Title</string>
+    <string name="text_body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat diam sit amet velit sagittis dapibus. Vivamus vel elit quis sem placerat iaculis. Nam velit mauris, ornare non nunc id, rutrum efficitur nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam vel dolor vel purus fermentum commodo vel ut nunc. Phasellus blandit et orci vitae gravida. Nullam a condimentum quam, non elementum ante. Cras porttitor rutrum arcu id tempus. Morbi imperdiet quis lectus non semper. Nulla in tempor nunc. Sed justo leo, molestie sed laoreet at, tincidunt sed nibh. Sed convallis convallis risus ac sodales.</string>
+    <string name="text_category">Category</string>
+    <string name="text_timestamp">1970 05:34:30</string><!-- TODO Remove this on production  -->
+    <string name="hint_title">Title</string>
+    <string name="hint_content">Content</string>
+    <string name="item_category">Category</string>
+    <string name="item_tag">Tag</string>
+    <string name="item_archive">Archive</string>
+    <string name="item">Trash</string>
+    <string name="tab_note">Note</string>
+    <string name="tab_tags">Tags</string>
+
+</resources>
