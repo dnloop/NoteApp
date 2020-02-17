@@ -10,9 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".archive.ArchiveFragment">
-
-        <!-- TODO: Update blank fragment layout -->
+        tools:context=".ui.archive.ArchiveFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/archive_list"
