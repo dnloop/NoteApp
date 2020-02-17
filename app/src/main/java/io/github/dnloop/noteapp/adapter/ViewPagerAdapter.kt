@@ -1,9 +1,12 @@
-package io.github.dnloop.noteapp.ui.note
+package io.github.dnloop.noteapp.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
+import io.github.dnloop.noteapp.ui.note.AddNoteFragment
+import io.github.dnloop.noteapp.ui.note.EditNoteFragment
+import io.github.dnloop.noteapp.ui.tag.TagFragment
 
 class ViewPagerAdapter(fm: FragmentManager, private val code: Int) : FragmentPagerAdapter(fm) {
 
