@@ -3,11 +3,21 @@ package io.github.dnloop.noteapp.ui.category
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.github.dnloop.noteapp.data.Category
 
 class CategoryViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
+    private val notes: MutableLiveData<List<Category>> by lazy {
+        MutableLiveData<List<Category>>().also {
+            loadCategories()
+        }
     }
-    val text: LiveData<String> = _text
+
+    fun getCategories(): LiveData<List<Category>> {
+        return notes
+    }
+
+    private fun loadCategories() {
+        // Do an asynchronous operation to fetch categories.
+    }
 }
