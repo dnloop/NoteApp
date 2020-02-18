@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="folderViewModel"
+            type="io.github.dnloop.noteapp.ui.folder.FolderViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

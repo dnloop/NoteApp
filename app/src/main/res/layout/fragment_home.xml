@@ -4,6 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+        name="homeViewModel"
+        type="io.github.dnloop.noteapp.ui.home.HomeViewModel" />
 
     </data>
   <androidx.constraintlayout.widget.ConstraintLayout
