@@ -4,9 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface NoteDatabaseDao {
+interface NoteDao {
+
+    /**
+    * Adds a new Note
+    *
+    * @param note new note value to write
+    */
     @Insert
-    fun insert(note: Note)
+    fun insert(note: Note): Int
+
+    /**
+     * Inserts a note matching the categoryId.
+     *
+     * @param note the note to be added
+     * @param category the category for the note
+     */
+    @Transaction
+    fun insertWithCategory(note: Note, category: Category){
+        note.categoryId = category.id
+        insert(note)
+    }
 
     /**
      * When updating a row with a value already set in a column,
@@ -27,8 +45,6 @@ interface NoteDatabaseDao {
 
     /**
      * Deletes all values from the table.
-     *
-     * This does not delete the table, only its contents.
      */
     @Query("DELETE FROM Note")
     fun clear()
@@ -42,31 +58,17 @@ interface NoteDatabaseDao {
     fun getAllNotes(): LiveData<List<Note>>
 
     /**
-     * Selects and returns the latest note.
+     * Selects and returns the latest Note.
      */
     @Query("SELECT * FROM Note ORDER BY id DESC LIMIT 1")
     fun getLatest(): Note?
 
 
     /**
-     * Selects the Notes with a category.
+     * Selects the Notes with a Category.
      */
     @Transaction
     @Query("SELECT * FROM Note")
     fun getNotesWithCategory(): LiveData<List<NoteWithCategory>>
-
-    /**
-     * Selects all Notes with Tags.
-     */
-    @Transaction
-    @Query("SELECT * FROM Note")
-    fun getNotesWithTags(): List<NotesWithTags>
-
-    /**
-     * Selects all Tags with Notes.
-     */
-    @Transaction
-    @Query("SELECT * FROM Tag")
-    fun getTagsWithNotes(): List<TagsWithNotes>
 
 }
