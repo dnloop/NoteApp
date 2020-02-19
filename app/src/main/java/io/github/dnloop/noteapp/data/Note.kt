@@ -13,15 +13,15 @@ data class Note (
     var archived : Boolean,
     // CRUD values
     var deleted : Boolean,
-    var createdAt : Timestamp,
-    var modifiedAt : Timestamp,
-    var deletedAt : Timestamp
+    var createdAt : Long,
+    var modifiedAt : Long,
+    var deletedAt : Long?
 
 )
 
 data class NoteWithCategory(
     @Embedded val note : Note,
-    @Relation(parentColumn = "id", entityColumn = "categoryId")
+    @Relation(parentColumn = "id", entityColumn = "id")
     val category : Category
 )
 

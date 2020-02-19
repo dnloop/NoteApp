@@ -4,14 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface TagDao {
+abstract class TagDao {
     /**
      * Adds a new Tag
      *
      * @param tag new tag value to write
      */
     @Insert
-    fun insert(tag: Tag): Int
+    abstract fun insert(tag: Tag)
+
+    fun insertWithTimestamp(tag: Tag) {
+        insert(tag.apply {
+            createdAt = System.currentTimeMillis()
+            modifiedAt = System.currentTimeMillis()
+        })
+    }
 
     /**
      * When updating a row with a value already set in a column,
@@ -20,7 +27,13 @@ interface TagDao {
      * @param tag new value to write
      */
     @Update
-    fun update(tag: Tag)
+    abstract fun update(tag: Tag)
+
+    fun updateWithTimestamp(tag: Tag) {
+        update(tag.apply {
+            modifiedAt = System.currentTimeMillis()
+        })
+    }
 
     /**
      * Selects and returns the row that matches the supplied noteId.
@@ -28,7 +41,7 @@ interface TagDao {
      * @param key id
      */
     @Query("SELECT * from tag WHERE id = :key")
-    fun get(key: Long): LiveData<Tag>
+    abstract fun get(key: Long): LiveData<Tag>
 
     /**
      * Deletes all values from the table.
@@ -36,7 +49,7 @@ interface TagDao {
      * This does not delete the table, only its contents.
      */
     @Query("DELETE FROM Tag")
-    fun clear()
+    abstract fun clear()
 
     /**
      * Selects and returns all rows in the table,
@@ -44,5 +57,5 @@ interface TagDao {
      * sorted by id in descending order.
      */
     @Query("SELECT * FROM Tag ORDER BY id DESC")
-    fun getAllTags(): LiveData<List<Tag>>
+    abstract fun getAllTags(): LiveData<List<Tag>>
 }

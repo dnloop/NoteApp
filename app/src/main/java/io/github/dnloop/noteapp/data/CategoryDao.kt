@@ -4,14 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface CategoryDao {
+abstract class CategoryDao {
     /**
      * Adds a new Category
      *
      * @param category new category value to write
      */
     @Insert
-    fun insert(category: Category)
+    abstract fun insert(category: Category)
+
+    fun insertWithTimestamp(category: Category) {
+        insert(category.apply {
+            createdAt = System.currentTimeMillis()
+            modifiedAt = System.currentTimeMillis()
+        })
+    }
 
     /**
      * When updating a row with a value already set in a column,
@@ -20,7 +27,13 @@ interface CategoryDao {
      * @param category new value to write
      */
     @Update
-    fun update(category: Category)
+    abstract fun update(category: Category)
+
+    fun updateWithTimestamp(category: Category) {
+        update(category.apply {
+            modifiedAt = System.currentTimeMillis()
+        })
+    }
 
     /**
      * Selects and returns the row that matches the supplied noteId.
@@ -28,13 +41,13 @@ interface CategoryDao {
      * @param key id
      */
     @Query("SELECT * from category WHERE id = :key")
-    fun get(key: Long): LiveData<Category>
+    abstract fun get(key: Long): LiveData<Category>
 
     /**
      * Deletes all values from the table.
      */
     @Query("DELETE FROM Category")
-    fun clear()
+    abstract fun clear()
 
     /**
      * Selects and returns all rows in the table,
@@ -42,5 +55,5 @@ interface CategoryDao {
      * sorted by noteId in descending order.
      */
     @Query("SELECT * FROM Category ORDER BY id DESC")
-    fun getAllNotes(): LiveData<List<Category>>
+    abstract fun getAllNotes(): LiveData<List<Category>>
 }

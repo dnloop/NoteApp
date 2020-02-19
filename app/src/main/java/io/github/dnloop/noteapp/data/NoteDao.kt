@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface NoteDao {
+abstract class NoteDao {
 
     /**
     * Adds a new Note
@@ -12,7 +12,14 @@ interface NoteDao {
     * @param note new note value to write
     */
     @Insert
-    fun insert(note: Note): Int
+    abstract fun insert(note: Note)
+
+    fun insertWithTimestamp(note: Note) {
+        insert(note.apply{
+            createdAt = System.currentTimeMillis()
+            modifiedAt = System.currentTimeMillis()
+        })
+    }
 
     /**
      * Inserts a note matching the categoryId.
@@ -21,6 +28,7 @@ interface NoteDao {
      * @param category the category for the note
      */
     @Transaction
+    @Insert
     fun insertWithCategory(note: Note, category: Category){
         note.categoryId = category.id
         insert(note)
@@ -33,7 +41,13 @@ interface NoteDao {
      * @param note new value to write
      */
     @Update
-    fun update(note: Note)
+    abstract fun update(note: Note)
+
+    fun updateWithTimestamp(note: Note) {
+        update(note.apply {
+            modifiedAt = System.currentTimeMillis()
+        })
+    }
 
     /**
      * Selects and returns the row that matches the supplied noteId.
@@ -41,13 +55,13 @@ interface NoteDao {
      * @param key noteId
      */
     @Query("SELECT * from note WHERE id = :key")
-    fun get(key: Long): LiveData<Note>
+    abstract fun get(key: Long): LiveData<Note>
 
     /**
      * Deletes all values from the table.
      */
     @Query("DELETE FROM Note")
-    fun clear()
+    abstract fun clear()
 
     /**
      * Selects and returns all rows in the table,
@@ -55,13 +69,13 @@ interface NoteDao {
      * sorted by noteId in descending order.
      */
     @Query("SELECT * FROM Note ORDER BY id DESC")
-    fun getAllNotes(): LiveData<List<Note>>
+    abstract fun getAllNotes(): LiveData<List<Note>>
 
     /**
      * Selects and returns the latest Note.
      */
     @Query("SELECT * FROM Note ORDER BY id DESC LIMIT 1")
-    fun getLatest(): Note?
+    abstract fun getLatest(): Note?
 
 
     /**
@@ -69,6 +83,6 @@ interface NoteDao {
      */
     @Transaction
     @Query("SELECT * FROM Note")
-    fun getNotesWithCategory(): LiveData<List<NoteWithCategory>>
+    abstract fun getNotesWithCategory(): LiveData<List<NoteWithCategory>>
 
 }
