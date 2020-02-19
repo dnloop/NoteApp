@@ -9,12 +9,12 @@ import androidx.room.RoomDatabase
  * A database that stores Note information.
  */
 
-@Database(entities = [Note::class], version = 1, exportSchema = false)
+@Database(entities = [Note::class, Tag::class, Category::class], version = 1, exportSchema = false)
 abstract class NoteDatabase : RoomDatabase() {
     /**
      * Connects the database to the DAO.
      */
-    abstract val noteDatabaseDao: NoteDatabaseDao
+    abstract val noteDao: NoteDao
 
     /**
      * Define a companion object, this allows us to add functions on the NoteDatabase class.
