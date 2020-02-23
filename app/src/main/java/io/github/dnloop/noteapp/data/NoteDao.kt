@@ -12,10 +12,10 @@ abstract class NoteDao {
     * @param note new note value to write
     */
     @Insert
-    abstract fun insert(note: Note)
+    abstract fun insert(note: Note) : Long
 
-    fun insertWithTimestamp(note: Note) {
-        insert(note.apply{
+    fun insertWithTimestamp(note: Note) : Long {
+        return insert(note.apply{
             createdAt = System.currentTimeMillis()
             modifiedAt = System.currentTimeMillis()
         })
@@ -29,9 +29,8 @@ abstract class NoteDao {
      */
     @Transaction
     @Insert
-    fun insertWithCategory(note: Note, category: Category){
-        note.categoryId = category.id
-        insert(note)
+    fun insertWithCategory(note: Note, category: Category) : Long {
+        return insert(note.apply { categoryId = category.id })
     }
 
     /**
