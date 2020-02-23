@@ -69,8 +69,7 @@ class NoteDaoTest {
         )
         noteDao.insert(note)
         val newNote = db.noteDao.getLatest()
-        assertEquals(newNote?.categoryId, 0)
-        assertNotNull("Null database", db.noteDao)
+        assertEquals(1, newNote?.id)
     }
 
     /**
