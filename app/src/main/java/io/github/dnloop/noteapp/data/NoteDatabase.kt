@@ -15,6 +15,7 @@ abstract class NoteDatabase : RoomDatabase() {
      * Connects the database to the DAO.
      */
     abstract val noteDao: NoteDao
+    abstract val categoryDao: CategoryDao
 
     /**
      * Define a companion object, this allows us to add functions on the NoteDatabase class.

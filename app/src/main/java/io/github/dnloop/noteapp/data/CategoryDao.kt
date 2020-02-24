@@ -11,10 +11,10 @@ abstract class CategoryDao {
      * @param category new category value to write
      */
     @Insert
-    abstract fun insert(category: Category)
+    abstract fun insert(category: Category) : Long
 
-    fun insertWithTimestamp(category: Category) {
-        insert(category.apply {
+    fun insertWithTimestamp(category: Category) : Long {
+        return insert(category.apply {
             createdAt = System.currentTimeMillis()
             modifiedAt = System.currentTimeMillis()
         })
@@ -40,8 +40,14 @@ abstract class CategoryDao {
      *
      * @param key id
      */
-    @Query("SELECT * from category WHERE id = :key")
+    @Query("SELECT * from Category WHERE id = :key")
     abstract fun get(key: Long): LiveData<Category>
+
+    /**
+     * Selects and returns the latest Category.
+     */
+    @Query("SELECT * FROM Category ORDER BY id DESC LIMIT 1")
+    abstract fun getLatest(): Category?
 
     /**
      * Deletes all values from the table.
@@ -55,5 +61,5 @@ abstract class CategoryDao {
      * sorted by noteId in descending order.
      */
     @Query("SELECT * FROM Category ORDER BY id DESC")
-    abstract fun getAllNotes(): LiveData<List<Category>>
+    abstract fun getAllCategories(): LiveData<List<Category>>
 }
