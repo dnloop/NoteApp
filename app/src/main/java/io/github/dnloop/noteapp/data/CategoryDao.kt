@@ -50,6 +50,12 @@ abstract class CategoryDao {
     abstract fun getLatest(): Category?
 
     /**
+     * Delete a single value from the table.
+     */
+    @Delete
+    abstract fun delete(category: Category)
+
+    /**
      * Deletes all values from the table.
      */
     @Query("DELETE FROM Category")

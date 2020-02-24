@@ -5,9 +5,9 @@ import androidx.room.Entity
 
 @Entity(primaryKeys = ["note_id", "tag_id"])
 data class NoteTagCrossRef(
-    @ColumnInfo(name = "note_id")
+    @ColumnInfo(name = "note_id", index = true)
     var noteId : Int,
-    @ColumnInfo(name = "tag_id")
+    @ColumnInfo(name = "tag_id", index = true)
     var tagId : Int
 ) {
     override fun equals(other: Any?): Boolean {

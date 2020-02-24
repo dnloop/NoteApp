@@ -57,6 +57,12 @@ abstract class NoteDao {
     abstract fun get(key: Long): LiveData<Note>
 
     /**
+     * Delete a single value from the table.
+     */
+    @Delete
+    abstract fun delete(note: Note)
+
+    /**
      * Deletes all values from the table.
      */
     @Query("DELETE FROM Note")
@@ -82,20 +88,20 @@ abstract class NoteDao {
      */
     @Transaction
     @Query("SELECT * FROM Note")
-    abstract fun getNotesWithCategory(): LiveData<List<NoteWithCategory>>
+    abstract fun getNotesWithCategory(): List<NoteWithCategory>
 
     /**
      * Selects all Notes with Tags.
      */
     @Transaction
     @Query("SELECT * FROM Note")
-    abstract fun getNotesWithTags(): LiveData<List<NotesWithTags>>
+    abstract fun getNotesWithTags(): List<NotesWithTags>
 
     /**
      * Selects all Tags with Notes.
      */
     @Transaction
     @Query("SELECT * FROM Tag")
-    abstract fun getTagsWithNotes(): LiveData<List<TagsWithNotes>>
+    abstract fun getTagsWithNotes(): List<TagsWithNotes>
 
 }

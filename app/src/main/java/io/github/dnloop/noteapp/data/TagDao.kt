@@ -44,6 +44,12 @@ abstract class TagDao {
     abstract fun get(key: Long): LiveData<Tag>
 
     /**
+     * Delete a single value from the table.
+     */
+    @Delete
+    abstract fun delete(tag: Tag)
+
+    /**
      * Deletes all values from the table.
      *
      * This does not delete the table, only its contents.

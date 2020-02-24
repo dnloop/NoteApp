@@ -230,9 +230,8 @@ class NoteDaoTest {
         val retNote: Long = noteDao.insertWithCategory(note, category)
         assertEquals(retNote, 1)
         // check if category exists
-        val liveData = noteDao.getNotesWithCategory()
+        val list = noteDao.getNotesWithCategory()
 
-        liveData.observeForever{}
-        assertEquals("catName", liveData.value?.get(0)?.category?.name )
+        assertEquals("catName", list[0]?.category?.name )
     }
 }
