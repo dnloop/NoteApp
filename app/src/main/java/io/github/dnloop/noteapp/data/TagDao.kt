@@ -11,10 +11,10 @@ abstract class TagDao {
      * @param tag new tag value to write
      */
     @Insert
-    abstract fun insert(tag: Tag)
+    abstract fun insert(tag: Tag): Long
 
-    fun insertWithTimestamp(tag: Tag) {
-        insert(tag.apply {
+    fun insertWithTimestamp(tag: Tag) : Long {
+        return insert(tag.apply {
             createdAt = System.currentTimeMillis()
             modifiedAt = System.currentTimeMillis()
         })
@@ -58,4 +58,11 @@ abstract class TagDao {
      */
     @Query("SELECT * FROM Tag ORDER BY id DESC")
     abstract fun getAllTags(): LiveData<List<Tag>>
+
+    /**
+     * Selects and returns the latest Category.
+     */
+    @Query("SELECT * FROM Tag ORDER BY id DESC LIMIT 1")
+    abstract fun getLatest(): Tag?
+
 }

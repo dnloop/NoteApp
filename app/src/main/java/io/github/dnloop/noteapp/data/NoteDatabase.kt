@@ -11,11 +11,13 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [Note::class, Tag::class, Category::class], version = 1, exportSchema = false)
 abstract class NoteDatabase : RoomDatabase() {
+
     /**
      * Connects the database to the DAO.
      */
     abstract val noteDao: NoteDao
     abstract val categoryDao: CategoryDao
+    abstract val tagDao: TagDao
 
     /**
      * Define a companion object, this allows us to add functions on the NoteDatabase class.
