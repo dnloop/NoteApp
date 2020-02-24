@@ -40,13 +40,13 @@ abstract class CategoryDao {
      *
      * @param key id
      */
-    @Query("SELECT * from Category WHERE id = :key")
+    @Query("SELECT * from Category WHERE category_id = :key")
     abstract fun get(key: Long): LiveData<Category>
 
     /**
      * Selects and returns the latest Category.
      */
-    @Query("SELECT * FROM Category ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM Category ORDER BY category_id DESC LIMIT 1")
     abstract fun getLatest(): Category?
 
     /**
@@ -60,6 +60,6 @@ abstract class CategoryDao {
      *
      * sorted by noteId in descending order.
      */
-    @Query("SELECT * FROM Category ORDER BY id DESC")
+    @Query("SELECT * FROM Category ORDER BY category_id DESC")
     abstract fun getAllCategories(): LiveData<List<Category>>
 }

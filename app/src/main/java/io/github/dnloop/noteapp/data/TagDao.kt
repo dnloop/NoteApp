@@ -40,7 +40,7 @@ abstract class TagDao {
      *
      * @param key id
      */
-    @Query("SELECT * from tag WHERE id = :key")
+    @Query("SELECT * from tag WHERE tag_id = :key")
     abstract fun get(key: Long): LiveData<Tag>
 
     /**
@@ -56,13 +56,13 @@ abstract class TagDao {
      *
      * sorted by id in descending order.
      */
-    @Query("SELECT * FROM Tag ORDER BY id DESC")
+    @Query("SELECT * FROM Tag ORDER BY tag_id DESC")
     abstract fun getAllTags(): LiveData<List<Tag>>
 
     /**
      * Selects and returns the latest Category.
      */
-    @Query("SELECT * FROM Tag ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM Tag ORDER BY tag_id DESC LIMIT 1")
     abstract fun getLatest(): Tag?
 
 }

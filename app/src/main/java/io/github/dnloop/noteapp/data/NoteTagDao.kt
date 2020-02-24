@@ -7,22 +7,8 @@ import androidx.room.*
 interface NoteTagDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(join: NoteTagCrossRef)
+    fun insert(join: NoteTagCrossRef) : Long
 
     @Delete
     fun delete(join: NoteTagCrossRef)
-
-    /**
-     * Selects all Notes with Tags.
-     */
-    @Transaction
-    @Query("SELECT * FROM Note")
-    fun getNotesWithTags(): LiveData<List<NotesWithTags>>
-
-    /**
-     * Selects all Tags with Notes.
-     */
-    @Transaction
-    @Query("SELECT * FROM Tag")
-    fun getTagsWithNotes(): LiveData<List<TagsWithNotes>>
 }

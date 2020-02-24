@@ -6,7 +6,9 @@ import androidx.room.*
 
 @Entity
 data class Note (
-    @PrimaryKey(autoGenerate = true) var id : Int,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "note_id", index = true)
+    var id : Int,
     var title : String,
     var content : String,
     var categoryId : Int?,
@@ -20,6 +22,14 @@ data class Note (
 ) {
     override fun equals(other: Any?): Boolean {
         return super.equals(other)
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
+    override fun toString(): String {
+        return super.toString()
     }
 
     constructor() : this(
@@ -36,26 +46,26 @@ data class Note (
 
 data class NoteWithCategory(
     @Embedded val note : Note,
-    @Relation(parentColumn = "id", entityColumn = "id")
+    @Relation(parentColumn = "note_id", entityColumn = "category_id")
     val category : Category
 )
 
 data class NotesWithTags(
     @Embedded val note : Note,
     @Relation(
-        parentColumn = "noteId",
-        entityColumn = "tagId",
+        parentColumn = "note_id",
+        entityColumn = "tag_id",
         associateBy = Junction(NoteTagCrossRef::class)
     )
-    val tags : LiveData<List<Tag>>
+    val tags : List<Tag>
 )
 
 data class TagsWithNotes(
     @Embedded val tag : Tag,
     @Relation(
-        parentColumn = "tagId",
-        entityColumn = "noteId",
+        parentColumn = "tag_id",
+        entityColumn = "note_id",
         associateBy = Junction(NoteTagCrossRef::class)
     )
-    val notes : LiveData<List<Note>>
+    val notes : List<Note>
 )
