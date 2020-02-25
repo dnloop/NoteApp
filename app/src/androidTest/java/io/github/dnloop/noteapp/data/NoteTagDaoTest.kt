@@ -129,7 +129,8 @@ class NoteTagDaoTest {
         Assert.assertEquals(1, retTag)
         // check assertion
         val list = noteDao.getNotesWithTags()
-        Assert.assertEquals(false, list.isNullOrEmpty())
+        list.observeForever{}
+        Assert.assertEquals(false, list.value?.isNullOrEmpty())
     }
 
     /**
@@ -149,7 +150,8 @@ class NoteTagDaoTest {
         Assert.assertEquals(1, retTag)
         // check assertion
         val list = noteDao.getTagsWithNotes()
-        Assert.assertEquals(false, list.isNullOrEmpty())
+        list.observeForever{}
+        Assert.assertEquals(false, list.value?.isNullOrEmpty())
     }
 
     /**
@@ -170,13 +172,14 @@ class NoteTagDaoTest {
         noteTagDao.insert(crossRef)
         var list = noteDao.getTagsWithNotes()
         // check assertion
-        Assert.assertEquals(false, list.isNullOrEmpty())
-        Assert.assertEquals(1, list.size)
+        list.observeForever{}
+        Assert.assertEquals(false, list.value?.isNullOrEmpty())
         // delete record
         noteTagDao.delete(crossRef)
         noteDao.delete(note)
         tagDao.delete(tag)
         list = noteDao.getTagsWithNotes()
-        Assert.assertEquals(true, list.isEmpty())
+        list.observeForever{}
+        Assert.assertEquals(true, list.value?.isEmpty())
     }
 }
