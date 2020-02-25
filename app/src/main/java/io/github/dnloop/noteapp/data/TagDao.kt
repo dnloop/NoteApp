@@ -51,7 +51,6 @@ abstract class TagDao {
 
     /**
      * Deletes all values from the table.
-     *
      * This does not delete the table, only its contents.
      */
     @Query("DELETE FROM Tag")
@@ -59,7 +58,6 @@ abstract class TagDao {
 
     /**
      * Selects and returns all rows in the table,
-     *
      * sorted by id in descending order.
      */
     @Query("SELECT * FROM Tag ORDER BY tag_id DESC")
