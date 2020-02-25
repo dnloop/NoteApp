@@ -70,7 +70,6 @@ abstract class NoteDao {
 
     /**
      * Selects and returns all rows in the table,
-     *
      * sorted by noteId in descending order.
      */
     @Query("SELECT * FROM Note ORDER BY note_id DESC")
@@ -88,7 +87,7 @@ abstract class NoteDao {
      */
     @Transaction
     @Query("SELECT * FROM Note")
-    abstract fun getNotesWithCategory(): LiveData<List<NoteWithCategory>>
+    abstract fun getNotesWithCategory(): LiveData<List<NotesWithCategory>>
 
     /**
      * Selects all Notes with Tags.

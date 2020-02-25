@@ -44,7 +44,7 @@ data class Note (
         null)
 }
 
-data class NoteWithCategory(
+data class NotesWithCategory(
     @Embedded val note : Note,
     @Relation(parentColumn = "note_id", entityColumn = "category_id")
     val category : Category
