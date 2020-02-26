@@ -5,7 +5,7 @@
     <data>
         <variable
             name="categoryViewModel"
-            type="io.github.dnloop.noteapp.ui.category.CategoryViewModel" />
+            type="io.github.dnloop.noteapp.ui.viewmodel.CategoryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@
     <data>
         <variable
         name="homeViewModel"
-        type="io.github.dnloop.noteapp.ui.home.HomeViewModel" />
+        type="io.github.dnloop.noteapp.ui.viewmodel.NoteViewModel" />
 
     </data>
   <androidx.constraintlayout.widget.ConstraintLayout

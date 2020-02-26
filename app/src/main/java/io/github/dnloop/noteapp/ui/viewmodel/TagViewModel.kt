@@ -1,4 +1,4 @@
-package io.github.dnloop.noteapp.ui.tag
+package io.github.dnloop.noteapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
