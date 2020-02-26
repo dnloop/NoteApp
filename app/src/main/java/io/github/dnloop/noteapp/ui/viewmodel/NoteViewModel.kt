@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import io.github.dnloop.noteapp.data.Note
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.data.NoteRepository
+import io.github.dnloop.noteapp.data.NotesWithCategory
 import kotlinx.coroutines.*
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: NoteRepository
     private lateinit var _allNotes: LiveData<List<Note>>
+    private lateinit var _notesWithCategory: LiveData<List<NotesWithCategory>>
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -30,33 +32,49 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         return allNotes
     }
 
-    private val allNotes: MutableLiveData<List<Note>> by lazy {
-        MutableLiveData<List<Note>>().also {
-            loadNotes()
+    fun onInsert(note: Note) {
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                repository.insert(note)
+            }
         }
+    }
+
+    fun onUpdate(note: Note) {
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                repository.update(note)
+            }
+        }
+    }
+
+    private val allNotes: MutableLiveData<List<Note>> by lazy {
+        MutableLiveData<List<Note>>().also { loadNotes() }
     }
 
     private fun loadNotes() {
         uiScope.launch {
-            _allNotes = getFromDatabase()
+            _allNotes = withContext(Dispatchers.IO) {
+                repository.allNotes
+            }
         }
     }
 
-    private suspend fun getFromDatabase(): LiveData<List<Note>> {
-        return withContext(Dispatchers.IO) {
-            repository.allNotes
+    fun getNotesWithCategory(): LiveData<List<NotesWithCategory>> {
+        return notesWithCategory
+    }
+
+    private val notesWithCategory: MutableLiveData<List<NotesWithCategory>> by lazy {
+        MutableLiveData<List<NotesWithCategory>>().also {
+            loadNotesWithCategory()
         }
     }
 
-    fun onInsert(note: Note) {
+    private fun loadNotesWithCategory() {
         uiScope.launch {
-            insert(note)
-        }
-    }
-
-    private suspend fun insert(note: Note) {
-        withContext(Dispatchers.IO) {
-            repository.insert(note)
+            _notesWithCategory = withContext(Dispatchers.IO) {
+                repository.notesWithCategory
+            }
         }
     }
 }
