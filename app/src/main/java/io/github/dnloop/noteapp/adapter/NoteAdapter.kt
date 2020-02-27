@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.Note
 
-class NoteAdapter : ListAdapter<Note, TextItemViewHolder>(NoteDiffCallback()) {
+class NoteAdapter : RecyclerView.Adapter<TextItemViewHolder>()  {
 
     var data= listOf<Note>()
         set(value) {
