@@ -1,3 +1,0 @@
-package io.github.dnloop.noteapp.auxiliary
-
-fun isCategoryNull(item: Int?) = item?.toString() ?: ""
