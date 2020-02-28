@@ -3,11 +3,8 @@
 
     <data>
         <variable
-            name="title"
-            type="String" />
-        <variable
-            name="content"
-            type="String" />
+            name="noteViewModel"
+            type="io.github.dnloop.noteapp.ui.viewmodel.NoteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
