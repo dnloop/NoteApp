@@ -12,6 +12,7 @@ import android.view.Menu
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.github.dnloop.noteapp.databinding.ActivityMainBinding
+import io.github.dnloop.noteapp.ui.home.HomeFragmentDirections
 import kotlinx.android.synthetic.main.app_bar_main.view.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,11 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.drawerLayout.toolbar)
 
-        binding.drawerLayout.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -39,6 +35,10 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_share, R.id.nav_content_note), binding.drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+        binding.drawerLayout.fab.setOnClickListener { view ->
+            navController.navigate(HomeFragmentDirections.actionNavHomeToNavContentNote())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -18,7 +18,7 @@
             app:destination="@id/nav_share" />
         <action
             android:id="@+id/action_nav_home_to_nav_content_note"
-            app:destination="@+id/nav_content_note" />
+            app:destination="@id/nav_content_note" />
         <action
             android:id="@+id/action_nav_home_to_nav_folder"
             app:destination="@id/nav_folder" />
