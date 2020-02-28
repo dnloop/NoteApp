@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        homeViewModel.allNotes.observe(viewLifecycleOwner, Observer {
+        homeViewModel.dataSource.getAllNotes().observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }

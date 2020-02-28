@@ -6,23 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.github.dnloop.noteapp.data.*
 import kotlinx.coroutines.*
-import javax.sql.DataSource
 
-class NoteViewModel(private val dataSource: NoteDao, application: Application) : AndroidViewModel(application) {
-
-    private lateinit var repository: NoteRepository
-    private lateinit var _notesWithCategory: LiveData<List<NotesWithCategory>>
-    val allNotes: LiveData<List<Note>> = dataSource.getAllNotes()
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+class NoteViewModel(val dataSource: NoteDao, application: Application) : AndroidViewModel(application) {
 
     init {
         initializeRepository()
     }
 
     private fun addDummyData() {
-        uiScope.launch { withContext(Dispatchers.IO) {
-            repository.clearTable()
+        // TODO move this to a helper class and remove from production
+        CoroutineScope(Dispatchers.Main + Job()).launch { withContext(Dispatchers.IO) {
+            getRepository().clearTable()
             // Add sample words.
             val note = Note()
             note.id = 1
@@ -30,19 +24,18 @@ class NoteViewModel(private val dataSource: NoteDao, application: Application) :
             note.content = "content 1"
             note.createdAt = System.currentTimeMillis()
             note.modifiedAt = System.currentTimeMillis()
-            repository.insert(note)
+            getRepository().insert(note)
             note.id = 2
             note.title = "title 2"
             note.content = "content 2"
             note.createdAt = System.currentTimeMillis()
             note.modifiedAt = System.currentTimeMillis()
-            repository.insert(note)
+            getRepository().insert(note)
         } }
     }
 
     private fun initializeRepository() {
-        uiScope.launch {
-            repository = getRepository()
+        CoroutineScope(Dispatchers.Main + Job()).launch {
             addDummyData()
         }
     }
@@ -55,28 +48,28 @@ class NoteViewModel(private val dataSource: NoteDao, application: Application) :
 
     override fun onCleared() {
         super.onCleared()
-        viewModelJob.cancel()
+        Job().cancel()
     }
 
     fun onInsert(note: Note) {
-        uiScope.launch {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {
-                repository.insert(note)
+                getRepository().insert(note)
             }
         }
     }
 
     fun onUpdate(note: Note) {
-        uiScope.launch {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {
-                repository.update(note)
+                getRepository().update(note)
             }
         }
     }
 
     private suspend fun loadNotes(): LiveData<List<Note>> {
         return withContext(Dispatchers.IO) {
-            repository.allNotes
+            getRepository().allNotes
         }
     }
 
@@ -91,10 +84,7 @@ class NoteViewModel(private val dataSource: NoteDao, application: Application) :
     }
 
     private fun loadNotesWithCategory() {
-        uiScope.launch {
-            _notesWithCategory = withContext(Dispatchers.IO) {
-                repository.notesWithCategory
-            }
+        CoroutineScope(Dispatchers.Main + Job()).launch {
         }
     }
 }

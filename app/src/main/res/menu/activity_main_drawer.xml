@@ -16,7 +16,7 @@
         <item
             android:id="@+id/nav_archive"
             android:icon="@drawable/ic_archive_black_24dp"
-            android:title="@string/menu_add_note" />
+            android:title="@string/menu_archive" />
 
         <item
             android:id="@+id/nav_content_note"
