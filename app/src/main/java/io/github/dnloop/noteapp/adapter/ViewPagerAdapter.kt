@@ -4,20 +4,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
-import io.github.dnloop.noteapp.ui.note.AddNoteFragment
 import io.github.dnloop.noteapp.ui.note.EditNoteFragment
 import io.github.dnloop.noteapp.ui.tag.TagFragment
 
-class ViewPagerAdapter(fm: FragmentManager, private val code: Int) : FragmentPagerAdapter(fm) {
-
-    val ADD_CODE: Int = 0
-
-    val EDIT_CODE: Int = 1
+class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
 
-            0 -> if (code == ADD_CODE) AddNoteFragment() else EditNoteFragment()
+            0 -> EditNoteFragment()
             else -> TagFragment()
         }
     }

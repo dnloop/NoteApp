@@ -22,16 +22,6 @@ class ContentNoteFragment : Fragment() {
 
     private lateinit var viewPager : ViewPager
 
-    private var _code: Int = 0
-
-    var code: Int
-        get() {
-            return _code
-        }
-        set(value) {
-            _code = value
-        }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,13 +44,12 @@ class ContentNoteFragment : Fragment() {
 
         tabLayout = root.findViewById(R.id.tabLayout)
 
-        val pagerAdapter = ViewPagerAdapter(childFragmentManager, _code)
+        val pagerAdapter = ViewPagerAdapter(childFragmentManager)
 
         viewPager.adapter = pagerAdapter
 
         tabLayout.setupWithViewPager(viewPager)
 
         (activity as MainActivity?)?.getFloatingActionButton()?.hide()
-
     }
 }
