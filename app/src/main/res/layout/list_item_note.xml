@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="note"
+            type="io.github.dnloop.noteapp.data.Note" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +45,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/circularImageView"
-            app:layout_constraintTop_toBottomOf="@+id/text_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            app:noteContent="@{note}" />
 
         <TextView
             android:id="@+id/text_title"
@@ -60,7 +66,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/circularImageView"
             app:layout_constraintTop_toTopOf="@+id/circularImageView"
-            tools:text="@string/text_title" />
+            tools:text="@string/text_title"
+            app:noteContent="@{note}" />
 
         <TextView
             android:id="@+id/text_category"
@@ -73,7 +80,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/circularImageView"
             app:layout_constraintStart_toEndOf="@+id/circularImageView"
             app:layout_constraintTop_toBottomOf="@+id/text_body"
-            tools:text="@string/text_category" />
+            tools:text="@string/text_category"
+            app:noteContent="@{note}" />
 
         <TextView
             android:id="@+id/text_modified_at"
@@ -86,7 +94,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/text_category"
             app:layout_constraintTop_toTopOf="@+id/text_category"
-            tools:text="@string/text_timestamp" />
+            tools:text="@string/text_timestamp"
+            app:noteContent="@{note}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

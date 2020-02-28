@@ -1,18 +1,12 @@
 package io.github.dnloop.noteapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import io.github.dnloop.noteapp.R
-
-import io.github.dnloop.noteapp.auxiliary.Formatter
-import io.github.dnloop.noteapp.auxiliary.Validator
 import io.github.dnloop.noteapp.data.Note
+import io.github.dnloop.noteapp.databinding.ListItemNoteBinding
 
 class NoteAdapter : ListAdapter<Note, NoteAdapter.ViewHolder>(NoteDiffCallback())  {
 
@@ -25,28 +19,17 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.ViewHolder>(NoteDiffCallback()
         holder.bind(item)
     }
 
-    class ViewHolder private constructor(itemView: View): RecyclerView.ViewHolder(itemView){
-        // TODO user image or color code
-//        val circularImageView: CircularImageView = itemView.findViewById(R.id.circularImageView)
-        private val textTitle: TextView = itemView.findViewById(R.id.text_title)
-        private val textBody: TextView = itemView.findViewById(R.id.text_body)
-        private val textCategory: TextView = itemView.findViewById(R.id.text_category)
-        private val textModifiedAt: TextView = itemView.findViewById(R.id.text_modified_at)
-
-        fun bind(
-            item: Note
-        ) {
-            textTitle.text = item.title
-            textBody.text = item.content
-            textCategory.text = Validator.isCategoryNull(item.categoryId)
-            textModifiedAt.text = Formatter.longToDate(item.modifiedAt)
+    class ViewHolder private constructor(val binding: ListItemNoteBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(item: Note) {
+            binding.note = item
+            binding.executePendingBindings()
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_note, parent, false)
-                return ViewHolder(view)
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemNoteBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding)
             }
         }
     }
