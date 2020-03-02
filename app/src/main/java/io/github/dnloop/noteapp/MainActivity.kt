@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
-        binding.drawerLayout.fab.setOnClickListener { view ->
-            navController.navigate(HomeFragmentDirections.actionNavHomeToNavContentNote())
+        binding.drawerLayout.fab.setOnClickListener {
+            navController.navigate(HomeFragmentDirections.actionNavHomeToNavContentNote(0))
         }
     }
 
