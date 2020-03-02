@@ -44,7 +44,11 @@ class ContentNoteFragment : Fragment() {
 
         tabLayout = root.findViewById(R.id.tabLayout)
 
+        val arguments = ContentNoteFragmentArgs.fromBundle(arguments!!)
+
         val pagerAdapter = ViewPagerAdapter(childFragmentManager)
+
+        pagerAdapter.setNoteId(arguments.noteId)
 
         viewPager.adapter = pagerAdapter
 

@@ -7,12 +7,19 @@ import androidx.viewpager.widget.PagerAdapter
 import io.github.dnloop.noteapp.ui.note.EditNoteFragment
 import io.github.dnloop.noteapp.ui.tag.TagFragment
 
-class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
+    private var _noteId: Long = 0L
+
+    fun setNoteId(noteId: Long?) {
+        if(noteId != null)
+            _noteId = noteId
+    }
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
 
-            0 -> EditNoteFragment()
+            0 -> EditNoteFragment(_noteId)
             else -> TagFragment()
         }
     }

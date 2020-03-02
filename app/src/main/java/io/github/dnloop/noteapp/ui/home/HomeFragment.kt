@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.adapter.NoteAdapter
+import io.github.dnloop.noteapp.adapter.NoteListener
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.databinding.FragmentHomeBinding
 import io.github.dnloop.noteapp.ui.viewmodel.NoteViewModel
@@ -31,18 +33,27 @@ class HomeFragment : Fragment() {
 
         val viewModelFactory = NoteViewModelFactory(dataSource, application)
 
-        val homeViewModel =
+        val noteViewModel =
             ViewModelProvider(this, viewModelFactory).get(NoteViewModel::class.java)
 
-        val adapter = NoteAdapter()
+        val adapter = NoteAdapter(NoteListener{
+            noteId -> noteViewModel.onNoteSelected(noteId)
+        })
 
         binding.noteList.adapter = adapter
 
-        binding.homeViewModel = homeViewModel
+        binding.noteViewModel = noteViewModel
 
         binding.lifecycleOwner = this
 
-        homeViewModel.dataSource.getAllNotes().observe(viewLifecycleOwner, Observer {
+        noteViewModel.navigateToEditor.observe(viewLifecycleOwner, Observer { note ->
+            note?.let {
+                this.findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavContentNote(note))
+                noteViewModel.onNoteEditorNavigated()
+            }
+        })
+
+        noteViewModel.dataSource.getAllNotes().observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }

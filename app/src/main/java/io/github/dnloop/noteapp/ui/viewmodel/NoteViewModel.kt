@@ -13,6 +13,19 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         initializeRepository()
     }
 
+    private val _navigateToEditor = MutableLiveData<Long>()
+
+    val navigateToEditor
+        get() = _navigateToEditor
+
+    fun onNoteEditorNavigated() {
+        _navigateToEditor.value = null
+    }
+
+    fun onNoteSelected(item: Long) {
+        _navigateToEditor.value = item
+    }
+
     private fun addDummyData() {
         // TODO move this to a helper class and remove from production
         CoroutineScope(Dispatchers.Main + Job()).launch { withContext(Dispatchers.IO) {

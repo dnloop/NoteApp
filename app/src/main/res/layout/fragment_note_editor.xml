@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="noteViewModel"
-            type="io.github.dnloop.noteapp.ui.viewmodel.NoteViewModel" />
+        name="editNoteViewModel"
+        type="io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,8 @@
                 android:hint="@string/hint_title"
                 android:lines="1"
                 android:maxLength="255"
-                android:maxLines="1" />
+                android:maxLines="1"
+                app:noteTitle="@{editNoteViewModel.note}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,7 +56,8 @@
                 android:id="@+id/input_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_content" />
+                android:hint="@string/hint_content"
+                app:noteContent="@{editNoteViewModel.note}"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_nav_content_note_to_nav_home"
             app:destination="@id/nav_home" />
+        <argument
+            android:name="noteId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/nav_archive"
