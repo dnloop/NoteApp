@@ -8,7 +8,7 @@ import androidx.room.*
 data class Note (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "note_id", index = true)
-    var id : Int,
+    var id : Long,
     var title : String,
     var content : String,
     var categoryId : Int?,

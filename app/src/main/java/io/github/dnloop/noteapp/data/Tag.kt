@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Tag(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tag_id", index = true)
-    var id : Int,
+    var id : Long,
     var name : String,
     // CRUD values
     var deleted : Boolean,
