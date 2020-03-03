@@ -11,7 +11,6 @@ import com.google.android.material.tabs.TabLayout
 import io.github.dnloop.noteapp.MainActivity
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.adapter.ViewPagerAdapter
-import io.github.dnloop.noteapp.ui.ContentNoteFragmentArgs
 
 
 /**

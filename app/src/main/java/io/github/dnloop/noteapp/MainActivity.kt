@@ -1,15 +1,14 @@
 package io.github.dnloop.noteapp
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import androidx.databinding.DataBindingUtil
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.github.dnloop.noteapp.databinding.ActivityMainBinding
 import io.github.dnloop.noteapp.ui.HomeFragmentDirections

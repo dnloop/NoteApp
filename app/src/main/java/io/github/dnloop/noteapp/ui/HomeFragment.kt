@@ -14,7 +14,6 @@ import io.github.dnloop.noteapp.adapter.NoteAdapter
 import io.github.dnloop.noteapp.adapter.NoteListener
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.databinding.FragmentHomeBinding
-import io.github.dnloop.noteapp.ui.HomeFragmentDirections
 import io.github.dnloop.noteapp.ui.viewmodel.NoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.NoteViewModelFactory
 

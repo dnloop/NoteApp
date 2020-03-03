@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.databinding.FragmentNoteEditorBinding
-import io.github.dnloop.noteapp.ui.ContentNoteFragmentDirections
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
 
@@ -47,4 +46,6 @@ class EditNoteFragment(val _noteId: Long) : Fragment() {
 
         return binding.root
     }
+
+
 }
