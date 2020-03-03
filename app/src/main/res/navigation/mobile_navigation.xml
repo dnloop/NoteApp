@@ -20,9 +20,6 @@
             android:id="@+id/action_nav_home_to_nav_content_note"
             app:destination="@id/nav_content_note" />
         <action
-            android:id="@+id/action_nav_home_to_nav_folder"
-            app:destination="@id/nav_folder" />
-        <action
             android:id="@+id/action_nav_home_to_nav_archive"
             app:destination="@id/nav_archive" />
     </fragment>
@@ -35,6 +32,9 @@
         <action
             android:id="@+id/action_nav_category_to_nav_home"
             app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_category_to_nav_folder"
+            app:destination="@id/nav_folder" />
     </fragment>
 
     <fragment
