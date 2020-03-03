@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
-import io.github.dnloop.noteapp.ui.note.EditNoteFragment
-import io.github.dnloop.noteapp.ui.tag.TagFragment
+import io.github.dnloop.noteapp.ui.EditNoteFragment
+import io.github.dnloop.noteapp.ui.TagFragment
 
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 

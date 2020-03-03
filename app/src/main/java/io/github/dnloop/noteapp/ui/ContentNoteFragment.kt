@@ -1,4 +1,4 @@
-package io.github.dnloop.noteapp.ui.note
+package io.github.dnloop.noteapp.ui
 
 
 import android.os.Bundle
@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import io.github.dnloop.noteapp.MainActivity
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.adapter.ViewPagerAdapter
+import io.github.dnloop.noteapp.ui.ContentNoteFragmentArgs
 
 
 /**
@@ -44,7 +45,10 @@ class ContentNoteFragment : Fragment() {
 
         tabLayout = root.findViewById(R.id.tabLayout)
 
-        val arguments = ContentNoteFragmentArgs.fromBundle(arguments!!)
+        val arguments =
+            ContentNoteFragmentArgs.fromBundle(
+                arguments!!
+            )
 
         val pagerAdapter = ViewPagerAdapter(childFragmentManager)
 

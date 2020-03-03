@@ -1,4 +1,4 @@
-package io.github.dnloop.noteapp.ui.note
+package io.github.dnloop.noteapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.databinding.FragmentNoteEditorBinding
+import io.github.dnloop.noteapp.ui.ContentNoteFragmentDirections
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
 

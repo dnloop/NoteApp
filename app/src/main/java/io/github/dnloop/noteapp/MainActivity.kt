@@ -12,7 +12,7 @@ import android.view.Menu
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.github.dnloop.noteapp.databinding.ActivityMainBinding
-import io.github.dnloop.noteapp.ui.home.HomeFragmentDirections
+import io.github.dnloop.noteapp.ui.HomeFragmentDirections
 import kotlinx.android.synthetic.main.app_bar_main.view.*
 
 class MainActivity : AppCompatActivity() {

@@ -1,25 +1,26 @@
-package io.github.dnloop.noteapp.ui.folder
+package io.github.dnloop.noteapp.ui
+
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+
 import io.github.dnloop.noteapp.R
 
 /**
  * A simple [Fragment] subclass.
  */
-class FolderFragment : Fragment() {
+class TagFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return TextView(activity).apply {
-            setText(R.string.item_category)
-        }
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.content_tag, container, false)
     }
+
 
 }

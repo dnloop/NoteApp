@@ -1,4 +1,4 @@
-package io.github.dnloop.noteapp.ui.home
+package io.github.dnloop.noteapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import io.github.dnloop.noteapp.adapter.NoteAdapter
 import io.github.dnloop.noteapp.adapter.NoteListener
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.databinding.FragmentHomeBinding
+import io.github.dnloop.noteapp.ui.HomeFragmentDirections
 import io.github.dnloop.noteapp.ui.viewmodel.NoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.NoteViewModelFactory
 
@@ -48,7 +49,11 @@ class HomeFragment : Fragment() {
 
         noteViewModel.navigateToEditor.observe(viewLifecycleOwner, Observer { note ->
             note?.let {
-                this.findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavContentNote(note))
+                this.findNavController().navigate(
+                    HomeFragmentDirections.actionNavHomeToNavContentNote(
+                        note
+                    )
+                )
                 noteViewModel.onNoteEditorNavigated()
             }
         })

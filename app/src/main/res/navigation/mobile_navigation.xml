@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="io.github.dnloop.noteapp.ui.home.HomeFragment"
+        android:name="io.github.dnloop.noteapp.ui.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/content_main">
         <action
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/nav_category"
-        android:name="io.github.dnloop.noteapp.ui.category.CategoryFragment"
+        android:name="io.github.dnloop.noteapp.ui.CategoryFragment"
         android:label="@string/menu_category"
         tools:layout="@layout/fragment_category" >
         <action
@@ -39,13 +39,13 @@
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="io.github.dnloop.noteapp.ui.share.ShareFragment"
+        android:name="io.github.dnloop.noteapp.ui.ShareFragment"
         android:label="@string/menu_share"
         tools:layout="@layout/fragment_share" />
 
     <fragment
         android:id="@+id/nav_content_note"
-        android:name="io.github.dnloop.noteapp.ui.note.ContentNoteFragment"
+        android:name="io.github.dnloop.noteapp.ui.ContentNoteFragment"
         android:label="@string/content_note"
         tools:layout="@layout/content_note">
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_archive"
-        android:name="io.github.dnloop.noteapp.ui.archive.ArchiveFragment"
+        android:name="io.github.dnloop.noteapp.ui.ArchiveFragment"
         android:label="@string/menu_archive"
         tools:layout="@layout/fragment_archive">
         <action
@@ -66,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_folder"
-        android:name="io.github.dnloop.noteapp.ui.folder.FolderFragment"
+        android:name="io.github.dnloop.noteapp.ui.FolderFragment"
         android:label="@string/item_category"
         tools:layout="@layout/fragment_folder" >
         <action

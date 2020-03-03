@@ -1,4 +1,4 @@
-package io.github.dnloop.noteapp.ui.share
+package io.github.dnloop.noteapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
