@@ -13,6 +13,19 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         initializeRepository()
     }
 
+    /**
+     * Listen to the item that will be selected from
+     * the List of notes then assign the clicked value.
+     */
+    val selected = MutableLiveData<Note>()
+
+    /**
+     * Set the clicked item to be shared between Fragments.
+     */
+    fun select(item: Note) {
+        selected.value = item
+    }
+
     private val _navigateToEditor = MutableLiveData<Long>()
 
     val navigateToEditor
