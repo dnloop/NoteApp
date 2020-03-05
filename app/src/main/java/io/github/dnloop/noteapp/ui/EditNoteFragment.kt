@@ -10,12 +10,14 @@ import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputEditText
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.Note
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.databinding.FragmentNoteEditorBinding
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
+import timber.log.Timber
 
 class EditNoteFragment(val _noteId: Long) : Fragment() {
 
@@ -25,11 +27,14 @@ class EditNoteFragment(val _noteId: Long) : Fragment() {
 
     private lateinit var editNoteViewModel: EditNoteViewModel
 
+    private lateinit var binding: FragmentNoteEditorBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentNoteEditorBinding = DataBindingUtil.inflate(
+
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_note_editor, container, false)
 
         editNoteViewModel = init()
@@ -39,14 +44,20 @@ class EditNoteFragment(val _noteId: Long) : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if(wasEdited)
+            checkNoteId()
+    }
+
     private fun FragmentNoteEditorBinding.setBinding() {
         editNoteViewModel = this@EditNoteFragment.editNoteViewModel
 
         lifecycleOwner = this@EditNoteFragment
 
-        inputTitle.afterTextChanged { }
+        inputTitle.afterTextChanged {}
 
-        inputContent.afterTextChanged { }
+        inputContent.afterTextChanged {}
     }
 
     private fun init(): EditNoteViewModel {
@@ -59,18 +70,17 @@ class EditNoteFragment(val _noteId: Long) : Fragment() {
         return ViewModelProvider(this, viewModelFactory).get(EditNoteViewModel::class.java)
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        if(wasEdited)
-            checkNoteId()
-    }
-
     private fun checkNoteId() {
-        if (_noteId > 0)
-            editNoteViewModel.dummyUpdate(_noteId)
-        else
-            editNoteViewModel.dummyInsert()
+        note.title = binding.inputTitle.text.toString()
+        note.content = binding.inputContent.text.toString()
+        Timber.i("Note fields loaded: ${note.title}")
+        if (_noteId > 0) {
+            editNoteViewModel.onUpdate(note)
+            Timber.i("Updated note: '${note.title}'")
+        } else {
+            editNoteViewModel.onInsert(note)
+            Timber.i("Note '${note.title}' Inserted")
+        }
     }
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
