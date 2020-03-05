@@ -9,23 +9,6 @@ import kotlinx.coroutines.*
 
 class NoteViewModel(val dataSource: NoteDao, application: Application) : AndroidViewModel(application) {
 
-    init {
-        initializeRepository()
-    }
-
-    /**
-     * Listen to the item that will be selected from
-     * the List of notes then assign the clicked value.
-     */
-    val selected = MutableLiveData<Note>()
-
-    /**
-     * Set the clicked item to be shared between Fragments.
-     */
-    fun select(item: Note) {
-        selected.value = item
-    }
-
     private val _navigateToEditor = MutableLiveData<Long>()
 
     val navigateToEditor
@@ -60,12 +43,6 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         } }
     }
 
-    private fun initializeRepository() {
-        CoroutineScope(Dispatchers.Main + Job()).launch {
-            addDummyData()
-        }
-    }
-
     private suspend fun getRepository(): NoteRepository {
         return withContext(Dispatchers.IO) {
            NoteRepository(dataSource)
@@ -77,21 +54,6 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         Job().cancel()
     }
 
-    fun onInsert(note: Note) {
-        CoroutineScope(Dispatchers.Main + Job()).launch {
-            withContext(Dispatchers.IO) {
-                getRepository().insert(note)
-            }
-        }
-    }
-
-    fun onUpdate(note: Note) {
-        CoroutineScope(Dispatchers.Main + Job()).launch {
-            withContext(Dispatchers.IO) {
-                getRepository().update(note)
-            }
-        }
-    }
 
     private suspend fun loadNotes(): LiveData<List<Note>> {
         return withContext(Dispatchers.IO) {
