@@ -20,7 +20,7 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_
         return when (position) {
 
             0 -> EditNoteFragment(_noteId)
-            else -> TagFragment()
+            else -> TagFragment(_noteId)
         }
     }
 
