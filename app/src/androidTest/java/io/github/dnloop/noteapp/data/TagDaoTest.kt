@@ -88,6 +88,48 @@ class TagDaoTest {
         tagDao.insert(tag2) // FAIL
     }
 
+    /**
+     * The database is working as expected by inserting
+     * and retrieving a row.
+     * */
+    @Test
+    @Throws(Exception::class)
+    fun batchInsertTags() {
+        // Create some tags
+        val tag1 = Tag(
+            id = 1,
+            name = "title1",
+            deleted = false,
+            createdAt = System.currentTimeMillis(),
+            modifiedAt = System.currentTimeMillis(),
+            deletedAt = null
+        )
+        val tag2 = Tag(
+            id = 2,
+            name = "title2",
+            deleted = false,
+            createdAt = System.currentTimeMillis(),
+            modifiedAt = System.currentTimeMillis(),
+            deletedAt = null
+        )
+        val tag3 = Tag(
+            id = 3,
+            name = "title3",
+            deleted = false,
+            createdAt = System.currentTimeMillis(),
+            modifiedAt = System.currentTimeMillis(),
+            deletedAt = null
+        )
+
+        // add to List
+        val list: MutableList<Tag> = arrayListOf(tag1, tag2, tag3)
+
+        tagDao.insertAll(list)
+        val allTags = tagDao.getAllTags()
+        allTags.observeForever{} // messy but functional
+        Assert.assertEquals(false, allTags.value.isNullOrEmpty())
+        Assert.assertEquals(3, allTags.value?.size)
+    }
 
     /**
      * Timestamps must differ once modified.*/
@@ -167,7 +209,7 @@ class TagDaoTest {
         val tag = Tag()
         // insert multiple fields
         for (i in 1..5){
-            tag.id = i
+            tag.id = i.toLong()
             tagDao.insert(tag)
         }
         // check assertion

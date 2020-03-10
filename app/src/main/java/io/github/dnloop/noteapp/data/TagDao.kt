@@ -13,6 +13,21 @@ abstract class TagDao {
     @Insert
     abstract fun insert(tag: Tag): Long
 
+
+    /**
+     * Adds a List of Tags
+
+     * @param tags to be written.
+     */
+    @Insert
+    abstract fun insertAll(tags: List<Tag>): List<Long>
+
+
+    /**
+     * Adds a new Tag with TimeStamp
+     *
+     * @param tag new tag value to write
+     */
     fun insertWithTimestamp(tag: Tag) : Long {
         return insert(tag.apply {
             createdAt = System.currentTimeMillis()
@@ -45,6 +60,8 @@ abstract class TagDao {
 
     /**
      * Delete a single value from the table.
+     *
+     * @param tag selected for deletion
      */
     @Delete
     abstract fun delete(tag: Tag)
