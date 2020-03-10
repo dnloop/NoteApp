@@ -50,7 +50,7 @@ data class NotesWithCategory(
     val category : Category
 )
 
-data class NotesWithTags(
+data class NoteWithTags(
     @Embedded val note : Note,
     @Relation(
         parentColumn = "note_id",
@@ -60,7 +60,7 @@ data class NotesWithTags(
     val tags : List<Tag>
 )
 
-data class TagsWithNotes(
+data class TagWithNotes(
     @Embedded val tag : Tag,
     @Relation(
         parentColumn = "tag_id",

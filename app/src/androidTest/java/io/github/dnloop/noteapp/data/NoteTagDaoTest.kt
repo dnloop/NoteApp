@@ -155,7 +155,7 @@ class NoteTagDaoTest {
         val list: List<NoteTagCrossRef> = arrayListOf(tagCrossRef1, tagCrossRef2, tagCrossRef3)
 
         noteTagDao.insertAll(list)
-        val allTags = noteDao.getNotesWithTags()
+        val allTags = noteDao.getNoteWithTags()
         allTags.observeForever{} // messy but functional
         Assert.assertEquals(false, allTags.value.isNullOrEmpty())
         Assert.assertEquals(3, allTags.value?.size)
@@ -199,7 +199,7 @@ class NoteTagDaoTest {
         noteTagDao.insertAll(list)
 
         noteTagDao.deleteAll(list)
-        val allTags = noteDao.getNotesWithTags()
+        val allTags = noteDao.getNoteWithTags()
         allTags.observeForever{} // messy but functional
         Assert.assertEquals(true, allTags.value?.get(0)?.tags?.isEmpty())
     }
@@ -220,7 +220,7 @@ class NoteTagDaoTest {
         val retTag: Long = noteTagDao.insert(crossRef)
         Assert.assertEquals(1, retTag)
         // check assertion
-        val list = noteDao.getNotesWithTags()
+        val list = noteDao.getNoteWithTags()
         list.observeForever{}
         Assert.assertEquals(false, list.value?.isNullOrEmpty())
     }
@@ -241,7 +241,7 @@ class NoteTagDaoTest {
         val retTag: Long = noteTagDao.insert(crossRef)
         Assert.assertEquals(1, retTag)
         // check assertion
-        val list = noteDao.getTagsWithNotes()
+        val list = noteDao.getTagWithNotes()
         list.observeForever{}
         Assert.assertEquals(false, list.value?.isNullOrEmpty())
     }
@@ -262,16 +262,14 @@ class NoteTagDaoTest {
         crossRef.noteId = note.id
         crossRef.tagId = tag.id
         noteTagDao.insert(crossRef)
-        var list = noteDao.getTagsWithNotes()
+        var list = noteDao.getTagWithNotes()
         // check assertion
         list.observeForever{}
         Assert.assertEquals(false, list.value?.isNullOrEmpty())
         // delete record
         noteTagDao.delete(crossRef)
-        noteDao.delete(note)
-        tagDao.delete(tag)
-        list = noteDao.getTagsWithNotes()
+        list = noteDao.getTagWithNotes()
         list.observeForever{}
-        Assert.assertEquals(true, list.value?.isEmpty())
+        Assert.assertEquals(true, list.value?.get(0)?.notes?.isEmpty())
     }
 }

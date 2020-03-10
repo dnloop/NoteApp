@@ -94,13 +94,13 @@ abstract class NoteDao {
      */
     @Transaction
     @Query("SELECT * FROM Note")
-    abstract fun getNotesWithTags(): LiveData<List<NotesWithTags>>
+    abstract fun getNoteWithTags(): LiveData<List<NoteWithTags>>
 
     /**
      * Selects all Tags with Notes.
      */
     @Transaction
     @Query("SELECT * FROM Tag")
-    abstract fun getTagsWithNotes(): LiveData<List<TagsWithNotes>>
+    abstract fun getTagWithNotes(): LiveData<List<TagWithNotes>>
 
 }
