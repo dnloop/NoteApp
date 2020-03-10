@@ -46,9 +46,10 @@ class TagFragment(val _noteId: Long) : Fragment() {
     private fun init(): TagViewModel {
         val application = requireNotNull(this.activity).application
 
-        val dataSource = NoteDatabase.getInstance(application).tagDao
+        val tagDataSource = NoteDatabase.getInstance(application).tagDao
+        val noteTagDataSource = NoteDatabase.getInstance(application).noteTagDao
 
-        val tagViewModelFactory = TagViewModelFactory(_noteId, dataSource)
+        val tagViewModelFactory = TagViewModelFactory(_noteId, tagDataSource, noteTagDataSource)
 
         return ViewModelProvider(this, tagViewModelFactory).get(TagViewModel::class.java)
     }
@@ -81,11 +82,17 @@ class TagFragment(val _noteId: Long) : Fragment() {
                 for (chip in chipGroup) {
                     chip as Chip
                     if (chip.isChecked)
-                        TODO("Implement persistance")
+                        saveTags()
                 }
-                Toast.makeText(activity, "Tags added $counter", Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(activity, "Tags added $counter", Toast.LENGTH_SHORT)
+//                    .show()
             }
         }
+    }
+
+    private fun saveTags() {
+        var id = tagViewModel.onInsertDummy(_noteId)
+        Toast.makeText(activity, "Tag added $id, $_noteId", Toast.LENGTH_SHORT)
+            .show()
     }
 }

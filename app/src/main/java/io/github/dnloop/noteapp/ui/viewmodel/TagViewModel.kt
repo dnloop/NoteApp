@@ -1,22 +1,67 @@
 package io.github.dnloop.noteapp.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.dnloop.noteapp.data.Tag
+import io.github.dnloop.noteapp.data.*
+import kotlinx.coroutines.*
 
-class TagViewModel : ViewModel() {
-    private val tags: MutableLiveData<List<Tag>> by lazy {
-        MutableLiveData<List<Tag>>().also {
-            loadTags()
+
+/**
+ * This class deals with the insertion of notes, it must be used in combination of NoteTag.
+ */
+class TagViewModel(
+    noteKeyId: Long,
+    private val tagDataSource: TagDao,
+    private val noteTagDataSource: NoteTagDao
+) : ViewModel() {
+    private val viewModelJob = Job()
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+    private suspend fun getTagRepository(): TagRepository {
+        return withContext(Dispatchers.IO) {
+            TagRepository(tagDataSource)
         }
     }
 
-    fun getTags(): LiveData<List<Tag>> {
-        return tags
+    /* BEG TEST */
+
+    fun onInsertDummy(id: Long): Long = runBlocking {
+        return@runBlocking withContext(Dispatchers.Default) {
+            insertDummy(id)
+        }
     }
 
-    private fun loadTags() {
-        // Do an asynchronous operation to fetch tags.
+    private suspend fun insertDummy(id: Long): Long {
+        return withContext(Dispatchers.IO) { id }
+    }
+
+    /* END TEST */
+
+    private suspend fun getNoteTagRepository(): NoteTagRepository {
+        return withContext(Dispatchers.IO) {
+            NoteTagRepository(noteTagDataSource)
+        }
+    }
+    fun onInsertTag(tag: Tag): Long = runBlocking {
+        return@runBlocking withContext(Dispatchers.Default) {
+            insertTag(tag)
+        }
+    }
+
+    private suspend fun insertTag(tag: Tag): Long {
+        return withContext(Dispatchers.IO) {
+            getTagRepository().insert(tag)
+        }
+    }
+
+    fun onInsertReference(noteId: Long, tagId: Long) {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
+            withContext(Dispatchers.IO) {
+                getNoteTagRepository().attach(noteId, tagId)
+            }
+        }
     }
 }
