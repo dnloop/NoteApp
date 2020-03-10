@@ -113,6 +113,98 @@ class NoteTagDaoTest {
     }
 
     /**
+     * Attach a List of tags to notes.
+     * */
+    @Test
+    @Throws(Exception::class)
+    fun batchInsertTags() {
+        // Create some tags and Notes
+        val tag1 = Tag()
+        val tag2 = Tag()
+        val tag3 = Tag()
+        val note1 = Note()
+        val note2 = Note()
+        val note3 = Note()
+        tag1.id = 1
+        tag2.id = 2
+        tag3.id = 3
+        note1.id = 1
+        note2.id = 2
+        note3.id = 3
+        tagDao.insert(tag1)
+        tagDao.insert(tag2)
+        tagDao.insert(tag3)
+        noteDao.insert(note1)
+        noteDao.insert(note2)
+        noteDao.insert(note3)
+
+        val tagCrossRef1 = NoteTagCrossRef(
+            noteId = 1,
+            tagId = 1
+        )
+        val tagCrossRef2 = NoteTagCrossRef(
+            noteId = 2,
+            tagId = 2
+        )
+        val tagCrossRef3 = NoteTagCrossRef(
+            noteId = 3,
+            tagId = 3
+        )
+
+        // add to List
+        val list: List<NoteTagCrossRef> = arrayListOf(tagCrossRef1, tagCrossRef2, tagCrossRef3)
+
+        noteTagDao.insertAll(list)
+        val allTags = noteDao.getNotesWithTags()
+        allTags.observeForever{} // messy but functional
+        Assert.assertEquals(false, allTags.value.isNullOrEmpty())
+        Assert.assertEquals(3, allTags.value?.size)
+    }
+
+    /**
+     * Detach a List of tags of a note.
+     * */
+    @Test
+    @Throws(Exception::class)
+    fun batchDeleteTags() {
+        // Create some tags and a Note
+        val tag1 = Tag()
+        val tag2 = Tag()
+        val tag3 = Tag()
+        val note1 = Note()
+        tag1.id = 1
+        tag2.id = 2
+        tag3.id = 3
+        note1.id = 1
+        tagDao.insert(tag1)
+        tagDao.insert(tag2)
+        tagDao.insert(tag3)
+        noteDao.insert(note1)
+
+        val tagCrossRef1 = NoteTagCrossRef(
+            noteId = 1,
+            tagId = 1
+        )
+        val tagCrossRef2 = NoteTagCrossRef(
+            noteId = 1,
+            tagId = 2
+        )
+        val tagCrossRef3 = NoteTagCrossRef(
+            noteId = 1,
+            tagId = 3
+        )
+        // add to List
+        val list: List<NoteTagCrossRef> = arrayListOf(tagCrossRef1, tagCrossRef2, tagCrossRef3)
+
+        noteTagDao.insertAll(list)
+
+        noteTagDao.deleteAll(list)
+        val allTags = noteDao.getNotesWithTags()
+        allTags.observeForever{} // messy but functional
+        Assert.assertEquals(true, allTags.value?.get(0)?.tags?.isEmpty())
+    }
+
+    /**
      * Retrieve a LiveData List of Notes with Tags.
      */
     @Test

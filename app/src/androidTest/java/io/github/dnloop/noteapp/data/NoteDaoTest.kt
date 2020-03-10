@@ -198,7 +198,7 @@ class NoteDaoTest {
         val note = Note()
         // insert multiple fields
         for (i in 1..5){
-            note.id = i
+            note.id = i.toLong()
             noteDao.insert(note)
         }
         // check assertion

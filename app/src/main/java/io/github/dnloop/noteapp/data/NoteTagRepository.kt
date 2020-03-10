@@ -2,13 +2,21 @@ package io.github.dnloop.noteapp.data
 
 class NoteTagRepository(private val noteTagDao: NoteTagDao) {
 
-    fun attach(note: Note, tag: Tag) {
-        val join = NoteTagCrossRef(note.id, tag.id)
+    fun attach(noteId: Long, tagId: Long) {
+        val join = NoteTagCrossRef(noteId, tagId)
         noteTagDao.insert(join)
     }
 
-    fun detach(note: Note, tag: Tag) {
-        val join = NoteTagCrossRef(note.id, tag.id)
+    fun attachAll(join: List<NoteTagCrossRef>) {
+        noteTagDao.insertAll(join)
+    }
+
+    fun detach(noteId: Long, tagId: Long) {
+        val join = NoteTagCrossRef(noteId, tagId)
         noteTagDao.delete(join)
+    }
+
+    fun detachAll(join: List<NoteTagCrossRef>) {
+        noteTagDao.deleteAll(join)
     }
 }
