@@ -35,5 +35,6 @@
     <string name="insert_tag">Insert a new tag</string>
     <string name="edit_tag_button">Edit Tag Button</string>
     <string name="delete_tag_button">Delete Tag Button</string>
+    <string name="edit_tag">Edit Tag</string>
 
 </resources>
