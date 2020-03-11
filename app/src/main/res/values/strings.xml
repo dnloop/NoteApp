@@ -33,5 +33,7 @@
     <string name="sample_chip">SampleText</string>
     <string name="edit">Edit</string>
     <string name="insert_tag">Insert a new tag</string>
+    <string name="edit_tag_button">Edit Tag Button</string>
+    <string name="delete_tag_button">Delete Tag Button</string>
 
 </resources>
