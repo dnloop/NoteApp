@@ -31,5 +31,7 @@
     <string name="save_selected">Save Selected</string>
     <string name="input_tag">Add multiple Tags</string>
     <string name="sample_chip">SampleText</string>
+    <string name="edit">Edit</string>
+    <string name="insert_tag">Insert a new tag</string>
 
 </resources>
