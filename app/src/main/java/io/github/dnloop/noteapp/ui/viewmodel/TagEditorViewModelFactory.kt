@@ -1,20 +1,18 @@
 package io.github.dnloop.noteapp.ui.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.github.dnloop.noteapp.data.NoteTagDao
 import io.github.dnloop.noteapp.data.TagDao
 
 @Suppress("UNCHECKED_CAST")
-class TagViewModelFactory (
-    private val noteKeyId: Long,
+class TagEditorViewModelFactory(
     private val tagDataSource: TagDao,
-    private val noteTagDataSource: NoteTagDao
+    private val application: Application
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TagViewModel::class.java)) {
-            return TagViewModel(noteKeyId, tagDataSource, noteTagDataSource) as T
-            // TODO maybe remove the tag data source because its only attaching/detaching
+        if (modelClass.isAssignableFrom(TagEditorViewModel::class.java)) {
+            return TagEditorViewModel(tagDataSource, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -57,10 +57,18 @@ class TagViewModel(
         }
     }
 
-    fun onInsertReference(noteId: Long, tagId: Long) {
+    fun onAttach(noteId: Long, tagId: Long) {
         CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {
                 getNoteTagRepository().attach(noteId, tagId)
+            }
+        }
+    }
+
+    fun onDetach(noteId: Long, tagId: Long) {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
+            withContext(Dispatchers.IO) {
+                getNoteTagRepository().detach(noteId, tagId)
             }
         }
     }
