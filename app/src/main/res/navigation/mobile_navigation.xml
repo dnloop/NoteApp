@@ -22,13 +22,15 @@
         <action
             android:id="@+id/action_nav_home_to_nav_archive"
             app:destination="@id/nav_archive" />
+        <action
+            android:id="@+id/action_nav_home_to_tagEditorFragment"
+            app:destination="@id/nav_tag_editor" />
     </fragment>
-
     <fragment
         android:id="@+id/nav_category"
         android:name="io.github.dnloop.noteapp.ui.CategoryFragment"
         android:label="@string/menu_category"
-        tools:layout="@layout/fragment_category" >
+        tools:layout="@layout/fragment_category">
         <action
             android:id="@+id/action_nav_category_to_nav_home"
             app:destination="@id/nav_home" />
@@ -36,13 +38,11 @@
             android:id="@+id/action_nav_category_to_nav_folder"
             app:destination="@id/nav_folder" />
     </fragment>
-
     <fragment
         android:id="@+id/nav_share"
         android:name="io.github.dnloop.noteapp.ui.ShareFragment"
         android:label="@string/menu_share"
         tools:layout="@layout/fragment_share" />
-
     <fragment
         android:id="@+id/nav_content_note"
         android:name="io.github.dnloop.noteapp.ui.ContentNoteFragment"
@@ -68,9 +68,14 @@
         android:id="@+id/nav_folder"
         android:name="io.github.dnloop.noteapp.ui.FolderFragment"
         android:label="@string/item_category"
-        tools:layout="@layout/fragment_folder" >
+        tools:layout="@layout/fragment_folder">
         <action
             android:id="@+id/action_nav_folder_to_nav_content_note"
             app:destination="@id/nav_content_note" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_tag_editor"
+        android:name="io.github.dnloop.noteapp.ui.TagEditorFragment"
+        android:label="@string/tag_editor"
+        tools:layout="@layout/fragment_tag_editor" />
 </navigation>

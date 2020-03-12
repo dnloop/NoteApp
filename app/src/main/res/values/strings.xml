@@ -36,5 +36,9 @@
     <string name="edit_tag_button">Edit Tag Button</string>
     <string name="delete_tag_button">Delete Tag Button</string>
     <string name="edit_tag">Edit Tag</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="tag_editor">Tag Editor</string>
+    <string name="export">Export</string>
 
 </resources>
