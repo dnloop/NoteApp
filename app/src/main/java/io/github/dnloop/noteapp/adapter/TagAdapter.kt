@@ -24,9 +24,9 @@ class TagAdapter(val clickListener: TagListener): ListAdapter<Tag, TagAdapter.Vi
         ) {
             binding.tag = item
             binding.clickListener = clickListener
-            binding.btnDelete.setOnClickListener { clickListener.setOnDeleteClickListener {
+            binding.btnDelete.setOnClickListener {
                 clickListener.listener?.invoke(item)
-            } }
+            }
         }
 
         companion object {

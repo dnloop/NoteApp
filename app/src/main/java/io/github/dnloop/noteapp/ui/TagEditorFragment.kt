@@ -19,6 +19,7 @@ import io.github.dnloop.noteapp.databinding.FragmentTagEditorBinding
 import io.github.dnloop.noteapp.ui.viewmodel.TagEditorViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.TagEditorViewModelFactory
 import kotlinx.android.synthetic.main.list_item_tag.*
+import timber.log.Timber
 
 
 class TagEditorFragment : Fragment() {
@@ -26,7 +27,7 @@ class TagEditorFragment : Fragment() {
 
     private lateinit var tagEditorViewModel: TagEditorViewModel
 
-    private var tag: Tag = Tag()
+    private var _tag: Tag = Tag()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +40,10 @@ class TagEditorFragment : Fragment() {
             tagId -> tagEditorViewModel.onTagSelected(tagId)
         })
 
-        adapter.clickListener.setOnDeleteClickListener {
-            Toast.makeText(context, "Tag deleted: ${it.name}", Toast.LENGTH_SHORT).show()
+        adapter.clickListener.setOnDeleteClickListener {tag ->
+            tag.let {
+                Toast.makeText(context, "Tag deleted: ${it.name}", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding = DataBindingUtil.inflate(
@@ -64,6 +67,14 @@ class TagEditorFragment : Fragment() {
         return binding.root
     }
 
+    private fun checkTag() {
+        _tag.name = binding.tagInput.text.toString()
+        if (_tag.name.isNotBlank()) {
+            tagEditorViewModel.onInsert(_tag)
+            Timber.i("Tag '${_tag.name}' Inserted")
+        }
+    }
+
     private fun FragmentTagEditorBinding.setBinding(adapter: TagAdapter) {
         (activity as MainActivity?)?.getFloatingActionButton()?.hide()
 
@@ -72,6 +83,10 @@ class TagEditorFragment : Fragment() {
         binding.tagEditorViewModel = this@TagEditorFragment.tagEditorViewModel
 
         binding.lifecycleOwner = this@TagEditorFragment
+
+        btnAdd.setOnClickListener {
+           checkTag()
+        }
     }
 
     private fun init(): TagEditorViewModel {
