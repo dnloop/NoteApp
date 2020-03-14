@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Note App</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -18,7 +19,6 @@
     <string name="text_title">Title</string>
     <string name="text_body" tools:ignore="Typos">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat diam sit amet velit sagittis dapibus. Vivamus vel elit quis sem placerat iaculis. Nam velit mauris, ornare non nunc id, rutrum efficitur nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam vel dolor vel purus fermentum commodo vel ut nunc. Phasellus blandit et orci vitae gravida. Nullam a condimentum quam, non elementum ante. Cras porttitor rutrum arcu id tempus. Morbi imperdiet quis lectus non semper. Nulla in tempor nunc. Sed justo leo, molestie sed laoreet at, tincidunt sed nibh. Sed convallis convallis risus ac sodales.</string>
     <string name="text_category">Category</string>
-    <string name="text_timestamp" translatable="false">1970 05:34:30</string><!-- TODO Remove this on production  -->
     <string name="hint_title">Title</string>
     <string name="hint_content">Content</string>
     <string name="item_category">Category</string>
