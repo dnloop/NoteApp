@@ -155,7 +155,7 @@ class NoteTagDaoTest {
         val list: List<NoteTagCrossRef> = arrayListOf(tagCrossRef1, tagCrossRef2, tagCrossRef3)
 
         noteTagDao.insertAll(list)
-        val allTags = noteDao.getNoteWithTags()
+        val allTags = noteDao.getNotesWithTags()
         allTags.observeForever{} // messy but functional
         Assert.assertEquals(false, allTags.value.isNullOrEmpty())
         Assert.assertEquals(3, allTags.value?.size)
@@ -199,13 +199,34 @@ class NoteTagDaoTest {
         noteTagDao.insertAll(list)
 
         noteTagDao.deleteAll(list)
-        val allTags = noteDao.getNoteWithTags()
+        val allTags = noteDao.getNotesWithTags()
         allTags.observeForever{} // messy but functional
         Assert.assertEquals(true, allTags.value?.get(0)?.tags?.isEmpty())
     }
 
     /**
      * Retrieve a LiveData List of Notes with Tags.
+     */
+    @Test
+    @Throws(Exception::class)
+    fun getNotesWithTags() {
+        val tag = Tag()
+        val note = Note()
+        tag.id = 1
+        note.id = 1
+        noteDao.insert(note)
+        tagDao.insert(tag)
+        val crossRef = NoteTagCrossRef(note.id, tag.id)
+        val retTag: Long = noteTagDao.insert(crossRef)
+        Assert.assertEquals(1, retTag)
+        // check assertion
+        val list = noteDao.getNotesWithTags()
+        list.observeForever{}
+        Assert.assertEquals(false, list.value?.isNullOrEmpty())
+    }
+
+    /**
+     * Retrieve a LiveData Note with a List of Tags.
      */
     @Test
     @Throws(Exception::class)
@@ -220,9 +241,9 @@ class NoteTagDaoTest {
         val retTag: Long = noteTagDao.insert(crossRef)
         Assert.assertEquals(1, retTag)
         // check assertion
-        val list = noteDao.getNoteWithTags()
+        val list = noteDao.getNoteWithTags(note.id)
         list.observeForever{}
-        Assert.assertEquals(false, list.value?.isNullOrEmpty())
+        Assert.assertEquals(false, list.value?.tags.isNullOrEmpty())
     }
 
     /**
@@ -241,9 +262,30 @@ class NoteTagDaoTest {
         val retTag: Long = noteTagDao.insert(crossRef)
         Assert.assertEquals(1, retTag)
         // check assertion
-        val list = noteDao.getTagWithNotes()
+        val list = noteDao.getTagsWithNotes()
         list.observeForever{}
         Assert.assertEquals(false, list.value?.isNullOrEmpty())
+    }
+
+    /**
+     * Retrieve a LiveData Tag with a List of Notes.
+     */
+    @Test
+    @Throws(Exception::class)
+    fun getTagWithNotes() {
+        val tag = Tag()
+        val note = Note()
+        tag.id = 1
+        note.id = 1
+        noteDao.insert(note)
+        tagDao.insert(tag)
+        val crossRef = NoteTagCrossRef(note.id, tag.id)
+        val retTag: Long = noteTagDao.insert(crossRef)
+        Assert.assertEquals(1, retTag)
+        // check assertion
+        val list = noteDao.getTagWithNotes(tag.id)
+        list.observeForever{}
+        Assert.assertEquals(false, list.value?.notes.isNullOrEmpty())
     }
 
     /**
@@ -262,13 +304,13 @@ class NoteTagDaoTest {
         crossRef.noteId = note.id
         crossRef.tagId = tag.id
         noteTagDao.insert(crossRef)
-        var list = noteDao.getTagWithNotes()
+        var list = noteDao.getTagsWithNotes()
         // check assertion
         list.observeForever{}
         Assert.assertEquals(false, list.value?.isNullOrEmpty())
         // delete record
         noteTagDao.delete(crossRef)
-        list = noteDao.getTagWithNotes()
+        list = noteDao.getTagsWithNotes()
         list.observeForever{}
         Assert.assertEquals(true, list.value?.get(0)?.notes?.isEmpty())
     }
