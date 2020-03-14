@@ -3,7 +3,6 @@ package io.github.dnloop.noteapp.ui.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.github.dnloop.noteapp.data.Tag
 import io.github.dnloop.noteapp.data.TagDao
 import io.github.dnloop.noteapp.data.TagRepository
@@ -46,6 +45,14 @@ class TagEditorViewModel(val tagDataSource: TagDao, application: Application) : 
         CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {
                 getRepository().update(tag)
+            }
+        }
+    }
+
+    fun onDelete(tag: Tag) {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
+            withContext(Dispatchers.IO) {
+                getRepository().hardDelete(tag)
             }
         }
     }

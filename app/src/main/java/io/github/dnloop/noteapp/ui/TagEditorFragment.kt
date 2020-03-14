@@ -1,20 +1,15 @@
 package io.github.dnloop.noteapp.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import io.github.dnloop.noteapp.MainActivity
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.adapter.TagAdapter
@@ -25,7 +20,6 @@ import io.github.dnloop.noteapp.databinding.FragmentTagEditorBinding
 import io.github.dnloop.noteapp.ui.TagDialogFragment.TagDialogListener
 import io.github.dnloop.noteapp.ui.viewmodel.TagEditorViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.TagEditorViewModelFactory
-import kotlinx.android.synthetic.main.list_item_tag.*
 import timber.log.Timber
 
 
@@ -44,7 +38,8 @@ class TagEditorFragment : Fragment(), TagDialogListener {
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment, tag: Tag) {
-        Toast.makeText(context, "Edited: ${tag.name}", Toast.LENGTH_SHORT).show()
+        tagEditorViewModel.onUpdate(tag)
+        Toast.makeText(context, "Tag edited", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {}
@@ -62,6 +57,7 @@ class TagEditorFragment : Fragment(), TagDialogListener {
 
         adapter.clickListener.setOnDeleteClickListener {tag ->
             tag.let {
+                tagEditorViewModel.onDelete(tag)
                 Toast.makeText(context, "Tag deleted: ${it.name}", Toast.LENGTH_SHORT).show()
             }
         }

@@ -2,7 +2,6 @@ package io.github.dnloop.noteapp.ui
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -11,7 +10,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.Tag
-import kotlinx.android.synthetic.main.dialog_tag_editor.*
 
 
 /**
