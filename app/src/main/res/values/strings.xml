@@ -41,4 +41,6 @@
     <string name="export">Export</string>
     <string name="attach_selected">Attach Selected</string>
     <string name="detach_selected">Detach Selected</string>
+    <string name="selected_tags">Selected Tags</string>
+    <string name="all_tags">All Tags</string>
 </resources>
