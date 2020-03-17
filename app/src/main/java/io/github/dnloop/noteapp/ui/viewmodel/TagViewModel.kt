@@ -3,6 +3,7 @@ package io.github.dnloop.noteapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import io.github.dnloop.noteapp.data.*
 import kotlinx.coroutines.*
+import javax.sql.DataSource
 
 
 /**
@@ -10,7 +11,8 @@ import kotlinx.coroutines.*
  */
 class TagViewModel(
     noteKeyId: Long,
-    private val tagDataSource: TagDao,
+    val tagDataSource:  TagDao,
+    val noteDataSource: NoteDao,
     private val noteTagDataSource: NoteTagDao
 ) : ViewModel() {
     private val viewModelJob = Job()
@@ -20,40 +22,15 @@ class TagViewModel(
         viewModelJob.cancel()
     }
 
-    private suspend fun getTagRepository(): TagRepository {
+    private suspend fun getNoteRepository(): NoteRepository {
         return withContext(Dispatchers.IO) {
-            TagRepository(tagDataSource)
+            NoteRepository(noteDataSource)
         }
     }
-
-    /* BEG TEST */
-
-    fun onInsertDummy(id: Long): Long = runBlocking {
-        return@runBlocking withContext(Dispatchers.Default) {
-            insertDummy(id)
-        }
-    }
-
-    private suspend fun insertDummy(id: Long): Long {
-        return withContext(Dispatchers.IO) { id }
-    }
-
-    /* END TEST */
 
     private suspend fun getNoteTagRepository(): NoteTagRepository {
         return withContext(Dispatchers.IO) {
             NoteTagRepository(noteTagDataSource)
-        }
-    }
-    fun onInsertTag(tag: Tag): Long = runBlocking {
-        return@runBlocking withContext(Dispatchers.Default) {
-            insertTag(tag)
-        }
-    }
-
-    private suspend fun insertTag(tag: Tag): Long {
-        return withContext(Dispatchers.IO) {
-            getTagRepository().insert(tag)
         }
     }
 
