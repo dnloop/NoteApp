@@ -4,6 +4,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.github.dnloop.noteapp.auxiliary.Formatter
 import io.github.dnloop.noteapp.auxiliary.Validator
+import io.github.dnloop.noteapp.data.Category
 import io.github.dnloop.noteapp.data.Note
 import io.github.dnloop.noteapp.data.Tag
 
@@ -29,5 +30,10 @@ fun TextView.setModifiedAt(item: Note?) {
 
 @BindingAdapter("tagName")
 fun TextView.setTagName(item: Tag?) {
+    item?.let { text = item.name }
+}
+
+@BindingAdapter("categoryName")
+fun TextView.setCategoryName(item: Category?) {
     item?.let { text = item.name }
 }
