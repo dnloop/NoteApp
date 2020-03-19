@@ -46,7 +46,7 @@ class NoteDaoTest {
     @Test
     @Throws(Exception::class)
     fun getNoteDao() {
-        assertNotNull("Null database", db.noteDao)
+        assertNotNull("Null database", noteDao)
     }
 
     /**
@@ -82,7 +82,7 @@ class NoteDaoTest {
         val note = Note()
         note.id = 1
         val ret: Long = noteDao.insert(note)
-        val newNote = db.noteDao.getLatest()
+        val newNote = noteDao.getLatest()
         assertEquals(1, ret)
         assertEquals(1, newNote?.id)
     }
@@ -109,7 +109,7 @@ class NoteDaoTest {
     fun insertWithTimestamp() {
         val note = Note()
         val ret: Long = noteDao.insertWithTimestamp(note)
-        val newNote = db.noteDao.getLatest()
+        val newNote = noteDao.getLatest()
         assertEquals(1, ret)
         assertNotEquals(0, newNote?.createdAt)
         assertNotEquals(0, newNote?.modifiedAt)
@@ -127,10 +127,31 @@ class NoteDaoTest {
         val retCategory: Long = categoryDao.insert(category)
         val retNote: Long = noteDao.insertWithCategory(note, category)
         // check if category exists
-        val newNote = db.noteDao.getLatest()
+        val newNote = noteDao.getLatest()
         assertEquals(retCategory, 1)
         assertEquals(retNote, 1)
         assertEquals(1, newNote?.categoryId )
+    }
+
+    /**
+     * Retrieves the count of notes within a category.
+     */
+    @Test
+    @Throws(Exception::class)
+    fun countNotes() {
+        val note = Note()
+        val category = Category()
+        category.id = 1
+        category.name = "testCategory"
+        note.title = "no category"
+        noteDao.insert(note) // a note without category
+        note.title = "with category"
+        categoryDao.insert(category)
+        noteDao.insertWithCategory(note, category) // another note with category
+        // check if category exists
+        val notes = categoryDao.getNotesCount(category.id)
+        notes.observeForever {}
+        assertEquals(1L, notes.value )
     }
 
     /**
@@ -148,7 +169,7 @@ class NoteDaoTest {
         // perform update
         note.title = "newTitle"
         noteDao.update(note)
-        val newNote = db.noteDao.getLatest()
+        val newNote = noteDao.getLatest()
         assertEquals("newTitle", newNote?.title)
     }
 
@@ -168,7 +189,7 @@ class NoteDaoTest {
         note.title = "newTitle"
         noteDao.updateWithTimestamp(note)
         // check assertion
-        val newNote = db.noteDao.getLatest()
+        val newNote = noteDao.getLatest()
         assertEquals("newTitle", newNote?.title)
         assertNotEquals(newNote?.createdAt, newNote?.modifiedAt)
     }

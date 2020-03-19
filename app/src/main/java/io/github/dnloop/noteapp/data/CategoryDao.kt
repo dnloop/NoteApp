@@ -68,4 +68,13 @@ abstract class CategoryDao {
      */
     @Query("SELECT * FROM Category ORDER BY category_id DESC")
     abstract fun getAllCategories(): LiveData<List<Category>>
+
+    /**
+     * Counts all rows in the table with the given category id.
+     *
+     * @param key category id
+     */
+    @Transaction
+    @Query("SELECT COUNT(note_id) FROM Note WHERE categoryId = :key ")
+    abstract fun getNotesCount(key: Long): LiveData<Long>
 }

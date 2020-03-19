@@ -23,6 +23,10 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
         categoryDao.delete(category)
     }
 
+    fun countNotes(id: Long) : LiveData<Long> {
+        return categoryDao.getNotesCount(id)
+    }
+
     fun clearTable() {
         categoryDao.clear()
     }

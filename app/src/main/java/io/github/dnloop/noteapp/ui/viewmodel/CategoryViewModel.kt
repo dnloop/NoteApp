@@ -57,4 +57,12 @@ class CategoryViewModel(val categoryDataSource: CategoryDao, application: Applic
             }
         }
     }
+
+    fun onNoteCount(category: Category) {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
+            withContext(Dispatchers.IO) {
+                getRepository().countNotes(category.id)
+            }
+        }
+    }
 }
