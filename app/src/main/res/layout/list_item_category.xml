@@ -7,6 +7,9 @@
         <variable
             name="category"
             type="io.github.dnloop.noteapp.data.Category" />
+        <variable
+            name="clickListener"
+            type="io.github.dnloop.noteapp.adapter.CategoryListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
