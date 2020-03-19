@@ -43,4 +43,5 @@
     <string name="detach_selected">Detach Selected</string>
     <string name="all_tags">All Tags</string>
     <string name="selected_tags">Selected Tags</string>
+    <string name="insert_category">Insert Category</string>
 </resources>
