@@ -44,4 +44,6 @@
     <string name="selected_tags">Selected Tags</string>
     <string name="all_tags">All Tags</string>
     <string name="insert_category">Insert Category</string>
+    <string name="edit_category">Edit Category</string>
+    <string name="text_name">Name</string>
 </resources>
