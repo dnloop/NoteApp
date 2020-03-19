@@ -11,7 +11,7 @@ data class Note (
     var id : Long,
     var title : String,
     var content : String,
-    var categoryId : Int?,
+    var categoryId : Long?,
     var archived : Boolean,
     // CRUD values
     var deleted : Boolean,

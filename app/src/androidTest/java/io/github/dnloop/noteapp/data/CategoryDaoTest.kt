@@ -172,7 +172,7 @@ class CategoryDaoTest {
         val category = Category()
         // insert multiple fields
         for (i in 1..5){
-            category.id = i
+            category.id = i.toLong()
             categoryDao.insert(category)
         }
         // check assertion
