@@ -12,15 +12,20 @@ class CategoryViewModel(val categoryDataSource: CategoryDao, application: Applic
 
     private val _openDialogEditor = MutableLiveData<Category>()
 
+    private val _badgeCounter = MutableLiveData<Long>()
+
     val openDialogEditor
         get() = _openDialogEditor
 
-    fun onOpenDialogEditorNavigated() {
-        _openDialogEditor.value = null
-    }
+    val badgeCounter
+        get() = _badgeCounter
 
     fun onCategorySelected(item: Category) {
         _openDialogEditor.value = item
+    }
+
+    fun onBadgeCounterChanged(item: Long) {
+        _badgeCounter.value = item
     }
 
     private suspend fun getRepository(): CategoryRepository {

@@ -78,6 +78,12 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
             }
         })
 
+        categoryViewModel.badgeCounter.observe(viewLifecycleOwner, Observer {notes ->
+            notes?.let {
+                adapter.setBadgeCounter(it)
+            }
+        })
+
         return binding.root
     }
 

@@ -24,6 +24,7 @@ class CategoryAdapter(val clickListener: CategoryListener): ListAdapter<Category
             clickListener: CategoryListener
         ) {
             binding.category = item
+            binding.counterBadge.text = number.toString()
             binding.clickListener = clickListener
             binding.btnDelete.setOnClickListener {
                 clickListener.listener?.invoke(item)
@@ -36,7 +37,12 @@ class CategoryAdapter(val clickListener: CategoryListener): ListAdapter<Category
                 val binding = ListItemCategoryBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
+            var number: Long = 0L
         }
+    }
+
+    fun setBadgeCounter(number: Long) {
+        ViewHolder.number = number
     }
 
     private class CategoryDiffCallback : DiffUtil.ItemCallback<Category>() {
