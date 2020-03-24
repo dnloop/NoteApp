@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
 
-class CategoryDialogViewModel(
+class CategorySelectorViewModel(
     val categoryDataSource: CategoryDao,
     application: Application
 ) : AndroidViewModel(application) {

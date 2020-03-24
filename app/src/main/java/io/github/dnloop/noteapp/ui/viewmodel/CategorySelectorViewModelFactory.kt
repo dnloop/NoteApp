@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import io.github.dnloop.noteapp.data.CategoryDao
 
 @Suppress("UNCHECKED_CAST")
-class CategoryDialogViewModelFactory(
+class CategorySelectorViewModelFactory(
     private val categoryDataSource: CategoryDao,
     private val application: Application
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CategoryDialogViewModel::class.java)) {
-            return CategoryDialogViewModel(categoryDataSource, application) as T
+        if (modelClass.isAssignableFrom(CategorySelectorViewModel::class.java)) {
+            return CategorySelectorViewModel(categoryDataSource, application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
