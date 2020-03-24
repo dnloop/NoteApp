@@ -47,4 +47,6 @@
     <string name="edit_category">Edit Category</string>
     <string name="text_name">Name</string>
     <string name="btn_remove_category">Remove current category</string>
+    <string name="none">None</string>
+    <string name="category_selected">Category</string>
 </resources>

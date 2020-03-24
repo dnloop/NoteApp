@@ -5,19 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btn_remove"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+    <TextView
+        android:id="@+id/category_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/btn_remove_category"
-        app:layout_constraintBottom_toTopOf="@+id/category_simple_list"
+        android:background="@color/primaryColor"
+        android:padding="12dp"
+        android:text="@string/category_selected"
+        android:textAlignment="center"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBottom_toTopOf="@+id/selected_category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/selected_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/none"
+        android:textAlignment="center"
+        android:textColor="@color/primaryColor"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/category_simple_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category_header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_simple_list"
@@ -30,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_remove"
+        app:layout_constraintTop_toBottomOf="@+id/selected_category"
         tools:itemCount="5"
         tools:listitem="@layout/list_item_category_simple" />
 </androidx.constraintlayout.widget.ConstraintLayout>
