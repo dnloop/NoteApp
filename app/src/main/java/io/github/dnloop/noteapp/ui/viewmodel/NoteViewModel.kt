@@ -69,7 +69,7 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         MutableLiveData<List<NotesWithCategory>>().also {
             loadNotesWithCategory()
         }
-    }
+    } // TODO what is this?
 
     private fun loadNotesWithCategory() {
         CoroutineScope(Dispatchers.Main + Job()).launch {
