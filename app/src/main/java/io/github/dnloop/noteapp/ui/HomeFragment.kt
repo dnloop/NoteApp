@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        noteViewModel.dataSource.getAllNotes().observe(viewLifecycleOwner, Observer {
+        noteViewModel.loadNotes().observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }
