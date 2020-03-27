@@ -80,6 +80,8 @@ class TagFragment(private val _noteId: Long) : Fragment() {
         chipCheckedBinding.chipItem.setOnCloseIconClickListener {
             binding.selectedChipGroup.removeView(it)
         }
+        if (chipCheckedBinding.chipItem.parent != null)
+            (chipCheckedBinding.chipItem.parent as ViewGroup).removeView(chipCheckedBinding.chipItem)
         binding.selectedChipGroup.addView(chipCheckedBinding.chipItem)
     }
 
@@ -89,6 +91,8 @@ class TagFragment(private val _noteId: Long) : Fragment() {
         chipAllBinding.chipItem.setOnCloseIconClickListener {
             binding.chipGroup.removeView(it)
         }
+        if (chipAllBinding.chipItem.parent != null)
+            (chipAllBinding.chipItem.parent as ViewGroup).removeView(chipAllBinding.chipItem)
         binding.chipGroup.addView(chipAllBinding.chipItem)
     }
 
