@@ -14,12 +14,12 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao): ViewM
 
     private val viewModelJob = Job()
 
-    private val note = MediatorLiveData<Note>()
+    private var _note = MediatorLiveData<Note>()
 
-    fun getNote() = note
+    fun getNote() = _note
 
     init {
-        note.addSource(dataSource.get(noteKeyId), note::setValue)
+        _note.addSource(dataSource.get(noteKeyId), _note::setValue)
     }
 
     private val _navigateToHome = MutableLiveData<Boolean?>()
