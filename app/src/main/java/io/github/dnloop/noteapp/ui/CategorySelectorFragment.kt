@@ -55,7 +55,7 @@ class CategorySelectorFragment(private var _category: Category) : DialogFragment
 
             binding.setBinding(adapter)
 
-            categorySelectorViewModel.loadCategories().observe(viewLifecycleOwner, Observer { categoryList ->
+            categorySelectorViewModel.loadCategories().observe(this, Observer { categoryList ->
                 categoryList?.let {
                     adapter.submitList(categoryList)
                     categoryList.forEach { category ->
@@ -64,11 +64,11 @@ class CategorySelectorFragment(private var _category: Category) : DialogFragment
                 }
             })
 
-            categorySelectorViewModel.selectedCategory.observe(viewLifecycleOwner, Observer { category ->
+            categorySelectorViewModel.selectedCategory.observe(this, Observer { category ->
                 _category = category
             })
 
-            categorySelectorViewModel.badgeCounter.observe(viewLifecycleOwner, Observer {notes ->
+            categorySelectorViewModel.badgeCounter.observe(this, Observer {notes ->
                 notes?.let { number ->
                     adapter.setBadgeCounter(number)
                 }
