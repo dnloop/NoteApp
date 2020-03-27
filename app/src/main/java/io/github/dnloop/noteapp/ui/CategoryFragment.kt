@@ -29,8 +29,8 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
 
     private var _category: Category = Category()
 
-    private fun showCategoryDialog(Category: Category) {
-        val dialog = CategoryDialogFragment(Category)
+    private fun showCategoryDialog(category: Category) {
+        val dialog = CategoryDialogFragment(category)
         dialog.listener = this
         dialog.show(childFragmentManager, "CategoryDialogFragment")
     }
