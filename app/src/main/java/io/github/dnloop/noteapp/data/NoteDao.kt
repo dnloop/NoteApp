@@ -49,6 +49,20 @@ abstract class NoteDao {
     }
 
     /**
+     * When updating a row with a value already set in a column,
+     * replaces the old value with the new one using the category id
+     * to link it to the note.
+     *
+     * @param pair a note with a category object.
+     */
+    fun updateWithCategory(pair: NoteWithCategory) {
+        update(pair.note.apply {
+            categoryId = pair.category.id
+            modifiedAt = System.currentTimeMillis()
+        })
+    }
+
+    /**
      * Selects and returns the row that matches the supplied noteId.
      *
      * @param key noteId
