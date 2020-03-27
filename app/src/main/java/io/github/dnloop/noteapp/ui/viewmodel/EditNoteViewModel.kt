@@ -7,10 +7,11 @@ import androidx.lifecycle.ViewModel
 import io.github.dnloop.noteapp.data.Note
 import io.github.dnloop.noteapp.data.NoteDao
 import io.github.dnloop.noteapp.data.NoteRepository
+import io.github.dnloop.noteapp.data.NoteWithCategory
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao): ViewModel() {
+class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao) : ViewModel() {
 
     private val viewModelJob = Job()
 
@@ -68,6 +69,14 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao): ViewM
         CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {
                 getRepository().update(note)
+            }
+        }
+    }
+
+    fun getNoteWithCategory(): LiveData<NoteWithCategory> {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                getRepository().noteWithCategory
             }
         }
     }
