@@ -74,7 +74,7 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
 
         categoryViewModel.openDialogEditor.observe(viewLifecycleOwner, Observer {tag ->
             tag?.let {
-                showTagDialog(it)
+                showCategoryDialog(it)
             }
         })
 
@@ -85,12 +85,6 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
         })
 
         return binding.root
-    }
-
-    private fun showTagDialog(category: Category) {
-        val dialog = CategoryDialogFragment(category)
-        dialog.listener = this
-        dialog.show(childFragmentManager, "CategoryDialogFragment")
     }
 
     private fun FragmentCategoryBinding.setBinding(adapter: CategoryAdapter) {
