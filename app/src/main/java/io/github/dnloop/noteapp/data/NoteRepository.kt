@@ -7,7 +7,7 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()
 
-    val notesWithCategory: LiveData<List<NotesWithCategory>> = noteDao.getNotesWithCategory()
+    val noteWithCategory: LiveData<NoteWithCategory> = noteDao.getNotesWithCategory()
 
     val noteWithTags: LiveData<List<NoteWithTags>> = noteDao.getNotesWithTags()
 

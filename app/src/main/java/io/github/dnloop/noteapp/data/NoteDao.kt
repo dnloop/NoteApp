@@ -87,7 +87,7 @@ abstract class NoteDao {
      */
     @Transaction
     @Query("SELECT * FROM Note")
-    abstract fun getNotesWithCategory(): LiveData<List<NotesWithCategory>>
+    abstract fun getNotesWithCategory(): LiveData<NoteWithCategory>
 
     /**
      * Selects all Notes with Tags.
