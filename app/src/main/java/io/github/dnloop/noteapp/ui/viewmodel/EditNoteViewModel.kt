@@ -63,10 +63,10 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : 
         }
     }
 
-    fun getNoteWithCategory(): LiveData<NoteWithCategory> {
+    fun getNoteWithCategory(key: Long): LiveData<NoteWithCategory> {
         return runBlocking {
             withContext(Dispatchers.IO) {
-                getRepository().noteWithCategory
+                getRepository().noteWithCategory(key)
             }
         }
     }

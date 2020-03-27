@@ -38,7 +38,8 @@ class EditNoteFragment(val _noteId: Long) : Fragment(), CategorySelectorFragment
     }
 
     override fun onDialogNeutralClick(dialog: DialogFragment, category: Category) {
-        TODO("Not yet implemented")
+        _noteCategory.category = category
+        editNoteViewModel.onUpdateWithCategory(_noteCategory)
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {}
@@ -59,9 +60,11 @@ class EditNoteFragment(val _noteId: Long) : Fragment(), CategorySelectorFragment
             _noteCategory.note = it
         })
 
-        editNoteViewModel.getNoteWithCategory().observe(viewLifecycleOwner, Observer {
-
-        })
+        _noteCategory.note.categoryId?.let { categoryId ->
+            editNoteViewModel.getNoteWithCategory(categoryId).observe(viewLifecycleOwner, Observer {
+                _noteCategory.category = it.category
+            })
+        }
 
         return binding.root
     }
