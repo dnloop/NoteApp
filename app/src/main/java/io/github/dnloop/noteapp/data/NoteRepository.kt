@@ -3,6 +3,12 @@ package io.github.dnloop.noteapp.data
 import androidx.lifecycle.LiveData
 
 class NoteRepository(private val noteDao: NoteDao) {
+    constructor(noteDao: NoteDao, categoryDao: CategoryDao) : this(noteDao = noteDao) {
+        this.categoryDao = categoryDao
+    }
+
+    private lateinit var categoryDao: CategoryDao
+
     val lastNote: Note? = noteDao.getLatest()
 
     val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()

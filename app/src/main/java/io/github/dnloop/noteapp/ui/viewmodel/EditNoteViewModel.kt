@@ -4,14 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.dnloop.noteapp.data.Note
-import io.github.dnloop.noteapp.data.NoteDao
-import io.github.dnloop.noteapp.data.NoteRepository
-import io.github.dnloop.noteapp.data.NoteWithCategory
+import io.github.dnloop.noteapp.data.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao) : ViewModel() {
+class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : ViewModel() {
+    constructor(noteKeyId: Long, dataSource: NoteDao, dataSourceCategory: CategoryDao) : this(
+        noteKeyId = noteKeyId,
+        dataSourceNote = dataSource
+    ) {
+        this.dataSourceCategory = dataSourceCategory
+    }
+
+    private lateinit var dataSourceCategory: CategoryDao
 
     private val viewModelJob = Job()
 
@@ -20,7 +25,7 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao) : View
     fun getNote() = _note
 
     init {
-        _note.addSource(dataSource.get(noteKeyId), _note::setValue)
+        _note.addSource(dataSourceNote.get(noteKeyId), _note::setValue)
     }
 
     private val _navigateToHome = MutableLiveData<Boolean?>()
@@ -45,7 +50,13 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao) : View
 
     private suspend fun getRepository(): NoteRepository {
         return withContext(Dispatchers.IO) {
-            NoteRepository(dataSource)
+            NoteRepository(dataSourceNote)
+        }
+    }
+
+    private suspend fun getRepositoryWithCategory(): NoteRepository {
+        return withContext(Dispatchers.IO) {
+            NoteRepository(dataSourceNote, dataSourceCategory)
         }
     }
 
@@ -79,5 +90,9 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSource: NoteDao) : View
                 getRepository().noteWithCategory
             }
         }
+    }
+
+    fun onUpdateWithCategory(_noteCategory: NoteWithCategory) {
+
     }
 }
