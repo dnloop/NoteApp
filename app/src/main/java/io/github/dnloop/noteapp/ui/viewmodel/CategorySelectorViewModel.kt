@@ -7,7 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import io.github.dnloop.noteapp.data.Category
 import io.github.dnloop.noteapp.data.CategoryDao
 import io.github.dnloop.noteapp.data.CategoryRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class CategorySelectorViewModel(
     val categoryDataSource: CategoryDao,
@@ -49,12 +52,10 @@ class CategorySelectorViewModel(
         }
     }
 
-    fun onNoteCount(category: Category) {
+    fun onNoteCount(category: Category): LiveData<Long> {
         return runBlocking {
-            CoroutineScope(Dispatchers.Main + Job()).launch {
-                withContext(Dispatchers.IO) {
-                    getRepository().countNotes(category.id)
-                }
+            withContext(Dispatchers.IO) {
+                getRepository().countNotes(category.id)
             }
         }
     }
