@@ -53,7 +53,7 @@ class TagFragment(private val _noteId: Long) : Fragment() {
         tagViewModel = init()
 
         tagViewModel.noteDataSource.getNoteWithTags(_noteId).observe(viewLifecycleOwner, Observer {
-            it.let {
+            it?.let {
                 it.tags.forEach { tag ->
                     addCheckedChip(tag)
                 }
