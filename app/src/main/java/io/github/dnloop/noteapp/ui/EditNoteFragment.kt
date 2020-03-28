@@ -65,8 +65,8 @@ class EditNoteFragment(val _noteId: Long) : Fragment(),
         binding.setBinding()
 
         editNoteViewModel.getNote().observe(viewLifecycleOwner, Observer {
-            _noteCategory.note?.let {
-                _noteCategory.note = it
+             it?.let {note ->
+                 _noteCategory.note = note
             }
         })
 
