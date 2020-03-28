@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import io.github.dnloop.noteapp.data.Category
 import io.github.dnloop.noteapp.data.CategoryDao
 import io.github.dnloop.noteapp.data.CategoryRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class CategorySelectorViewModel(
     val categoryDataSource: CategoryDao,
@@ -18,24 +15,11 @@ class CategorySelectorViewModel(
 ) : AndroidViewModel(application) {
     private val _selectedCategory = MutableLiveData<Category>()
 
-    private val _badgeCounter = MutableLiveData<Long>()
-
     val selectedCategory
         get() = _selectedCategory
 
-    val badgeCounter
-        get() = _badgeCounter
-
-    fun onOpenDialogEditorNavigated() {
-        _selectedCategory.value = null
-    }
-
     fun onCategorySelected(item: Category) {
         _selectedCategory.value = item
-    }
-
-    fun onBadgeCounterChanged(item: Long) {
-        _badgeCounter.value = item
     }
 
     private suspend fun getRepository(): CategoryRepository {
@@ -56,6 +40,14 @@ class CategorySelectorViewModel(
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().countNotes(category.id)
+            }
+        }
+    }
+
+    fun findById(key: Long) : LiveData<Category> {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                getRepository().findById(key)
             }
         }
     }

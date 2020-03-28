@@ -40,7 +40,6 @@ class EditNoteFragment(val _noteId: Long) : Fragment(),
 
     override fun onDialogNeutralClick(
         dialog: DialogFragment,
-        category: Category,
         updated: Boolean
     ) {
         if (updated) {
@@ -108,7 +107,7 @@ class EditNoteFragment(val _noteId: Long) : Fragment(),
     private fun showCategoryList(noteCategory: NoteWithCategory) {
         if (noteCategory.note.categoryId == null)
             noteCategory.category.id = -1L
-        val dialog = CategorySelectorFragment(noteCategory.category)
+        val dialog = CategorySelectorFragment(noteCategory.note.categoryId)
         dialog.listener = this
         dialog.show(childFragmentManager, "CategoryDialogFragment")
     }
