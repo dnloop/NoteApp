@@ -52,7 +52,7 @@ class CategorySelectorViewModel(
         }
     }
 
-    fun onNoteCount(category: Category): LiveData<Long> {
+    fun onNoteCount(category: Category): Long {
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().countNotes(category.id)

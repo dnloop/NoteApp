@@ -32,7 +32,7 @@ class CategorySelectorFragment(private var _category: Category) : DialogFragment
      * */
     interface CategorySelectorListener {
         fun onDialogPositiveClick(dialog: DialogFragment, category: Category)
-        fun onDialogNeutralClick(dialog: DialogFragment, category: Category)
+        fun onDialogNeutralClick(dialog: DialogFragment, category: Category, updated: Boolean)
         fun onDialogNegativeClick(dialog: DialogFragment)
     }
 
@@ -59,7 +59,8 @@ class CategorySelectorFragment(private var _category: Category) : DialogFragment
                 categoryList?.let {
                     adapter.submitList(categoryList)
                     categoryList.forEach { category ->
-                        categorySelectorViewModel.onNoteCount(category)
+                        adapter.setBadgeCounter(categorySelectorViewModel.onNoteCount(category))
+
                     }
                 }
             })
@@ -68,11 +69,6 @@ class CategorySelectorFragment(private var _category: Category) : DialogFragment
                 _category = category
             })
 
-            categorySelectorViewModel.badgeCounter.observe(this, Observer {notes ->
-                notes?.let { number ->
-                    adapter.setBadgeCounter(number)
-                }
-            })
             val view: View = binding.root
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
@@ -81,10 +77,14 @@ class CategorySelectorFragment(private var _category: Category) : DialogFragment
                 .setPositiveButton(R.string.confirm) { _, _ ->
                     listener.onDialogPositiveClick(this, _category)
                 }
-                .setNeutralButton(R.string.btn_remove_category) {_,_ ->
-                    if(_category.id == -1L)
-                        listener.onDialogNeutralClick(this, _category)
-                    dialog?.dismiss()
+                .setNeutralButton(R.string.btn_remove_category) { _, _ ->
+                    if(_category.id != -1L) {
+                        _category.id = -1L
+                        listener.onDialogNeutralClick(this, _category, true)
+                    } else {
+                        dialog?.cancel()
+                        listener.onDialogNeutralClick(this, _category, false)
+                    }
                 }
                 .setNegativeButton(R.string.cancel) { _, _ ->
                     dialog?.cancel()

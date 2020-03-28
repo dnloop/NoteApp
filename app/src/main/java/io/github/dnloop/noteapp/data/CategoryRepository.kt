@@ -23,7 +23,7 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
         categoryDao.delete(category)
     }
 
-    fun countNotes(id: Long) : LiveData<Long> {
+    fun countNotes(id: Long) : Long {
         return categoryDao.getNotesCount(id)
     }
 

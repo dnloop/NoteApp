@@ -22,7 +22,8 @@ import io.github.dnloop.noteapp.databinding.FragmentNoteEditorBinding
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
 
-class EditNoteFragment(val _noteId: Long) : Fragment(), CategorySelectorFragment.CategorySelectorListener {
+class EditNoteFragment(val _noteId: Long) : Fragment(),
+    CategorySelectorFragment.CategorySelectorListener {
 
     private var wasEdited: Boolean = false
 
@@ -37,9 +38,15 @@ class EditNoteFragment(val _noteId: Long) : Fragment(), CategorySelectorFragment
         editNoteViewModel.onUpdateWithCategory(_noteCategory)
     }
 
-    override fun onDialogNeutralClick(dialog: DialogFragment, category: Category) {
-        _noteCategory.category = category
-        editNoteViewModel.onUpdateWithCategory(_noteCategory)
+    override fun onDialogNeutralClick(
+        dialog: DialogFragment,
+        category: Category,
+        updated: Boolean
+    ) {
+        if (updated) {
+            _noteCategory.note.categoryId = null
+            editNoteViewModel.onUpdate(_noteCategory.note)
+        }
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {}
@@ -50,7 +57,8 @@ class EditNoteFragment(val _noteId: Long) : Fragment(), CategorySelectorFragment
     ): View? {
 
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_note_editor, container, false)
+            inflater, R.layout.fragment_note_editor, container, false
+        )
 
         editNoteViewModel = init()
 
@@ -71,7 +79,7 @@ class EditNoteFragment(val _noteId: Long) : Fragment(), CategorySelectorFragment
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if(wasEdited)
+        if (wasEdited)
             checkNoteId()
     }
 
@@ -102,6 +110,8 @@ class EditNoteFragment(val _noteId: Long) : Fragment(), CategorySelectorFragment
     }
 
     private fun showCategoryList(noteCategory: NoteWithCategory) {
+        if (noteCategory.note.categoryId == null)
+            noteCategory.category.id = -1L
         val dialog = CategorySelectorFragment(noteCategory.category)
         dialog.listener = this
         dialog.show(childFragmentManager, "CategoryDialogFragment")

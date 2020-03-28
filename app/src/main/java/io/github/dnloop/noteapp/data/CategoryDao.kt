@@ -76,5 +76,5 @@ abstract class CategoryDao {
      */
     @Transaction
     @Query("SELECT COUNT(note_id) FROM Note WHERE categoryId = :key ")
-    abstract fun getNotesCount(key: Long): LiveData<Long>
+    abstract fun getNotesCount(key: Long): Long
 }
