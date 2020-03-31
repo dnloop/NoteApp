@@ -41,4 +41,12 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
             }
         }
     }
+
+    fun loadArchivedNotes(): LiveData<List<Note>> {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                getRepository().allArchivedNotes
+            }
+        }
+    }
 }

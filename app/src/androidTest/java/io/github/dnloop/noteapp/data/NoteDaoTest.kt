@@ -210,6 +210,26 @@ class NoteDaoTest {
     }
 
     /**
+     * Retrieve a LiveData List of archived notes.
+     */
+    @Test
+    @Throws(Exception::class)
+    fun getAllArchived() {
+        val note = Note()
+        // insert multiple fields
+        for (i in 1..5) {
+            note.id = i.toLong()
+            note.archived = true
+            noteDao.insert(note)
+        }
+        // check assertion
+        val liveData = noteDao.getAllArchivedNotes()
+        liveData.observeForever{}
+        assertEquals(false , liveData.value.isNullOrEmpty())
+        assertEquals(5, liveData.value?.size)
+    }
+
+    /**
      * Retrieve a LiveData List and delete the database.
      */
     @Test
