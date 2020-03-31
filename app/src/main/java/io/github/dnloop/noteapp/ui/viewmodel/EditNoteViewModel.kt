@@ -49,6 +49,15 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : 
         }
     }
 
+    fun onArchive(note: Note) {
+        note.archived = true
+        CoroutineScope(Dispatchers.Main + Job()).launch {
+            withContext(Dispatchers.IO) {
+                getRepository().update(note)
+            }
+        }
+    }
+
     fun onUpdateWithCategory(pair: NoteWithCategory) {
         CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {

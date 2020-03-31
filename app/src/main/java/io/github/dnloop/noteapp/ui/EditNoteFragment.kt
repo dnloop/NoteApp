@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.Category
 import io.github.dnloop.noteapp.data.Note
@@ -90,18 +91,20 @@ class EditNoteFragment(val _noteId: Long) : Fragment(),
         bottomNavigationView.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.item_category -> showCategoryList(_noteCategory)
-                R.id.item_archive -> showArchive(_noteCategory.note)
-                R.id.item_trash -> deleteNote(_noteCategory.note)
+                R.id.item_archive -> onArchive(_noteCategory.note)
+                R.id.item_trash -> onDeleteNote(_noteCategory.note)
             }
         }
     }
 
-    private fun deleteNote(note: Note) {
+    private fun onDeleteNote(note: Note) {
         // TODO implement soft delete
     }
 
-    private fun showArchive(note: Note) {
-        // TODO implement send to archive
+    private fun onArchive(note: Note) {
+        editNoteViewModel.onArchive(note)
+        Toast.makeText(activity, "Note Archived.", Toast.LENGTH_SHORT).show()
+        findNavController().navigateUp()
     }
 
     private fun showCategoryList(noteCategory: NoteWithCategory) {
