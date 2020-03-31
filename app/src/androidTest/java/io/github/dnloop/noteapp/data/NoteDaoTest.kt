@@ -150,8 +150,7 @@ class NoteDaoTest {
         noteDao.insertWithCategory(note, category) // another note with category
         // check if category exists
         val notes = categoryDao.getNotesCount(category.id)
-        notes.observeForever {}
-        assertEquals(1L, notes.value )
+        assertEquals(1L, notes )
     }
 
     /**
