@@ -86,7 +86,7 @@ abstract class NoteDao {
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order.
      */
-    @Query("SELECT * FROM Note ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note Where archived = 0 ORDER BY note_id DESC")
     abstract fun getAllNotes(): LiveData<List<Note>>
 
     /**
