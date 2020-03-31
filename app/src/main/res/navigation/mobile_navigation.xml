@@ -59,7 +59,7 @@
         android:id="@+id/nav_archive"
         android:name="io.github.dnloop.noteapp.ui.ArchiveFragment"
         android:label="@string/menu_archive"
-        tools:layout="@layout/fragment_archive">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_archive_to_nav_home"
             app:destination="@id/nav_home" />
