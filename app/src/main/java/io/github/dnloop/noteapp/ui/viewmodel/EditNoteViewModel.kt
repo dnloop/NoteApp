@@ -6,11 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.github.dnloop.noteapp.data.*
 import kotlinx.coroutines.*
-import timber.log.Timber
 
 class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : ViewModel() {
-    private lateinit var dataSourceCategory: CategoryDao
-
     private val viewModelJob = Job()
 
     private var _note = MediatorLiveData<Note>()
@@ -23,20 +20,9 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : 
 
     private val _navigateToHome = MutableLiveData<Boolean?>()
 
-    val navigateToHome: LiveData<Boolean?>
-        get() = _navigateToHome
-
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
-    }
-
-    fun doneNavigating() {
-        _navigateToHome.value = null
-    }
-
-    fun onClose() {
-        _navigateToHome.value = true
     }
 
     /* Coroutines */
@@ -59,14 +45,6 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : 
         CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {
                 getRepository().update(note)
-            }
-        }
-    }
-
-    fun getNoteWithCategory(key: Long): LiveData<NoteWithCategory> {
-        return runBlocking {
-            withContext(Dispatchers.IO) {
-                getRepository().noteWithCategory(key)
             }
         }
     }
