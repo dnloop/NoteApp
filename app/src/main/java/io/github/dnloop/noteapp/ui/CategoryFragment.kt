@@ -66,21 +66,18 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
 
         binding.setBinding(adapter)
 
-        categoryViewModel.categoryDataSource.getAllCategories().observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.submitList(it)
+        categoryViewModel.loadCategories().observe(viewLifecycleOwner, Observer { categoryList ->
+            categoryList?.let {
+                adapter.submitList(categoryList)
+                categoryList.forEach { category ->
+                    adapter.setBadgeCounter(categoryViewModel.onNoteCount(category))
+                }
             }
         })
 
         categoryViewModel.openDialogEditor.observe(viewLifecycleOwner, Observer {tag ->
             tag?.let {
                 showCategoryDialog(it)
-            }
-        })
-
-        categoryViewModel.badgeCounter.observe(viewLifecycleOwner, Observer {notes ->
-            notes?.let {
-                adapter.setBadgeCounter(it)
             }
         })
 

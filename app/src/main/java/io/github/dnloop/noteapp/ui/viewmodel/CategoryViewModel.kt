@@ -2,30 +2,23 @@ package io.github.dnloop.noteapp.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.github.dnloop.noteapp.data.Category
 import io.github.dnloop.noteapp.data.CategoryDao
 import io.github.dnloop.noteapp.data.CategoryRepository
 import kotlinx.coroutines.*
 
-class CategoryViewModel(val categoryDataSource: CategoryDao, application: Application) : AndroidViewModel(application) {
+class CategoryViewModel(val categoryDataSource: CategoryDao, application: Application) :
+    AndroidViewModel(application) {
 
     private val _openDialogEditor = MutableLiveData<Category>()
-
-    private val _badgeCounter = MutableLiveData<Long>()
 
     val openDialogEditor
         get() = _openDialogEditor
 
-    val badgeCounter
-        get() = _badgeCounter
-
     fun onCategorySelected(item: Category) {
         _openDialogEditor.value = item
-    }
-
-    fun onBadgeCounterChanged(item: Long) {
-        _badgeCounter.value = item
     }
 
     private suspend fun getRepository(): CategoryRepository {
@@ -34,9 +27,12 @@ class CategoryViewModel(val categoryDataSource: CategoryDao, application: Applic
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Job().cancel()
+    fun loadCategories(): LiveData<List<Category>> {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                getRepository().allCategories
+            }
+        }
     }
 
     fun onInsert(category: Category) {
@@ -63,11 +59,24 @@ class CategoryViewModel(val categoryDataSource: CategoryDao, application: Applic
         }
     }
 
-    fun onNoteCount(category: Category) {
-        CoroutineScope(Dispatchers.Main + Job()).launch {
+    fun onNoteCount(category: Category): Long {
+        return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().countNotes(category.id)
             }
         }
+    }
+
+    fun findById(key: Long): LiveData<Category> {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                getRepository().findById(key)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Job().cancel()
     }
 }
