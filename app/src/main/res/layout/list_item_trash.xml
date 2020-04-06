@@ -57,14 +57,14 @@
             android:layout_marginBottom="16dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@string/text_body"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/text_category"
             app:layout_constraintEnd_toStartOf="@+id/btn_restore"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_title"
-            app:noteContent="@{note}" />
+            app:noteContent="@{note}"
+            tools:text="@string/text_body"/>
 
         <TextView
             android:id="@+id/text_title"
@@ -110,7 +110,7 @@
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/text_category"
             app:layout_constraintTop_toTopOf="@+id/text_category"
-            app:noteModifiedAt="@{note}"
+            app:noteDeletedAt="@{note}"
             tools:text="@string/text_timestamp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

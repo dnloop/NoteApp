@@ -28,6 +28,11 @@ fun TextView.setModifiedAt(item: Note?) {
     item?.let { text = Formatter.longToDate(item.modifiedAt) }
 }
 
+@BindingAdapter("noteDeletedAt")
+fun TextView.setDeletedAt(item: Note?) {
+    item?.let { text = Validator.isDeletedAtNull(item.deletedAt) }
+}
+
 @BindingAdapter("tagName")
 fun TextView.setTagName(item: Tag?) {
     item?.let { text = item.name }
