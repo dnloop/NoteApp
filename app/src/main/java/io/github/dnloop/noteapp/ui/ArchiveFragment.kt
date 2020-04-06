@@ -52,7 +52,7 @@ class ArchiveFragment : Fragment() {
         noteViewModel.navigateToEditor.observe(viewLifecycleOwner, Observer { note ->
             note?.let {
                 this.findNavController().navigate(
-                    HomeFragmentDirections.actionNavHomeToNavContentNote(
+                    ArchiveFragmentDirections.actionNavArchiveToNavContentNote(
                         note
                     )
                 )
