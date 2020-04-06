@@ -24,7 +24,7 @@ import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
 
 class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean) : Fragment(),
-    CategorySelectorFragment.CategorySelectorListener {
+    CategorySelectorFragment.CategorySelectorListener, GenericDialogFragment.GenericDialogListener {
 
     private var wasEdited: Boolean = false
 
@@ -37,7 +37,8 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
     override fun onDialogPositiveClick(dialog: DialogFragment, category: Category) {
         _noteCategory.category = category
         editNoteViewModel.onUpdateWithCategory(_noteCategory)
-    }
+        Toast.makeText(activity, "Category added.", Toast.LENGTH_SHORT).show()
+    } // Category Selector Dialog
 
     override fun onDialogNeutralClick(
         dialog: DialogFragment,
@@ -46,10 +47,20 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
         if (updated) {
             _noteCategory.note.categoryId = null
             editNoteViewModel.onUpdate(_noteCategory.note)
+            Toast.makeText(activity, "Category Removed.", Toast.LENGTH_SHORT).show()
         }
-    }
+    } // Category Selector Dialog
 
-    override fun onDialogNegativeClick(dialog: DialogFragment) {}
+    override fun onDialogPositiveClick(note: Note) {
+        note.deleted = true
+        editNoteViewModel.onUpdate(note)
+        Toast.makeText(activity, "Note Deleted.", Toast.LENGTH_SHORT).show()
+        findNavController().navigateUp()
+    } // Generic Dialog
+
+    override fun onDialogNegativeClick() {} // Generic Dialog
+
+    override fun onDialogNegativeClick(dialog: DialogFragment) {} // Category Selector Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -104,7 +115,9 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
     }
 
     private fun onDeleteNote(note: Note) {
-        // TODO implement soft delete
+        val dialog = GenericDialogFragment(note, R.string.confirm_delete)
+        dialog.listener = this
+        dialog.show(childFragmentManager, "GenericDialogFragment")
     }
 
     private fun onArchive(note: Note) {

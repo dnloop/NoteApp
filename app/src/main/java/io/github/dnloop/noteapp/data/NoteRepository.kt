@@ -33,6 +33,10 @@ class NoteRepository(private val noteDao: NoteDao) {
         return noteDao.get(id)
     }
 
+    fun softDelete(note: Note) {
+        noteDao.update(note)
+    }
+
     fun hardDelete(note: Note) {
         noteDao.delete(note)
     }
@@ -40,7 +44,4 @@ class NoteRepository(private val noteDao: NoteDao) {
     fun clearTable() {
         noteDao.clear()
     }
-
-    // TODO add soft delete and check Cascade deletion
-    // TODO coroutine support
 }

@@ -6,12 +6,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import io.github.dnloop.noteapp.R
+import io.github.dnloop.noteapp.data.Note
 
-class GenericDialogFragment(private val message: String) : DialogFragment() {
+class GenericDialogFragment(private val _note: Note, private val _message: Int) : DialogFragment() {
     internal lateinit var listener: GenericDialogListener
 
     interface GenericDialogListener {
-        fun onDialogPositiveClick()
+        fun onDialogPositiveClick(note: Note)
         fun onDialogNegativeClick()
     }
 
@@ -19,10 +20,10 @@ class GenericDialogFragment(private val message: String) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            builder.setMessage(message)
+            builder.setMessage(_message)
                 // Add action buttons
                 .setPositiveButton(R.string.yes) { _, _ ->
-                    listener.onDialogPositiveClick()
+                    listener.onDialogPositiveClick(_note)
                 }
                 .setNegativeButton(R.string.no) { _, _ ->
                     dialog?.cancel()

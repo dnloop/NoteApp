@@ -86,14 +86,14 @@ abstract class NoteDao {
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order.
      */
-    @Query("SELECT * FROM Note Where archived = 0 ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note WHERE archived = 0 AND deleted = 0  ORDER BY note_id DESC")
     abstract fun getAllNotes(): LiveData<List<Note>>
 
     /**
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order.
      */
-    @Query("SELECT * FROM Note Where archived = 1 ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note WHERE archived = 1 AND deleted = 0 ORDER BY note_id DESC")
     abstract fun getAllArchivedNotes(): LiveData<List<Note>>
 
     /**
@@ -128,14 +128,14 @@ abstract class NoteDao {
      * Selects all Tags with Note id.
      */
     @Transaction
-    @Query("SELECT * FROM Note WHERE note_id = :id")
+    @Query("SELECT * FROM Note WHERE note_id = :id AND deleted = 0")
     abstract fun getNoteWithTags(id: Long): LiveData<NoteWithTags>
 
     /**
      * Selects all Notes with Tag id.
      */
     @Transaction
-    @Query("SELECT * FROM Tag WHERE tag_id = :id")
+    @Query("SELECT * FROM Tag WHERE tag_id = :id AND deleted = 0")
     abstract fun getTagWithNotes(id: Long): LiveData<TagWithNotes>
 
 }
