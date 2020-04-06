@@ -230,6 +230,26 @@ class NoteDaoTest {
     }
 
     /**
+     * Retrieve a LiveData List of soft deleted notes.
+     */
+    @Test
+    @Throws(Exception::class)
+    fun getAllDeleted() {
+        val note = Note()
+        // insert multiple fields
+        for (i in 1..5) {
+            note.id = i.toLong()
+            note.deleted = true
+            noteDao.insert(note)
+        }
+        // check assertion
+        val liveData = noteDao.getAllDeletedNotes()
+        liveData.observeForever{}
+        assertEquals(false , liveData.value.isNullOrEmpty())
+        assertEquals(5, liveData.value?.size)
+    }
+
+    /**
      * Retrieve a LiveData List and delete the database.
      */
     @Test
