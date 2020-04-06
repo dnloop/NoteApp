@@ -32,9 +32,6 @@
         android:label="@string/menu_category"
         tools:layout="@layout/fragment_category">
         <action
-            android:id="@+id/action_nav_category_to_nav_home"
-            app:destination="@id/nav_home" />
-        <action
             android:id="@+id/action_nav_category_to_nav_folder"
             app:destination="@id/nav_folder" />
     </fragment>
@@ -61,8 +58,8 @@
         android:label="@string/menu_archive"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_nav_archive_to_nav_home"
-            app:destination="@id/nav_home" />
+            android:id="@+id/action_nav_archive_to_nav_content_note"
+            app:destination="@id/nav_content_note" />
     </fragment>
     <fragment
         android:id="@+id/nav_folder"
