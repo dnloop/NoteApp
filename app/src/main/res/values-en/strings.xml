@@ -53,4 +53,5 @@
     <string name="no">No</string>
     <string name="item_unarchive">Unarchive</string>
     <string name="confirm_delete">Are you sure you want to delete the note?</string>
+    <string name="trash_fragment">Deleted Notes</string>
 </resources>

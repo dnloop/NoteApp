@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_nav_home_to_tagEditorFragment"
             app:destination="@id/nav_tag_editor" />
+        <action
+            android:id="@+id/action_nav_home_to_trashFragment"
+            app:destination="@id/nav_trash" />
     </fragment>
     <fragment
         android:id="@+id/nav_category"
@@ -79,4 +82,9 @@
         android:name="io.github.dnloop.noteapp.ui.TagEditorFragment"
         android:label="@string/tag_editor"
         tools:layout="@layout/fragment_tag_editor" />
+    <fragment
+        android:id="@+id/nav_trash"
+        android:name="io.github.dnloop.noteapp.ui.TrashFragment"
+        android:label="@string/trash_fragment"
+        tools:layout="@layout/fragment_trash"/>
 </navigation>
