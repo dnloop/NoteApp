@@ -9,11 +9,13 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     val allArchivedNotes: LiveData<List<Note>> = noteDao.getAllArchivedNotes()
 
+    val allDeletedNotes: LiveData<List<Note>> = noteDao.getAllDeletedNotes()
+
     val noteWithTags: LiveData<List<NoteWithTags>> = noteDao.getNotesWithTags()
 
     val tagWithNotes: LiveData<List<TagWithNotes>> = noteDao.getTagsWithNotes()
 
-    fun insert(note: Note) : Long {
+    fun insert(note: Note): Long {
         return noteDao.insertWithTimestamp(note)
     }
 
