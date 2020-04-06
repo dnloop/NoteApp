@@ -18,38 +18,51 @@
         android:background="@android:drawable/dialog_holo_light_frame"
         android:onClick="@{() -> clickListener.onClick(note)}">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/circularImageView"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:src="@mipmap/ic_launcher_round"
-            app:civ_border_color="#2f0909"
-            app:civ_border_width="4dp"
-            app:civ_shadow="true"
-            app:civ_shadow_color="#3f51b5"
-            app:civ_shadow_radius="10"
+        <ImageButton
+            android:id="@+id/btn_hard_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/delete_tag_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_restore"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/btn_restore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/edit_tag_button"
+            android:onClick="@{() -> clickListener.onClick(note)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_hard_delete"
+            app:layout_constraintStart_toEndOf="@+id/text_body"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_restore_black_24dp" />
 
         <TextView
             android:id="@+id/text_body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:ellipsize="end"
             android:maxLines="3"
             android:text="@string/text_body"
             android:textColor="@android:color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/text_category"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/circularImageView"
+            app:layout_constraintEnd_toStartOf="@+id/btn_restore"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_title"
             app:noteContent="@{note}" />
 
@@ -58,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/ubuntu"
             android:src="@color/secondaryColor"
             android:textAlignment="textStart"
@@ -67,40 +80,38 @@
             android:textStyle="bold"
             android:typeface="normal"
             app:layout_constraintBottom_toTopOf="@+id/text_body"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/circularImageView"
-            app:layout_constraintTop_toTopOf="@+id/circularImageView"
-            tools:text="@string/text_title"
-            app:noteTitle="@{note}" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:noteTitle="@{note}"
+            tools:text="@string/text_title" />
 
         <TextView
             android:id="@+id/text_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/circularImageView"
-            app:layout_constraintStart_toEndOf="@+id/circularImageView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_body"
-            tools:text="@string/text_category"
-            app:noteCategory="@{note}" />
+            app:noteCategory="@{note}"
+            tools:text="@string/text_category" />
 
         <TextView
             android:id="@+id/text_modified_at"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:textColor="@android:color/black"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/text_category"
             app:layout_constraintTop_toTopOf="@+id/text_category"
-            tools:text="@string/text_timestamp"
-            app:noteModifiedAt="@{note}" />
+            app:noteModifiedAt="@{note}"
+            tools:text="@string/text_timestamp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
