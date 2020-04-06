@@ -49,4 +49,6 @@
     <string name="btn_remove_category">Remove current category</string>
     <string name="none">None</string>
     <string name="category_selected">Category</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
