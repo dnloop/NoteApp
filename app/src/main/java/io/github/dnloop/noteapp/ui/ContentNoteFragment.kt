@@ -51,7 +51,7 @@ class ContentNoteFragment : Fragment() {
 
         val pagerAdapter = ViewPagerAdapter(childFragmentManager)
 
-        pagerAdapter.setNoteId(arguments.noteId)
+        pagerAdapter.setParameters(arguments.noteId, arguments.archived)
 
         viewPager.adapter = pagerAdapter
 

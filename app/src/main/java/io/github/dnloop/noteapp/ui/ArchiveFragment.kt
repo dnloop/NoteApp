@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,7 +52,7 @@ class ArchiveFragment : Fragment() {
             note?.let {
                 this.findNavController().navigate(
                     ArchiveFragmentDirections.actionNavArchiveToNavContentNote(
-                        note
+                        note, true
                     )
                 )
                 noteViewModel.onNoteEditorNavigated()

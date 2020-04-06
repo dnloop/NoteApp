@@ -10,16 +10,18 @@ import io.github.dnloop.noteapp.ui.TagFragment
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var _noteId: Long = 0L
+    private var _archived: Boolean = false
 
-    fun setNoteId(noteId: Long?) {
+    fun setParameters(noteId: Long?, archived: Boolean) {
         if(noteId != null)
             _noteId = noteId
+        _archived = archived
     }
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
 
-            0 -> EditNoteFragment(_noteId)
+            0 -> EditNoteFragment(_noteId, _archived)
             else -> TagFragment(_noteId)
         }
     }

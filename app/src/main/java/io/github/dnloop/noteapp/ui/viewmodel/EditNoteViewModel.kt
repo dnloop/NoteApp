@@ -1,10 +1,12 @@
 package io.github.dnloop.noteapp.ui.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.dnloop.noteapp.data.*
+import io.github.dnloop.noteapp.data.Note
+import io.github.dnloop.noteapp.data.NoteDao
+import io.github.dnloop.noteapp.data.NoteRepository
+import io.github.dnloop.noteapp.data.NoteWithCategory
 import kotlinx.coroutines.*
 
 class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : ViewModel() {
@@ -42,15 +44,6 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : 
     }
 
     fun onUpdate(note: Note) {
-        CoroutineScope(Dispatchers.Main + Job()).launch {
-            withContext(Dispatchers.IO) {
-                getRepository().update(note)
-            }
-        }
-    }
-
-    fun onArchive(note: Note) {
-        note.archived = true
         CoroutineScope(Dispatchers.Main + Job()).launch {
             withContext(Dispatchers.IO) {
                 getRepository().update(note)

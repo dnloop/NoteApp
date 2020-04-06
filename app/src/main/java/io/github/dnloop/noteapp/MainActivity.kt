@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
 
         binding.drawerLayout.fab.setOnClickListener {
-            navController.navigate(HomeFragmentDirections.actionNavHomeToNavContentNote(0))
+            navController.navigate(HomeFragmentDirections.actionNavHomeToNavContentNote(0, false))
         }
     }
 

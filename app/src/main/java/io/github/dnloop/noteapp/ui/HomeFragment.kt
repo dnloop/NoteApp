@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
             note?.let {
                 this.findNavController().navigate(
                     HomeFragmentDirections.actionNavHomeToNavContentNote(
-                        note
+                        note, false
                     )
                 )
                 noteViewModel.onNoteEditorNavigated()

@@ -23,7 +23,7 @@ import io.github.dnloop.noteapp.databinding.FragmentNoteEditorBinding
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
 
-class EditNoteFragment(val _noteId: Long) : Fragment(),
+class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean) : Fragment(),
     CategorySelectorFragment.CategorySelectorListener {
 
     private var wasEdited: Boolean = false
@@ -88,10 +88,16 @@ class EditNoteFragment(val _noteId: Long) : Fragment(),
 
         inputContent.afterTextChanged {}
 
+        if (_archived) {
+            bottomNavigationView.menu.findItem(R.id.item_archive).isVisible = false
+            bottomNavigationView.menu.findItem(R.id.item_unarchive).isVisible = true
+        }
+
         bottomNavigationView.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.item_category -> showCategoryList(_noteCategory)
                 R.id.item_archive -> onArchive(_noteCategory.note)
+                R.id.item_unarchive -> onUnarchive(_noteCategory.note)
                 R.id.item_trash -> onDeleteNote(_noteCategory.note)
             }
         }
@@ -102,8 +108,16 @@ class EditNoteFragment(val _noteId: Long) : Fragment(),
     }
 
     private fun onArchive(note: Note) {
-        editNoteViewModel.onArchive(note)
+        note.archived = true
+        editNoteViewModel.onUpdate(note)
         Toast.makeText(activity, "Note Archived.", Toast.LENGTH_SHORT).show()
+        findNavController().navigateUp()
+    }
+
+    private fun onUnarchive(note: Note) {
+        note.archived = false
+        editNoteViewModel.onUpdate(note)
+        Toast.makeText(activity, "Note Unarchived.", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }
 
