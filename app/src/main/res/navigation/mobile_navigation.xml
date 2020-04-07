@@ -76,6 +76,14 @@
         <action
             android:id="@+id/action_nav_folder_to_nav_content_note"
             app:destination="@id/nav_content_note" />
+        <argument
+            android:name="catId"
+            app:argType="long"
+            android:defaultValue="0L" />
+        <argument
+            android:name="archived"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/nav_tag_editor"
