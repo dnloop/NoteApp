@@ -93,6 +93,13 @@ abstract class NoteDao {
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order.
      */
+    @Query("SELECT * FROM Note WHERE categoryId = :key AND archived = 0 AND deleted = 0  ORDER BY note_id DESC")
+    abstract fun getAllNotesByCategory(key: Long): LiveData<List<Note>>
+
+    /**
+     * Selects and returns all rows in the table,
+     * sorted by noteId in descending order.
+     */
     @Query("SELECT * FROM Note WHERE archived = 1 AND deleted = 0 ORDER BY note_id DESC")
     abstract fun getAllArchivedNotes(): LiveData<List<Note>>
 
@@ -106,7 +113,7 @@ abstract class NoteDao {
     /**
      * Selects and returns the latest Note.
      */
-    @Query("SELECT * FROM Note ORDER BY note_id DESC LIMIT 1")
+    @Query("SELECT * FROM Note WHERE archived = 0 AND deleted = 0 ORDER BY note_id DESC LIMIT 1")
     abstract fun getLatest(): Note?
 
 
@@ -114,14 +121,14 @@ abstract class NoteDao {
      * Selects the Note with a Category.
      */
     @Transaction
-    @Query("SELECT * FROM Note WHERE categoryId = :key")
+    @Query("SELECT * FROM Note WHERE categoryId = :key AND archived = 0 AND deleted = 0")
     abstract fun getNoteWithCategory(key: Long): LiveData<NoteWithCategory>
 
     /**
      * Selects all Notes with Tags.
      */
     @Transaction
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM Note WHERE archived = 0 AND deleted = 0")
     abstract fun getNotesWithTags(): LiveData<List<NoteWithTags>>
 
     /**
@@ -135,7 +142,7 @@ abstract class NoteDao {
      * Selects all Tags with Note id.
      */
     @Transaction
-    @Query("SELECT * FROM Note WHERE note_id = :id AND deleted = 0")
+    @Query("SELECT * FROM Note WHERE note_id = :id AND archived = 0 AND deleted = 0")
     abstract fun getNoteWithTags(id: Long): LiveData<NoteWithTags>
 
     /**
