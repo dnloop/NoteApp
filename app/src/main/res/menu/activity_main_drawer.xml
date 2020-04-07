@@ -22,6 +22,10 @@
             android:id="@+id/nav_tag_editor"
             android:icon="@drawable/ic_tag"
             android:title="@string/tag_editor" />
+        <item
+            android:id="@+id/nav_trash"
+            android:icon="@drawable/ic_delete_black_24dp"
+            android:title="@string/trash_fragment" />
     </group>
 
     <item android:title="@string/export">
