@@ -22,6 +22,14 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         _navigateToEditor.value = item
     }
 
+    private val _title = MutableLiveData<String>()
+
+    val title: LiveData<String>
+        get() = _title
+
+    fun updateLabel(title: String) = _title.postValue(title)
+
+
     private suspend fun getRepository(): NoteRepository {
         return withContext(Dispatchers.IO) {
            NoteRepository(dataSource)
@@ -38,6 +46,14 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().allNotes
+            }
+        }
+    }
+
+    fun loadNotesByCategory(key: Long): LiveData<List<Note>> {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                getRepository().getNotesWithCategory(key)
             }
         }
     }

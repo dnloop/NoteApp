@@ -65,7 +65,7 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
             category.let {
                 this.findNavController().navigate(
                     CategoryFragmentDirections.actionNavCategoryToNavFolder(
-                        it.id, false
+                        it.id, false, it.name
                     )
                 )
                 categoryViewModel.onCategoryNavigated()

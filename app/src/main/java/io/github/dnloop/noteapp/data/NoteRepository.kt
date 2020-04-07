@@ -15,6 +15,10 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     val tagWithNotes: LiveData<List<TagWithNotes>> = noteDao.getTagsWithNotes()
 
+    fun getNotesWithCategory(key: Long): LiveData<List<Note>> {
+        return noteDao.getAllNotesByCategory(key)
+    }
+
     fun insert(note: Note): Long {
         return noteDao.insertWithTimestamp(note)
     }
