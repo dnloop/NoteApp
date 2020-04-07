@@ -21,6 +21,10 @@ class CategoryViewModel(val categoryDataSource: CategoryDao, application: Applic
         _openDialogEditor.value = item
     }
 
+    fun onCategoryNavigated() {
+        _openDialogEditor.value = null
+    }
+
     private suspend fun getRepository(): CategoryRepository {
         return withContext(Dispatchers.IO) {
             CategoryRepository(categoryDataSource)

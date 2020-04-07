@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import io.github.dnloop.noteapp.MainActivity
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.adapter.CategoryAdapter
@@ -57,6 +58,17 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
             category.let {
                 categoryViewModel.onDelete(it)
                 Toast.makeText(context, "Tag deleted: ${it.name}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        adapter.clickListener.onClickText{ category ->
+            category.let {
+                this.findNavController().navigate(
+                    CategoryFragmentDirections.actionNavCategoryToNavFolder(
+                        it.id, false
+                    )
+                )
+                categoryViewModel.onCategoryNavigated()
             }
         }
 

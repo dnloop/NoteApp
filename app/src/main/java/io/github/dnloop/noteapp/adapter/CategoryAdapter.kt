@@ -29,6 +29,9 @@ class CategoryAdapter(val clickListener: CategoryListener): ListAdapter<Category
             binding.btnDelete.setOnClickListener {
                 clickListener.listener?.invoke(item)
             }
+            binding.itemCategory.setOnClickListener {
+                clickListener.listener?.invoke(item)
+            }
         }
 
         companion object {
@@ -63,6 +66,10 @@ class CategoryListener(val clickListener: (catId: Category) -> Unit) {
     fun onClick(cat: Category) = clickListener(cat)
 
     fun setOnDeleteClickListener(listener: (item: Category) -> Unit) {
+        this.listener = listener
+    }
+
+    fun onClickText(listener: (item: Category) -> Unit) {
         this.listener = listener
     }
 
