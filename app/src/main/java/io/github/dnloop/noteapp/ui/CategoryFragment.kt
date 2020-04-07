@@ -96,6 +96,11 @@ class CategoryFragment : Fragment(), CategoryDialogFragment.CategoryDialogListen
         return binding.root
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        (activity as MainActivity?)?.getFloatingActionButton()?.show()
+    }
+
     private fun FragmentCategoryBinding.setBinding(adapter: CategoryAdapter) {
         (activity as MainActivity?)?.getFloatingActionButton()?.hide()
 

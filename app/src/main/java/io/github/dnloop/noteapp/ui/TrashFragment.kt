@@ -98,4 +98,9 @@ class TrashFragment : Fragment(), GenericDialogFragment.GenericDialogListener {
         return ViewModelProvider(this, viewModelFactory).get(TrashViewModel::class.java)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        (activity as MainActivity?)?.getFloatingActionButton()?.show()
+    }
+
 }

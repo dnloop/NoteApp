@@ -114,4 +114,9 @@ class TagEditorFragment : Fragment(), TagDialogListener {
 
         return ViewModelProvider(this, viewModelFactory).get(TagEditorViewModel::class.java)
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        (activity as MainActivity?)?.getFloatingActionButton()?.show()
+    }
 }
