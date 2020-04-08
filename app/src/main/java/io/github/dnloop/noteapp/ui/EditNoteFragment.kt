@@ -1,11 +1,10 @@
 package io.github.dnloop.noteapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -27,6 +26,8 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
     CategorySelectorFragment.CategorySelectorListener, GenericDialogFragment.GenericDialogListener {
 
     private var wasEdited: Boolean = false
+
+    private var savedButton: Boolean = false
 
     private var _noteCategory: NoteWithCategory = NoteWithCategory()
 
@@ -76,12 +77,31 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
         binding.setBinding()
 
         editNoteViewModel.getNote().observe(viewLifecycleOwner, Observer {
-             it?.let {note ->
-                 _noteCategory.note = note
+            it?.let { note ->
+                _noteCategory.note = note
             }
         })
 
+        setHasOptionsMenu(true)
+
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.share_menu, menu)
+        // check if the activity resolves
+        if (null == getShareIntent().resolveActivity(activity!!.packageManager)) {
+            // hide the menu item if it doesn't resolve
+            menu.findItem(R.id.item_share)?.setVisible(false)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_share -> shareNote()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
@@ -178,5 +198,26 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
                     wasEdited = true
             }
         })
+    }
+
+    private fun getShareIntent(): Intent {
+        val stringBuilder: StringBuilder = StringBuilder()
+
+        stringBuilder.append(_noteCategory.note.title)
+        stringBuilder.append("\n\n")
+        stringBuilder.append(_noteCategory.note.content)
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, stringBuilder.toString())
+
+        return shareIntent
+    }
+
+    private fun shareNote() {
+        if (_noteId > 0) {
+            startActivity(getShareIntent())
+        } else {
+            Toast.makeText(activity, "Note must be saved", Toast.LENGTH_SHORT).show()
+        }
     }
 }

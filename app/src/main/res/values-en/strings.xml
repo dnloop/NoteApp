@@ -56,4 +56,5 @@
     <string name="trash_fragment">Deleted Notes</string>
     <string name="confirm_hard_delete">Permanently remove note? This action cannot be undone.</string>
     <string name="folder">Folder: {Title}</string>
+    <string name="share">Share</string>
 </resources>
