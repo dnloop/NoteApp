@@ -72,7 +72,7 @@
         android:id="@+id/nav_folder"
         android:name="io.github.dnloop.noteapp.ui.FolderFragment"
         android:label="@string/folder"
-        tools:layout="@layout/fragment_folder">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_folder_to_nav_content_note"
             app:destination="@id/nav_content_note" />
