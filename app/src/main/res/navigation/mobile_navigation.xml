@@ -15,7 +15,7 @@
             app:destination="@id/nav_category" />
         <action
             android:id="@+id/action_nav_home_to_nav_share"
-            app:destination="@id/nav_share" />
+            app:destination="@id/nav_backup" />
         <action
             android:id="@+id/action_nav_home_to_nav_content_note"
             app:destination="@id/nav_content_note" />
@@ -39,10 +39,10 @@
             app:destination="@id/nav_folder" />
     </fragment>
     <fragment
-        android:id="@+id/nav_share"
-        android:name="io.github.dnloop.noteapp.ui.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        android:id="@+id/nav_backup"
+        android:name="io.github.dnloop.noteapp.ui.BackupFragment"
+        android:label="@string/menu_backup"
+        tools:layout="@layout/fragment_backup" />
     <fragment
         android:id="@+id/nav_content_note"
         android:name="io.github.dnloop.noteapp.ui.ContentNoteFragment"

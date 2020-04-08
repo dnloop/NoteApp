@@ -12,7 +12,7 @@ import io.github.dnloop.noteapp.MainActivity
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.ui.viewmodel.ShareViewModel
 
-class ShareFragment : Fragment() {
+class BackupFragment : Fragment() {
 
     private lateinit var shareViewModel: ShareViewModel
 
@@ -23,7 +23,7 @@ class ShareFragment : Fragment() {
     ): View? {
         shareViewModel =
                 ViewModelProvider(this).get(ShareViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_share, container, false)
+        val root = inflater.inflate(R.layout.fragment_backup, container, false)
         val textView: TextView = root.findViewById(R.id.text_share)
         shareViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it

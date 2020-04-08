@@ -31,9 +31,9 @@
     <item android:title="@string/export">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
+                android:id="@+id/nav_backup"
+                android:icon="@drawable/ic_backup_black_24dp"
+                android:title="@string/menu_backup" />
         </menu>
     </item>
 
