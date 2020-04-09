@@ -22,12 +22,10 @@ import io.github.dnloop.noteapp.databinding.FragmentNoteEditorBinding
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
 
-class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean) : Fragment(),
+class EditNoteFragment(private var _noteId: Long, private val _archived: Boolean) : Fragment(),
     CategorySelectorFragment.CategorySelectorListener, GenericDialogFragment.GenericDialogListener {
 
     private var wasEdited: Boolean = false
-
-    private var savedButton: Boolean = false
 
     private var _noteCategory: NoteWithCategory = NoteWithCategory()
 
@@ -130,21 +128,35 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
                 R.id.item_archive -> onArchive(_noteCategory.note)
                 R.id.item_unarchive -> onUnarchive(_noteCategory.note)
                 R.id.item_trash -> onDeleteNote(_noteCategory.note)
+                R.id.item_save -> onSave()
             }
         }
     }
 
+    private fun onSave() {
+        if (checkNoteId()) {
+            wasEdited = false
+        } else
+            Toast.makeText(activity, "Cannot save an empty note", Toast.LENGTH_SHORT).show()
+    }
+
     private fun onDeleteNote(note: Note) {
-        val dialog = GenericDialogFragment(note, R.string.confirm_delete)
-        dialog.listener = this
-        dialog.show(childFragmentManager, "GenericDialogFragment")
+        if (_noteId > 0) {
+            val dialog = GenericDialogFragment(note, R.string.confirm_delete)
+            dialog.listener = this
+            dialog.show(childFragmentManager, "GenericDialogFragment")
+        } else
+            Toast.makeText(activity, "Note must be saved first.", Toast.LENGTH_SHORT).show()
     }
 
     private fun onArchive(note: Note) {
-        note.archived = true
-        editNoteViewModel.onUpdate(note)
-        Toast.makeText(activity, "Note Archived.", Toast.LENGTH_SHORT).show()
-        findNavController().navigateUp()
+        if (_noteId > 0) {
+            note.archived = true
+            editNoteViewModel.onUpdate(note)
+            Toast.makeText(activity, "Note Archived.", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+        } else
+            Toast.makeText(activity, "Note must be saved first.", Toast.LENGTH_SHORT).show()
     }
 
     private fun onUnarchive(note: Note) {
@@ -155,11 +167,14 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
     }
 
     private fun showCategoryList(noteCategory: NoteWithCategory) {
-        if (noteCategory.note.categoryId == null)
-            noteCategory.category.id = -1L
-        val dialog = CategorySelectorFragment(noteCategory.note.categoryId)
-        dialog.listener = this
-        dialog.show(childFragmentManager, "CategoryDialogFragment")
+        if (_noteId > 0) {
+            if (noteCategory.note.categoryId == null)
+                noteCategory.category.id = -1L
+            val dialog = CategorySelectorFragment(noteCategory.note.categoryId)
+            dialog.listener = this
+            dialog.show(childFragmentManager, "CategoryDialogFragment")
+        } else
+            Toast.makeText(activity, "Note must be saved first.", Toast.LENGTH_SHORT).show()
     }
 
     private fun init(): EditNoteViewModel {
@@ -172,25 +187,34 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
         return ViewModelProvider(this, viewModelFactory).get(EditNoteViewModel::class.java)
     }
 
-    private fun checkNoteId() {
+    private fun checkNoteId(): Boolean {
+        var check = 0
         _noteCategory.note.title = binding.inputTitle.text.toString()
         _noteCategory.note.content = binding.inputContent.text.toString()
-        if (_noteId > 0) {
-            editNoteViewModel.onUpdate(_noteCategory.note)
-            Toast.makeText(activity, "Note updated.", Toast.LENGTH_SHORT).show()
-        } else {
-            editNoteViewModel.onInsert(_noteCategory.note)
-            Toast.makeText(activity, "Note created.", Toast.LENGTH_SHORT).show()
-        }
+        if (binding.inputTitle.text.isNullOrBlank())
+            check += 1
+        if (binding.inputContent.text.isNullOrBlank())
+            check += 1
+
+        return if (check < 2) {
+            if (_noteId > 0) {
+                editNoteViewModel.onUpdate(_noteCategory.note)
+                Toast.makeText(activity, "Note updated.", Toast.LENGTH_SHORT).show()
+            } else {
+                _noteId = editNoteViewModel.onInsert(_noteCategory.note)
+                editNoteViewModel.onGetLatest()?.let { _noteCategory.note = it }
+                Toast.makeText(activity, "Note created.", Toast.LENGTH_SHORT).show()
+            }
+            true
+        } else
+            false
     }
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(editable: Editable?) {
                 afterTextChanged.invoke(editable.toString())
@@ -202,11 +226,12 @@ class EditNoteFragment(private val _noteId: Long, private val _archived: Boolean
 
     private fun getShareIntent(): Intent {
         val stringBuilder: StringBuilder = StringBuilder()
+        val shareIntent = Intent(Intent.ACTION_SEND)
 
         stringBuilder.append(_noteCategory.note.title)
         stringBuilder.append("\n\n")
         stringBuilder.append(_noteCategory.note.content)
-        val shareIntent = Intent(Intent.ACTION_SEND)
+
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_TEXT, stringBuilder.toString())
 

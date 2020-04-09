@@ -35,10 +35,18 @@ class EditNoteViewModel(noteKeyId: Long, private val dataSourceNote: NoteDao) : 
         }
     }
 
-    fun onInsert(note: Note) {
-        CoroutineScope(Dispatchers.Main + Job()).launch {
+    fun onInsert(note: Note): Long {
+        return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().insert(note)
+            }
+        }
+    }
+
+    fun onGetLatest() : Note? {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                getRepository().lastNote
             }
         }
     }
