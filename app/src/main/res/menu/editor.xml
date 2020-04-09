@@ -19,4 +19,8 @@
         android:id="@+id/item_trash"
         android:icon="@drawable/ic_delete_black_24dp"
         android:title="@string/item" />
+    <item
+        android:id="@+id/item_save"
+        android:icon="@drawable/ic_save_black_24dp"
+        android:title="@string/save" />
 </menu>
