@@ -52,6 +52,12 @@ data class NoteWithCategory(
     constructor() : this(note = Note(), category = Category())
 }
 
+data class NotesWithCategory(
+    @Embedded var category : Category,
+    @Relation(parentColumn = "category_id", entityColumn = "categoryId")
+    var notes: Note
+)
+
 data class NoteWithTags(
     @Embedded val note : Note,
     @Relation(

@@ -275,23 +275,34 @@ class NoteDaoTest {
     }
 
     /**
-     * Retrieves notes with categories.
+     * Retrieves a list of notes with categories.
      */
     @Test
     @Throws(Exception::class)
-    fun getNotesWithCategory() {
+    fun getNotesWithCategories() {
         // Insert record
         val note = Note()
         val category = Category()
         category.id = 1
-        category.name = "catName"
-        val retCategory: Long = categoryDao.insert(category)
-        assertEquals(retCategory, 1)
-        val retNote: Long = noteDao.insertWithCategory(note, category)
-        assertEquals(retNote, 1)
+        category.name = "catName1"
+        categoryDao.insert(category)
+
+        for (i in 1..5){
+            note.id = i.toLong()
+            note.title = "Note_$i"
+            noteDao.insertWithCategory(note, category)
+        }
+
+        category.id = 2
+        category.name = "catName2"
+        categoryDao.insert(category)
+        note.id = 6
+        note.title = "Note_6"
+        noteDao.insertWithCategory(note, category)
         // check if category exists
-        val list = noteDao.getNoteWithCategory(category.id)
+        val list = noteDao.getAllNotesWithCategories()
         list.observeForever{}
-        assertEquals("catName", list.value?.category?.name )
+        assertEquals("catName2", list.value?.get(5)?.category?.name )
+        assertEquals(6, list.value?.size )
     }
 }
