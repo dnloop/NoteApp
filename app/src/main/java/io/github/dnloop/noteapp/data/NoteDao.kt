@@ -102,7 +102,7 @@ abstract class NoteDao {
      */
     @Transaction
     @Query("SELECT * FROM Note INNER JOIN Category ON Note.categoryId WHERE Note.archived = 0 AND Note.deleted = 0 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
-    abstract fun getAllNotesWithCategories(): LiveData<List<NotesWithCategory>>
+    abstract fun getAllNotesWithCategories(): LiveData<List<NoteWithCategory>>
 
     /**
      * Selects and returns all rows in the table,
