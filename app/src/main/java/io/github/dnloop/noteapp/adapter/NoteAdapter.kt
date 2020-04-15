@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import io.github.dnloop.noteapp.data.Note
+import io.github.dnloop.noteapp.data.NoteWithCategory
 import io.github.dnloop.noteapp.databinding.ListItemNoteBinding
 
-class NoteAdapter(val clickListener: NoteListener) : ListAdapter<Note, NoteAdapter.ViewHolder>(NoteDiffCallback())  {
+class NoteAdapter(val clickListener: NoteListener) : ListAdapter<NoteWithCategory, NoteAdapter.ViewHolder>(NoteDiffCallback())  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -20,10 +20,10 @@ class NoteAdapter(val clickListener: NoteListener) : ListAdapter<Note, NoteAdapt
 
     class ViewHolder private constructor(val binding: ListItemNoteBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(
-            item: Note,
+            item: NoteWithCategory,
             clickListener: NoteListener
         ) {
-            binding.note = item
+            binding.item = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -40,17 +40,17 @@ class NoteAdapter(val clickListener: NoteListener) : ListAdapter<Note, NoteAdapt
 
 }
 
-private class NoteDiffCallback : DiffUtil.ItemCallback<Note>() {
+private class NoteDiffCallback : DiffUtil.ItemCallback<NoteWithCategory>() {
 
-    override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.id == newItem.id
+    override fun areItemsTheSame(oldItem: NoteWithCategory, newItem: NoteWithCategory): Boolean {
+        return oldItem.note.id == newItem.note.id
     }
 
-    override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem == newItem
+    override fun areContentsTheSame(oldItem: NoteWithCategory, newItem: NoteWithCategory): Boolean {
+        return oldItem.note == newItem.note
     }
 }
 
 class NoteListener(val clickListener: (noteId: Long) -> Unit) {
-    fun onClick(note: Note) = clickListener(note.id)
+    fun onClick(item: NoteWithCategory) = clickListener(item.note.id)
 }

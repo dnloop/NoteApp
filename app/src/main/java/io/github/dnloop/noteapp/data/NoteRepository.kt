@@ -5,17 +5,17 @@ import androidx.lifecycle.LiveData
 class NoteRepository(private val noteDao: NoteDao) {
     val lastNote: Note? = noteDao.getLatest()
 
-    val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()
+    val allNotes: LiveData<List<NoteWithCategory>> = noteDao.getAllNotesWithCategories()
 
-    val allArchivedNotes: LiveData<List<Note>> = noteDao.getAllArchivedNotes()
+    val allArchivedNotes: LiveData<List<NoteWithCategory>> = noteDao.getAllArchivedNotes()
 
-    val allDeletedNotes: LiveData<List<Note>> = noteDao.getAllDeletedNotes()
+    val allDeletedNotes: LiveData<List<NoteWithCategory>> = noteDao.getAllDeletedNotes()
 
     val noteWithTags: LiveData<List<NoteWithTags>> = noteDao.getNotesWithTags()
 
     val tagWithNotes: LiveData<List<TagWithNotes>> = noteDao.getTagsWithNotes()
 
-    fun getNotesWithCategory(key: Long): LiveData<List<Note>> {
+    fun getNotesWithCategory(key: Long): LiveData<List<NoteWithCategory>> {
         return noteDao.getAllNotesByCategory(key)
     }
 

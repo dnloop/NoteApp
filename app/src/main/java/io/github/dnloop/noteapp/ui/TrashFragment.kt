@@ -49,11 +49,11 @@ class TrashFragment : Fragment(), GenericDialogFragment.GenericDialogListener {
         trashViewModel = init()
 
         val adapter = TrashAdapter(TrashListener {
-            noteId -> trashViewModel.onNoteSelected(noteId)
+            noteId -> trashViewModel.onNoteSelected(noteId.note)
         })
 
-        adapter.clickListener.setOnDeleteClickListener { note ->
-            showConfirmDialog(note)
+        adapter.clickListener.setOnDeleteClickListener { item ->
+            showConfirmDialog(item.note)
         }
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_trash, container, false

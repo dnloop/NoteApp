@@ -57,7 +57,9 @@ abstract class NoteDao {
      */
     fun updateWithCategory(pair: NoteWithCategory) {
         update(pair.note.apply {
-            categoryId = pair.category.id
+             pair.category?.let {
+                 categoryId = it.id
+            }
             modifiedAt = System.currentTimeMillis()
         })
     }
@@ -93,30 +95,33 @@ abstract class NoteDao {
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order.
      */
-    @Query("SELECT * FROM Note WHERE categoryId = :key AND archived = 0 AND deleted = 0  ORDER BY note_id DESC")
-    abstract fun getAllNotesByCategory(key: Long): LiveData<List<Note>>
+    @Transaction
+    @Query("SELECT * FROM Note INNER JOIN Category ON Note.categoryId WHERE Note.categoryId = :key AND Note.archived = 0 AND Note.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    abstract fun getAllNotesByCategory(key: Long): LiveData<List<NoteWithCategory>>
 
     /**
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order with categories.
      */
     @Transaction
-    @Query("SELECT * FROM Note INNER JOIN Category ON Note.categoryId WHERE Note.archived = 0 AND Note.deleted = 0 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note INNER JOIN Category WHERE Note.archived = 0 AND Note.deleted = 0 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
     abstract fun getAllNotesWithCategories(): LiveData<List<NoteWithCategory>>
 
     /**
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order.
      */
-    @Query("SELECT * FROM Note WHERE archived = 1 AND deleted = 0 ORDER BY note_id DESC")
-    abstract fun getAllArchivedNotes(): LiveData<List<Note>>
+    @Transaction
+    @Query("SELECT * FROM Note INNER JOIN Category WHERE Note.archived = 1 AND Note.deleted = 0 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    abstract fun getAllArchivedNotes(): LiveData<List<NoteWithCategory>>
 
     /**
      * Selects and returns all rows in the table,
      * sorted by noteId in descending order.
      */
-    @Query("SELECT * FROM Note WHERE deleted = 1 ORDER BY note_id DESC")
-    abstract fun getAllDeletedNotes(): LiveData<List<Note>>
+    @Transaction
+    @Query("SELECT * FROM Note INNER JOIN Category WHERE Note.deleted = 1 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    abstract fun getAllDeletedNotes(): LiveData<List<NoteWithCategory>>
 
     /**
      * Selects and returns the latest Note.

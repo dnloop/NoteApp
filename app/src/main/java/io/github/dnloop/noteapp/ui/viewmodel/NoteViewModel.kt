@@ -42,7 +42,7 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
     }
 
 
-    fun loadNotes(): LiveData<List<Note>> {
+    fun loadNotes(): LiveData<List<NoteWithCategory>> {
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().allNotes
@@ -50,7 +50,7 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         }
     }
 
-    fun loadNotesByCategory(key: Long): LiveData<List<Note>> {
+    fun loadNotesByCategory(key: Long): LiveData<List<NoteWithCategory>> {
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().getNotesWithCategory(key)
@@ -58,7 +58,7 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         }
     }
 
-    fun loadArchivedNotes(): LiveData<List<Note>> {
+    fun loadArchivedNotes(): LiveData<List<NoteWithCategory>> {
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().allArchivedNotes

@@ -45,9 +45,9 @@ data class Note (
 }
 
 data class NoteWithCategory(
-    @Embedded var category : Category,
-    @Relation(parentColumn = "category_id", entityColumn = "categoryId")
-    var note: Note
+    @Embedded var note: Note,
+    @Relation(parentColumn = "categoryId", entityColumn = "category_id")
+    var category : Category?
 ) {
     constructor() : this(note = Note(), category = Category())
 }

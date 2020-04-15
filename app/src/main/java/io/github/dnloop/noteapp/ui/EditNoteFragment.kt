@@ -168,8 +168,10 @@ class EditNoteFragment(private var _noteId: Long, private val _archived: Boolean
 
     private fun showCategoryList(noteCategory: NoteWithCategory) {
         if (_noteId > 0) {
-            if (noteCategory.note.categoryId == null)
-                noteCategory.category.id = -1L
+            if (noteCategory.note.categoryId == null) {
+                noteCategory.category = Category()
+                noteCategory.category!!.id = -1L
+            }
             val dialog = CategorySelectorFragment(noteCategory.note.categoryId)
             dialog.listener = this
             dialog.show(childFragmentManager, "CategoryDialogFragment")

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import io.github.dnloop.noteapp.data.Note
 import io.github.dnloop.noteapp.data.NoteDao
 import io.github.dnloop.noteapp.data.NoteRepository
+import io.github.dnloop.noteapp.data.NoteWithCategory
 import kotlinx.coroutines.*
 
 class TrashViewModel( private val dataSource: NoteDao,  application: Application) : AndroidViewModel(application) {
@@ -26,7 +27,7 @@ class TrashViewModel( private val dataSource: NoteDao,  application: Application
         }
     }
 
-    fun loadDeletedNotes() : LiveData<List<Note>> {
+    fun loadDeletedNotes() : LiveData<List<NoteWithCategory>> {
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().allDeletedNotes

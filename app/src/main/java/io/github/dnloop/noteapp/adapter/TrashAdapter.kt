@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import io.github.dnloop.noteapp.data.Note
+import io.github.dnloop.noteapp.data.NoteWithCategory
 import io.github.dnloop.noteapp.databinding.ListItemTrashBinding
 
-class TrashAdapter(val clickListener: TrashListener): ListAdapter<Note, TrashAdapter.ViewHolder>(TrashDiffCallback()) {
+class TrashAdapter(val clickListener: TrashListener): ListAdapter<NoteWithCategory, TrashAdapter.ViewHolder>(TrashDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -20,10 +20,10 @@ class TrashAdapter(val clickListener: TrashListener): ListAdapter<Note, TrashAda
 
     class ViewHolder private constructor(val binding: ListItemTrashBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(
-            item: Note,
+            item: NoteWithCategory,
             clickListener: TrashListener
         ) {
-            binding.note = item
+            binding.item = item
             binding.clickListener = clickListener
             binding.btnHardDelete.setOnClickListener {
                 clickListener.listener?.invoke(item)
@@ -39,25 +39,25 @@ class TrashAdapter(val clickListener: TrashListener): ListAdapter<Note, TrashAda
         }
     }
 
-    private class TrashDiffCallback : DiffUtil.ItemCallback<Note>() {
-        override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem.id == newItem.id
+    private class TrashDiffCallback : DiffUtil.ItemCallback<NoteWithCategory>() {
+        override fun areItemsTheSame(oldItem: NoteWithCategory, newItem: NoteWithCategory): Boolean {
+            return oldItem.note.id == newItem.note.id
         }
 
-        override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: NoteWithCategory, newItem: NoteWithCategory): Boolean {
+            return oldItem.note == newItem.note
         }
     }
 
 }
 
 
-class TrashListener(val clickListener: (catId: Note) -> Unit) {
-    var listener: ((item: Note) -> Unit)? = null
+class TrashListener(val clickListener: (catId: NoteWithCategory) -> Unit) {
+    var listener: ((item: NoteWithCategory) -> Unit)? = null
 
-    fun onClick(cat: Note) = clickListener(cat)
+    fun onClick(cat: NoteWithCategory) = clickListener(cat)
 
-    fun setOnDeleteClickListener(listener: (item: Note) -> Unit) {
+    fun setOnDeleteClickListener(listener: (item: NoteWithCategory) -> Unit) {
         this.listener = listener
     }
 

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="note"
-            type="io.github.dnloop.noteapp.data.Note" />
+            name="item"
+            type="io.github.dnloop.noteapp.data.NoteWithCategory" />
         <variable
             name="clickListener"
             type="io.github.dnloop.noteapp.adapter.NoteListener" />
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/dialog_holo_light_frame"
-        android:onClick="@{() -> clickListener.onClick(note)}">
+        android:onClick="@{() -> clickListener.onClick(item)}">
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/circularImageView"
@@ -47,7 +47,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/circularImageView"
             app:layout_constraintTop_toBottomOf="@+id/text_title"
-            app:noteContent="@{note}" />
+            app:noteContent="@{item.note}" />
 
         <TextView
             android:id="@+id/text_title"
@@ -68,7 +68,7 @@
             app:layout_constraintStart_toEndOf="@+id/circularImageView"
             app:layout_constraintTop_toTopOf="@+id/circularImageView"
             tools:text="@string/text_title"
-            app:noteTitle="@{note}" />
+            app:noteTitle="@{item.note}" />
 
         <TextView
             android:id="@+id/text_category"
@@ -82,7 +82,7 @@
             app:layout_constraintStart_toEndOf="@+id/circularImageView"
             app:layout_constraintTop_toBottomOf="@+id/text_body"
             tools:text="@string/text_category"
-            app:noteCategory="@{note}" />
+            app:noteCategory="@{item}" />
 
         <TextView
             android:id="@+id/text_modified_at"
@@ -96,7 +96,7 @@
             app:layout_constraintStart_toEndOf="@+id/text_category"
             app:layout_constraintTop_toTopOf="@+id/text_category"
             tools:text="@string/text_timestamp"
-            app:noteModifiedAt="@{note}" />
+            app:noteModifiedAt="@{item.note}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

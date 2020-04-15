@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="note"
-            type="io.github.dnloop.noteapp.data.Note" />
+            name="item"
+            type="io.github.dnloop.noteapp.data.NoteWithCategory" />
         <variable
             name="clickListener"
             type="io.github.dnloop.noteapp.adapter.TrashListener" />
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/dialog_holo_light_frame"
-        android:onClick="@{() -> clickListener.onClick(note)}">
+        android:onClick="@{() -> clickListener.onClick(item)}">
 
         <ImageButton
             android:id="@+id/btn_hard_delete"
@@ -40,7 +40,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:contentDescription="@string/edit_tag_button"
-            android:onClick="@{() -> clickListener.onClick(note)}"
+            android:onClick="@{() -> clickListener.onClick(item)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_hard_delete"
             app:layout_constraintStart_toEndOf="@+id/text_body"
@@ -63,7 +63,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_restore"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_title"
-            app:noteContent="@{note}"
+            app:noteContent="@{item.note}"
             tools:text="@string/text_body"/>
 
         <TextView
@@ -82,7 +82,7 @@
             app:layout_constraintBottom_toTopOf="@+id/text_body"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:noteTitle="@{note}"
+            app:noteTitle="@{item.note}"
             tools:text="@string/text_title" />
 
         <TextView
@@ -98,7 +98,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_body"
-            app:noteCategory="@{note}"
+            app:noteCategory="@{item}"
             tools:text="@string/text_category" />
 
         <TextView
@@ -110,7 +110,7 @@
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/text_category"
             app:layout_constraintTop_toTopOf="@+id/text_category"
-            app:noteDeletedAt="@{note}"
+            app:noteDeletedAt="@{item.note}"
             tools:text="@string/text_timestamp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
