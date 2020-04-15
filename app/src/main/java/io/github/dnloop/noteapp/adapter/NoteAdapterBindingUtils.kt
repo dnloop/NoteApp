@@ -24,7 +24,7 @@ fun TextView.setNoteContent(item: Note?) {
 fun TextView.setNoteCategory(item: NoteWithCategory?) {
     item?.let {
         text = if(Validator.isCategoryNull(item.note.categoryId))
-            ""
+            resources.getString(R.string.none)
         else
             item.category?.name
     }

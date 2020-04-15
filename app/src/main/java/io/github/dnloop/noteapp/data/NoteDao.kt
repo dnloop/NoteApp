@@ -96,7 +96,7 @@ abstract class NoteDao {
      * sorted by noteId in descending order.
      */
     @Transaction
-    @Query("SELECT * FROM Note INNER JOIN Category ON Note.categoryId WHERE Note.categoryId = :key AND Note.archived = 0 AND Note.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note INNER JOIN Category ON categoryId = category_id WHERE Note.categoryId = :key AND Note.archived = 0 AND Note.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
     abstract fun getAllNotesByCategory(key: Long): LiveData<List<NoteWithCategory>>
 
     /**
@@ -104,7 +104,7 @@ abstract class NoteDao {
      * sorted by noteId in descending order with categories.
      */
     @Transaction
-    @Query("SELECT * FROM Note INNER JOIN Category WHERE Note.archived = 0 AND Note.deleted = 0 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note Left JOIN Category ON categoryId = category_id WHERE Note.archived = 0 AND Note.deleted = 0 GROUP BY note_id ORDER BY title DESC")
     abstract fun getAllNotesWithCategories(): LiveData<List<NoteWithCategory>>
 
     /**
@@ -112,7 +112,7 @@ abstract class NoteDao {
      * sorted by noteId in descending order.
      */
     @Transaction
-    @Query("SELECT * FROM Note INNER JOIN Category WHERE Note.archived = 1 AND Note.deleted = 0 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note LEFT JOIN Category ON categoryId = category_id WHERE Note.archived = 1 AND Note.deleted = 0 GROUP BY note_id ORDER BY title DESC")
     abstract fun getAllArchivedNotes(): LiveData<List<NoteWithCategory>>
 
     /**
@@ -120,7 +120,7 @@ abstract class NoteDao {
      * sorted by noteId in descending order.
      */
     @Transaction
-    @Query("SELECT * FROM Note INNER JOIN Category WHERE Note.deleted = 1 AND Category.deleted = 0 GROUP BY note_id ORDER BY note_id DESC")
+    @Query("SELECT * FROM Note INNER JOIN Category WHERE Note.deleted = 1 AND Category.deleted = 0 GROUP BY note_id ORDER BY title DESC")
     abstract fun getAllDeletedNotes(): LiveData<List<NoteWithCategory>>
 
     /**
