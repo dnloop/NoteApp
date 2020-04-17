@@ -9,13 +9,13 @@
     </data>
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/chip_item"
+        android:id="@+id/chip_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sample_chip"
         android:checkable="false"
         app:tagName="@{tag}"
-        style="@style/Widget.MaterialComponents.Chip.Entry">
+        style="@style/Widget.MaterialComponents.Chip.Action">
 
     </com.google.android.material.chip.Chip>
 </layout>

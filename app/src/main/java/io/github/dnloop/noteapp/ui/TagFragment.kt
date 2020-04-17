@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.data.Tag
+import io.github.dnloop.noteapp.databinding.ChipActionBinding
 import io.github.dnloop.noteapp.databinding.ChipItemBinding
 import io.github.dnloop.noteapp.databinding.FragmentContentTagBinding
 import io.github.dnloop.noteapp.ui.viewmodel.TagViewModel
@@ -28,9 +30,9 @@ class TagFragment(private val _noteId: Long) : Fragment() {
 
     private lateinit var binding: FragmentContentTagBinding
 
-    private lateinit var chipCheckedBinding: ChipItemBinding
+    private lateinit var chipBinding: ChipItemBinding
 
-    private lateinit var chipAllBinding: ChipItemBinding
+    private lateinit var chipActionBinding: ChipActionBinding
 
     private lateinit var tagViewModel: TagViewModel
 
@@ -42,20 +44,20 @@ class TagFragment(private val _noteId: Long) : Fragment() {
             inflater, R.layout.fragment_content_tag, container, false
         )
 
-        chipCheckedBinding = DataBindingUtil.inflate(
+        chipBinding = DataBindingUtil.inflate(
             inflater, R.layout.chip_item, binding.selectedChipGroup, false
-        )
+        ) // used by the attached tags
 
-        chipAllBinding = DataBindingUtil.inflate(
-            inflater, R.layout.chip_item, binding.chipGroup, false
-        )
+        chipActionBinding = DataBindingUtil.inflate(
+            inflater, R.layout.chip_action, binding.selectedChipGroup, false
+        ) // used by the list of possible tags
 
         tagViewModel = init()
 
         tagViewModel.noteDataSource.getNoteWithTags(_noteId).observe(viewLifecycleOwner, Observer {
             it?.let {
                 it.tags.forEach { tag ->
-                    addCheckedChip(tag)
+                    addChip(tag, true)
                 }
             }
         })
@@ -63,7 +65,7 @@ class TagFragment(private val _noteId: Long) : Fragment() {
         tagViewModel.tagDataSource.getAllTags().observe(viewLifecycleOwner, Observer {
             it.let {
                 it.forEach { tag ->
-                    addAllChip(tag)
+                    addChip(tag, false)
                 }
             }
         })
@@ -73,27 +75,29 @@ class TagFragment(private val _noteId: Long) : Fragment() {
         return binding.root
     }
 
-    private fun addCheckedChip(tag: Tag) {
-        chipCheckedBinding.tag = tag
-        chipCheckedBinding.chipItem.tag = tag.id
-        chipCheckedBinding.chipItem.isChecked = true
-        chipCheckedBinding.chipItem.setOnCloseIconClickListener {
-            binding.selectedChipGroup.removeView(it)
+    private fun addChip(tag: Tag, checked: Boolean) {
+        if (checked) {
+            chipBinding.tag = tag
+            chipBinding.chipItem.tag = tag.id
+            chipBinding.chipItem.isChecked = true
+            chipBinding.chipItem.setOnCloseIconClickListener {
+                binding.selectedChipGroup.removeView(it)
+                detachTag(it.tag)
+            }
+            if (chipBinding.chipItem.parent != null)
+                (chipBinding.chipItem.parent as ViewGroup).removeView(chipBinding.chipItem)
+            binding.selectedChipGroup.addView(chipBinding.chipItem)
+        } else {
+            chipActionBinding.tag = tag
+            chipActionBinding.chipAction.tag = tag.id
+            chipActionBinding.chipAction.setOnClickListener {
+                it as Chip
+                attachTag(it.tag)
+            }
+            if (chipActionBinding.chipAction.parent != null)
+                (chipActionBinding.chipAction.parent as ViewGroup).removeView(chipActionBinding.chipAction)
+            binding.chipGroup.addView(chipActionBinding.chipAction)
         }
-        if (chipCheckedBinding.chipItem.parent != null)
-            (chipCheckedBinding.chipItem.parent as ViewGroup).removeView(chipCheckedBinding.chipItem)
-        binding.selectedChipGroup.addView(chipCheckedBinding.chipItem)
-    }
-
-    private fun addAllChip(tag: Tag) {
-        chipAllBinding.tag = tag
-        chipAllBinding.chipItem.tag = tag.id
-        chipAllBinding.chipItem.setOnCloseIconClickListener {
-            binding.chipGroup.removeView(it)
-        }
-        if (chipAllBinding.chipItem.parent != null)
-            (chipAllBinding.chipItem.parent as ViewGroup).removeView(chipAllBinding.chipItem)
-        binding.chipGroup.addView(chipAllBinding.chipItem)
     }
 
     private fun init(): TagViewModel {
@@ -109,38 +113,9 @@ class TagFragment(private val _noteId: Long) : Fragment() {
     }
 
     private fun FragmentContentTagBinding.setBinding() {
-        binding.tagViewModel = this@TagFragment.tagViewModel
+        tagViewModel = this@TagFragment.tagViewModel
 
-        binding.lifecycleOwner = this@TagFragment
-
-        btnAttach.setOnClickListener {
-            val counter = chipGroup.childCount
-            if (counter > 0) {
-                for (chip in chipGroup) {
-                    chip as Chip
-                    if (chip.isChecked) {
-                        attachTag(chip.tag)
-                    }
-                }
-                Toast.makeText(activity, "Tags added $counter", Toast.LENGTH_SHORT)
-                    .show()
-                chipGroup.clearCheck()
-            }
-        }
-        btnDetach.setOnClickListener {
-            val counter = selectedChipGroup.childCount
-            if (counter > 0) {
-                for (chip in selectedChipGroup) {
-                    chip as Chip
-                    if (chip.isChecked) {
-                        selectedChipGroup.removeView(chip)
-                        detachTag(chip.tag)
-                    }
-                }
-                Toast.makeText(activity, "Tags removed $counter", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
+        lifecycleOwner = this@TagFragment
     }
 
     private fun attachTag(tag: Any) {
