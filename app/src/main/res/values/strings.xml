@@ -58,4 +58,7 @@
     <string name="folder">Folder: {Title}</string>
     <string name="share">Share</string>
     <string name="save">Save</string>
+    <string name="local_storage_backup">Local Storage Backup</string>
+    <string name="str_import">Import</string>
+    <string name="creates_a_backup_of_the_current_note_database_n_the_generated_sql_is_saved_in_the_downloads_folder">Creates a Backup of the current note database.\nThe generated \'.sql\' is saved in the Downloads folder.</string>
 </resources>
