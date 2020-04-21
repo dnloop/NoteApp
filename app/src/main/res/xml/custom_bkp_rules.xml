@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <include domain="file" path="device.xml" />
+    <include domain="database" path="device.xml" />
+    <include domain="sharedpref" path="device.xml" />
+    <include domain="external" path="device.xml" />
+</full-backup-content>
