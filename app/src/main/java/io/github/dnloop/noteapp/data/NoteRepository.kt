@@ -1,8 +1,11 @@
 package io.github.dnloop.noteapp.data
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 
 class NoteRepository(private val noteDao: NoteDao) {
+    private val _identityHashQuery : SimpleSQLiteQuery = SimpleSQLiteQuery("SELECT identity_hash FROM room_master_table")
+
     val lastNote: Note? = noteDao.getLatest()
 
     val allNotes: LiveData<List<NoteWithCategory>> = noteDao.getAllNotesWithCategories()
@@ -45,6 +48,10 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     fun hardDelete(note: Note) {
         noteDao.delete(note)
+    }
+
+    fun identityHash(): String {
+        return noteDao.getIdentityHash(_identityHashQuery)
     }
 
     fun clearTable() {

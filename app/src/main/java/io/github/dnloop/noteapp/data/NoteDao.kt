@@ -2,20 +2,20 @@ package io.github.dnloop.noteapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SimpleSQLiteQuery
 
 @Dao
 abstract class NoteDao {
-
     /**
-    * Adds a new Note
-    *
-    * @param note new note value to write
-    */
+     * Adds a new Note
+     *
+     * @param note new note value to write
+     */
     @Insert
-    abstract fun insert(note: Note) : Long
+    abstract fun insert(note: Note): Long
 
-    fun insertWithTimestamp(note: Note) : Long {
-        return insert(note.apply{
+    fun insertWithTimestamp(note: Note): Long {
+        return insert(note.apply {
             createdAt = System.currentTimeMillis()
             modifiedAt = System.currentTimeMillis()
         })
@@ -29,7 +29,7 @@ abstract class NoteDao {
      */
     @Transaction
     @Insert
-    fun insertWithCategory(note: Note, category: Category) : Long {
+    fun insertWithCategory(note: Note, category: Category): Long {
         return insert(note.apply { categoryId = category.id })
     }
 
@@ -57,8 +57,8 @@ abstract class NoteDao {
      */
     fun updateWithCategory(pair: NoteWithCategory) {
         update(pair.note.apply {
-             pair.category?.let {
-                 categoryId = it.id
+            pair.category?.let {
+                categoryId = it.id
             }
             modifiedAt = System.currentTimeMillis()
         })
@@ -156,5 +156,15 @@ abstract class NoteDao {
     @Transaction
     @Query("SELECT * FROM Tag WHERE tag_id = :id AND deleted = 0")
     abstract fun getTagWithNotes(id: Long): LiveData<TagWithNotes>
+
+
+    /**
+     * Retrieves the identity hash used by room at runtime, this is necessary because we make sure
+     * that the schema is correct when we import the backed database.
+     * @return the hash identity value.
+     */
+    @Transaction
+    @RawQuery
+    abstract fun getIdentityHash(_query: SimpleSQLiteQuery): String
 
 }

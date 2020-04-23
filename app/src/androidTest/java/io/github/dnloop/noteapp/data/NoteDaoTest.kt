@@ -3,6 +3,7 @@ package io.github.dnloop.noteapp.data
 import android.database.sqlite.SQLiteConstraintException
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
+import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
@@ -11,6 +12,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import timber.log.Timber
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
@@ -304,5 +306,16 @@ class NoteDaoTest {
         list.observeForever{}
         assertEquals("catName2", list.value?.get(5)?.category?.name )
         assertEquals(6, list.value?.size )
+    }
+
+    /**
+     * Test whether its possible to obtain the hash from a room database.
+     * */
+    @Test
+    @Throws(Exception::class)
+    fun getIdentityHash() {
+        val query  = SimpleSQLiteQuery("SELECT identity_hash FROM room_master_table")
+        val identityHash = noteDao.getIdentityHash(query)
+        assertEquals(true, !identityHash.isBlank())
     }
 }

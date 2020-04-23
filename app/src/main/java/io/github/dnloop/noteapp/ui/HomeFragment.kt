@@ -25,7 +25,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_home, container, false)
+            inflater, R.layout.fragment_home, container, false
+        )
 
         val application = requireNotNull(this.activity).application
 
@@ -36,8 +37,8 @@ class HomeFragment : Fragment() {
         val noteViewModel =
             ViewModelProvider(this, viewModelFactory).get(NoteViewModel::class.java)
 
-        val adapter = NoteAdapter(NoteListener{
-            noteId -> noteViewModel.onNoteSelected(noteId)
+        val adapter = NoteAdapter(NoteListener { noteId ->
+            noteViewModel.onNoteSelected(noteId)
         })
 
         binding.noteList.adapter = adapter
@@ -62,6 +63,8 @@ class HomeFragment : Fragment() {
                 adapter.submitList(it)
             }
         })
+
+        noteViewModel.loadPreferences()
 
         return binding.root
     }
