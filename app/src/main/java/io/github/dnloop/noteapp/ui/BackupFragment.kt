@@ -1,7 +1,9 @@
 package io.github.dnloop.noteapp.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,69 +16,92 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import io.github.dnloop.noteapp.MainActivity
 import io.github.dnloop.noteapp.R
+import io.github.dnloop.noteapp.auxiliary.PathUtil
+import io.github.dnloop.noteapp.auxiliary.Validator
 import io.github.dnloop.noteapp.data.NoteDatabase
 import io.github.dnloop.noteapp.databinding.FragmentBackupBinding
 import io.github.dnloop.noteapp.ui.viewmodel.ShareViewModel
+import io.github.dnloop.noteapp.ui.viewmodel.ShareViewModelFactory
+import java.io.File
+
+private const val WRITE_EXTERNAL_STORAGE_ID = 1
+private const val PICK_SQL_FILE = 2
 
 class BackupFragment : Fragment() {
 
-    private val _writeExternalStorageId = 1
-
     private var _permission = false
+
+    private var _dbImport: File? = null
+
+    private lateinit var shareViewModel: ShareViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity?)?.getFloatingActionButton()?.hide()
         val binding: FragmentBackupBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_backup, container, false)
-
-        val application = requireNotNull(this.activity).application
-
-        val dataSource = NoteDatabase.getInstance(application)
-
-        val shareViewModel =
-            ViewModelProvider(this).get(ShareViewModel::class.java)
-
-        shareViewModel.setDataSource(dataSource)
+            inflater, R.layout.fragment_backup, container, false
+        )
 
         requestStoragePermission()
 
-        if (ContextCompat.checkSelfPermission(this.activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED) {
-            shareViewModel.setPermission(_permission)
-        }
+        shareViewModel = init()
+
+        shareViewModel.setPermission(_permission)
 
         binding.btnLocalExport.setOnClickListener {
             if (!shareViewModel.exportLocalDatabase())
-                Toast.makeText(activity, "File system permissions required.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "File system permissions required.", Toast.LENGTH_SHORT)
+                    .show()
         }
 
         binding.btnLocalImport.setOnClickListener {
-            if (shareViewModel.importLocalDatabase())
-                Toast.makeText(activity, "Database Successfully export.", Toast.LENGTH_SHORT).show()
-            else
-                Toast.makeText(activity, "File system permissions required.", Toast.LENGTH_SHORT).show()
+            if (shareViewModel.isPermissionGranted())
+                openFile()
+            else Toast.makeText(activity, "File system permissions required.", Toast.LENGTH_SHORT)
+                .show()
         }
 
         return binding.root
     }
 
+    private fun init(): ShareViewModel {
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = NoteDatabase.getInstance(application)
+
+        val viewModelFactory = ShareViewModelFactory(application, dataSource)
+
+        return ViewModelProvider(this, viewModelFactory).get(ShareViewModel::class.java)
+    }
+
     private fun requestStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this.context!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this.context!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             // Permission is not granted
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this.activity!!,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                Toast.makeText(activity, "Permission needed to store database backup on the file system.", Toast.LENGTH_LONG).show()
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this.activity!!,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            ) {
+                Toast.makeText(
+                    activity,
+                    "Permission needed to store database backup on the file system.",
+                    Toast.LENGTH_LONG
+                ).show()
             } else {
                 // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this.activity!!,
+                ActivityCompat.requestPermissions(
+                    this.activity!!,
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    _writeExternalStorageId
+                    WRITE_EXTERNAL_STORAGE_ID
                 )
             }
         } else {
@@ -95,7 +120,7 @@ class BackupFragment : Fragment() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            _writeExternalStorageId -> {
+            WRITE_EXTERNAL_STORAGE_ID -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     _permission = true
@@ -104,5 +129,30 @@ class BackupFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun openFile() {
+        val dir = shareViewModel.checkBackupFolder()
+        val uri: Uri = Uri.parse(dir)
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            data = uri
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+        }
+
+        startActivityForResult(intent, PICK_SQL_FILE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PICK_SQL_FILE) {
+            val filePath = PathUtil.getPath(this.context!!, data?.data!!)
+            if (filePath != null) {
+                _dbImport = if (Validator.isValidSQLite(filePath))
+                    File(filePath)
+                else
+                    null
+                shareViewModel.checkOpenedFile(_dbImport)
+            }
+        }
     }
 }

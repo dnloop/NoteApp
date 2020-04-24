@@ -1,13 +1,24 @@
 package io.github.dnloop.noteapp.ui.viewmodel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.github.dnloop.noteapp.data.*
-import kotlinx.coroutines.*
+import io.github.dnloop.noteapp.R
+import io.github.dnloop.noteapp.data.NoteDao
+import io.github.dnloop.noteapp.data.NoteRepository
+import io.github.dnloop.noteapp.data.NoteWithCategory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-class NoteViewModel(val dataSource: NoteDao, application: Application) : AndroidViewModel(application) {
+class NoteViewModel(val dataSource: NoteDao, application: Application) :
+    AndroidViewModel(application) {
+
+    private val _context = getApplication<Application>().applicationContext
 
     private val _navigateToEditor = MutableLiveData<Long>()
 
@@ -32,7 +43,7 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
 
     private suspend fun getRepository(): NoteRepository {
         return withContext(Dispatchers.IO) {
-           NoteRepository(dataSource)
+            NoteRepository(dataSource)
         }
     }
 
@@ -62,6 +73,21 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) : Android
         return runBlocking {
             withContext(Dispatchers.IO) {
                 getRepository().allArchivedNotes
+            }
+        }
+    }
+
+    fun loadPreferences() {
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                val sharedPreferences = _context.getSharedPreferences(
+                    _context.getString(R.string.preference_file_key), Context.MODE_PRIVATE
+                )
+                val str = getRepository().identityHash()
+                with(sharedPreferences.edit()) {
+                    putString("db_identity_hash", str)
+                    commit()
+                }
             }
         }
     }
