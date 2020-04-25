@@ -1,15 +1,9 @@
 package io.github.dnloop.noteapp.ui.viewmodel
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
-import android.net.Uri
-import android.provider.DocumentsContract
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import io.github.dnloop.noteapp.R
 import io.github.dnloop.noteapp.data.NoteDatabase
@@ -162,20 +156,31 @@ class ShareViewModel(application: Application, private val _dataSource: NoteData
                     file.absoluteFile.toString(), null, SQLiteDatabase.OPEN_READONLY
                 )
                 val cursor = database.rawQuery("SELECT identity_hash FROM room_master_table", null)
-                if (cursor.moveToFirst()) {
-                    hash = cursor.getString(0)
-                    cursor.close()
-                    if (hash != null)
-                        if (hash == idHash)
-                            fileRestore(file)
+                try {
+                    if (cursor.moveToFirst()) {
+                        hash = cursor.getString(0)
+
+                        if (hash != null)
+                            if (hash == idHash)
+                                fileRestore(file)
+                            else
+                                Toast.makeText(_context, "Corrupted Database.", Toast.LENGTH_SHORT)
+                                    .show()
                         else
-                            Toast.makeText(_context, "Corrupted Database.", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                _context,
+                                "Corrupted Database Header.",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
-                    else
-                        Toast.makeText(_context, "Corrupted Database Header.", Toast.LENGTH_SHORT)
+                    } else
+                        Toast.makeText(_context, "Cannot import SQL File.", Toast.LENGTH_SHORT)
                             .show()
-                } else
+                } catch (e: Exception) {
                     Toast.makeText(_context, "Cannot import SQL File.", Toast.LENGTH_SHORT).show()
+                } finally {
+                    cursor.close()
+                }
             } else
                 Toast.makeText(_context, "Invalid settings.", Toast.LENGTH_SHORT).show()
         } else
