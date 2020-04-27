@@ -86,6 +86,10 @@ object PathUtil {
         return null
     }
 
+    fun checkVersion(): Boolean {
+        return Build.VERSION.SDK_INT >= 26
+    }
+
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.

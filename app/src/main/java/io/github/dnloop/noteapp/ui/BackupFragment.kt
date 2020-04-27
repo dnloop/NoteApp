@@ -145,7 +145,16 @@ class BackupFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_SQL_FILE) {
-            val filePath = PathUtil.getPath(this.context!!, data?.data!!)
+            val uri = data?.data!!
+            val filePath: String?
+            filePath = if (!PathUtil.checkVersion()) {
+                PathUtil.getPath(this.context!!, uri)
+            } else {
+                val file = File(uri.path)
+                val split =
+                    file.path.split(":").toTypedArray()
+                split[1]
+            }
             if (filePath != null) {
                 _dbImport = if (Validator.isValidSQLite(filePath))
                     File(filePath)
