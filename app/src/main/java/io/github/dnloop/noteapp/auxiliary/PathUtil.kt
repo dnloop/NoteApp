@@ -86,6 +86,9 @@ object PathUtil {
         return null
     }
 
+    /**
+     * @return Whether the current system SDK is 26+.
+     */
     fun checkVersion(): Boolean {
         return Build.VERSION.SDK_INT >= 26
     }
