@@ -8,4 +8,15 @@
   <color name="secondaryDarkColor">#CBB384</color>
   <color name="primaryTextColor">#FFFFFF</color>
   <color name="secondaryTextColor">#000000</color>
+  <color name="yellow">#FFFF00</color>
+  <color name="blue">#0000FF</color>
+  <color name="orange">#FFA500</color>
+  <color name="green">#008000</color>
+  <color name="violet">#EE82EE</color>
+  <color name="orange_red">#FF4500</color>
+  <color name="yellow_orange">#FFCF76</color>
+  <color name="yellow_green">#9ACD32</color>
+  <color name="blue_green">#0D98BA</color>
+  <color name="blue_violet">#8A2BE2</color>
+  <color name="red_violet">#C71585</color>
 </resources>
