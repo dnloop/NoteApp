@@ -8,6 +8,7 @@
   <color name="secondaryDarkColor">#CBB384</color>
   <color name="primaryTextColor">#FFFFFF</color>
   <color name="secondaryTextColor">#000000</color>
+  <color name="red">#ffff0000</color>
   <color name="yellow">#FFFF00</color>
   <color name="blue">#0000FF</color>
   <color name="orange">#FFA500</color>
