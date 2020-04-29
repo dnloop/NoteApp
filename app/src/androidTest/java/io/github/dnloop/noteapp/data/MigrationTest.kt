@@ -41,7 +41,7 @@ class MigrationTest {
             // You cannot use DAO classes because they expect the latest schema.
             execSQL("INSERT INTO Note (title, content, categoryId, archived," +
                     " deleted, createdAt, modifiedAt, deletedAt) " +
-                    "VALUES('Title', 'Content', null, false, false, 0, 0, null)")
+                    "VALUES('Title', 'Content', null, 0, 0, 0, 0, null)")
 
             // Prepare for the next version.
             close()
