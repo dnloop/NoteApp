@@ -63,6 +63,7 @@ class NoteTagDaoTest {
             content = "content",
             categoryId = 0,
             archived = false,
+            color = null,
             deleted = false,
             createdAt = System.currentTimeMillis(),
             modifiedAt = System.currentTimeMillis(),

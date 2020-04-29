@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 /**
  * A database that stores Note information.
  */
 
-@Database(entities = [Note::class, Tag::class, Category::class, NoteTagCrossRef::class], version = 1, exportSchema = false)
+@Database(entities = [Note::class, Tag::class, Category::class, NoteTagCrossRef::class], version = 2, exportSchema = true)
 abstract class NoteDatabase : RoomDatabase() {
 
 
@@ -41,6 +43,16 @@ abstract class NoteDatabase : RoomDatabase() {
         private var INSTANCE: NoteDatabase? = null
 
         /**
+         * Previous First version of the database does not have a color column on the note so
+         * it must be added.
+         */
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Note ADD COLUMN color TEXT")
+            }
+        }
+
+        /**
          * Helper function to get the database.
          *
          * If a database has already been retrieved, the previous database will be returned.
@@ -67,7 +79,7 @@ abstract class NoteDatabase : RoomDatabase() {
                         "note_database"
                     )
                         // Wipes and rebuilds instead of migrating if no Migration object.
-                        .fallbackToDestructiveMigration()
+                        .addMigrations(MIGRATION_1_2)
                         .build()
                     // Assign INSTANCE to the newly created database.
                     INSTANCE = instance

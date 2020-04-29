@@ -13,6 +13,7 @@ data class Note (
     var content : String,
     var categoryId : Long?,
     var archived : Boolean,
+    var color : String?,
     // CRUD values
     var deleted : Boolean,
     var createdAt : Long,
@@ -38,6 +39,7 @@ data class Note (
         "",
         null,
         false,
+        null,
         false,
         0,
         0,
