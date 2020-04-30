@@ -1,5 +1,6 @@
 package io.github.dnloop.noteapp.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -24,6 +25,9 @@ class NoteAdapter(val clickListener: NoteListener) : ListAdapter<NoteWithCategor
             clickListener: NoteListener
         ) {
             binding.item = item
+            item.note.color?.let { color ->
+                binding.fabColor.setColorFilter(Color.parseColor("#$color"))
+            }
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
