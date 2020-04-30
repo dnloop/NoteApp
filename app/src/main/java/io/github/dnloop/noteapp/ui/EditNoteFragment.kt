@@ -1,6 +1,8 @@
 package io.github.dnloop.noteapp.ui
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,7 +25,7 @@ import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModel
 import io.github.dnloop.noteapp.ui.viewmodel.EditNoteViewModelFactory
 
 class EditNoteFragment(private var _noteId: Long, private val _archived: Boolean) : Fragment(),
-    CategorySelectorFragment.CategorySelectorListener, GenericDialogFragment.GenericDialogListener {
+    CategorySelectorFragment.CategorySelectorListener, GenericDialogFragment.GenericDialogListener, ColorPickerDialogFragment.ColorPickerDialogListener {
 
     private var wasEdited: Boolean = false
 
@@ -57,6 +59,13 @@ class EditNoteFragment(private var _noteId: Long, private val _archived: Boolean
         findNavController().navigateUp()
     } // Generic Dialog
 
+    override fun callbackColor(note: Note) {
+        _noteCategory.note = note
+        editNoteViewModel.onUpdateWithCategory(_noteCategory)
+        binding.fabColorPicker.setColorFilter(Color.parseColor("#"+note.color))
+        Toast.makeText(activity, "Color added.", Toast.LENGTH_SHORT).show()
+    }
+
     override fun onDialogNegativeClick() {} // Generic Dialog
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {} // Category Selector Dialog
@@ -77,8 +86,15 @@ class EditNoteFragment(private var _noteId: Long, private val _archived: Boolean
         editNoteViewModel.getNote().observe(viewLifecycleOwner, Observer {
             it?.let { note ->
                 _noteCategory.note = note
+                note.color?.let { color ->
+                    binding.fabColorPicker.setColorFilter(Color.parseColor("#$color"))
+                }
             }
         })
+
+        binding.fabColorPicker.setOnClickListener {
+            showColorPicker(_noteCategory)
+        }
 
         setHasOptionsMenu(true)
 
@@ -89,7 +105,7 @@ class EditNoteFragment(private var _noteId: Long, private val _archived: Boolean
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.share_menu, menu)
         // check if the activity resolves
-        if (null == getShareIntent().resolveActivity(activity!!.packageManager)) {
+        if (null == getShareIntent().resolveActivity(requireActivity().packageManager)) {
             // hide the menu item if it doesn't resolve
             menu.findItem(R.id.item_share)?.setVisible(false)
         }
@@ -175,6 +191,15 @@ class EditNoteFragment(private var _noteId: Long, private val _archived: Boolean
             val dialog = CategorySelectorFragment(noteCategory.note.categoryId)
             dialog.listener = this
             dialog.show(childFragmentManager, "CategoryDialogFragment")
+        } else
+            Toast.makeText(activity, "Note must be saved first.", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showColorPicker(noteCategory: NoteWithCategory) {
+        if (_noteId > 0) {
+            val dialog = ColorPickerDialogFragment(noteCategory.note)
+            dialog.listener = this
+            dialog.show(childFragmentManager, "ColorPickerDialogFragment")
         } else
             Toast.makeText(activity, "Note must be saved first.", Toast.LENGTH_SHORT).show()
     }
