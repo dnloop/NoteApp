@@ -46,7 +46,7 @@ class ContentNoteFragment : Fragment() {
 
         val arguments =
             ContentNoteFragmentArgs.fromBundle(
-                arguments!!
+                requireArguments()
             )
 
         val pagerAdapter = ViewPagerAdapter(childFragmentManager)

@@ -9,7 +9,7 @@ import io.github.dnloop.noteapp.data.TagRepository
 import kotlinx.coroutines.*
 
 class TagEditorViewModel(val tagDataSource: TagDao, application: Application) : AndroidViewModel(application) {
-    private val _openDialogEditor = MutableLiveData<Tag>()
+    private val _openDialogEditor = MutableLiveData<Tag?>()
 
     val openDialogEditor
         get() = _openDialogEditor

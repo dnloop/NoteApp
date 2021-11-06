@@ -12,7 +12,7 @@ import kotlinx.coroutines.*
 class CategoryViewModel(val categoryDataSource: CategoryDao, application: Application) :
     AndroidViewModel(application) {
 
-    private val _openDialogEditor = MutableLiveData<Category>()
+    private val _openDialogEditor = MutableLiveData<Category?>()
 
     val openDialogEditor
         get() = _openDialogEditor

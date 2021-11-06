@@ -54,7 +54,7 @@ class FolderFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        noteViewModel.updateLabel(arguments.Title)
+        noteViewModel.updateLabel(arguments.title)
 
         noteViewModel.navigateToEditor.observe(viewLifecycleOwner, Observer { note ->
             note?.let {

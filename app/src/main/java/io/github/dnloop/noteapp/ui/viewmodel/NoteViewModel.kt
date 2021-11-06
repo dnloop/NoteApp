@@ -20,7 +20,7 @@ class NoteViewModel(val dataSource: NoteDao, application: Application) :
 
     private val _context = getApplication<Application>().applicationContext
 
-    private val _navigateToEditor = MutableLiveData<Long>()
+    private val _navigateToEditor = MutableLiveData<Long?>()
 
     val navigateToEditor
         get() = _navigateToEditor

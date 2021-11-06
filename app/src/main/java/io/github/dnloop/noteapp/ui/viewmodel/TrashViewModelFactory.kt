@@ -5,12 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.github.dnloop.noteapp.data.NoteDao
 
-@Suppress("UNCHECKED_CAST")
 class TrashViewModelFactory (
     private val dataSource: NoteDao,
     private val application: Application
 ): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TrashViewModel::class.java)) {
             return TrashViewModel(dataSource, application) as T
         }

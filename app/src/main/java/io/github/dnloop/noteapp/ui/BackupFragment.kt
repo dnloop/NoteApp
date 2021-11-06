@@ -79,7 +79,7 @@ class BackupFragment : Fragment() {
 
     private fun requestStoragePermission() {
         if (ContextCompat.checkSelfPermission(
-                this.context!!,
+                this.requireContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             != PackageManager.PERMISSION_GRANTED
@@ -87,7 +87,7 @@ class BackupFragment : Fragment() {
             // Permission is not granted
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this.activity!!,
+                    this.requireActivity(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             ) {
@@ -99,7 +99,7 @@ class BackupFragment : Fragment() {
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(
-                    this.activity!!,
+                    this.requireActivity(),
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     WRITE_EXTERNAL_STORAGE_ID
                 )
@@ -148,7 +148,7 @@ class BackupFragment : Fragment() {
             val uri = data?.data!!
             val filePath: String?
             filePath = if (!PathUtil.checkVersion()) {
-                PathUtil.getPath(this.context!!, uri)
+                PathUtil.getPath(this.requireContext(), uri)
             } else {
                 val file = File(uri.path)
                 val split =
